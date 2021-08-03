@@ -1,4 +1,4 @@
-package com.mredrock.cyxbs.store.until.ui
+package com.mredrock.cyxbs.store.utils.ui
 
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable

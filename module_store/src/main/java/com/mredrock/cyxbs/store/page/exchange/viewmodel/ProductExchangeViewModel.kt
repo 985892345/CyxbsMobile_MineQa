@@ -1,4 +1,4 @@
-package com.mredrock.cyxbs.store.page.stamp.viewmodel
+package com.mredrock.cyxbs.store.page.exchange.viewmodel
 
 import com.mredrock.cyxbs.common.viewmodel.BaseViewModel
 
@@ -7,6 +7,6 @@ import com.mredrock.cyxbs.common.viewmodel.BaseViewModel
  *    e-mail : 1140143252@qq.com
  *    date   : 2021/8/2 11:56
  */
-class ProductDetailViewModel:BaseViewModel() {
+class ProductExchangeViewModel:BaseViewModel() {
 
 }

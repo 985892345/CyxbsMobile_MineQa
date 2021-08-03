@@ -1,4 +1,4 @@
-package com.mredrock.cyxbs.store.until.ui
+package com.mredrock.cyxbs.store.utils.ui
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity

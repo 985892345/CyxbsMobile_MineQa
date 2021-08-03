@@ -1,4 +1,4 @@
-package com.mredrock.cyxbs.store.page.stamp.fragment
+package com.mredrock.cyxbs.store.page.record.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,8 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.module_store.R
 import com.mredrock.cyxbs.common.ui.BaseViewModelFragment
-import com.mredrock.cyxbs.store.page.stamp.viewmodel.EventRecordViewModel
-import com.mredrock.cyxbs.store.until.ui.ReusableRecyclerAdapter
+import com.mredrock.cyxbs.store.page.record.viewmodel.EventRecordViewModel
+import com.mredrock.cyxbs.store.utils.ui.ReusableRecyclerAdapter
 
 /**
  *    author : zz

@@ -2,15 +2,17 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="73dp">
 
     <TextView
         android:id="@+id/store_item_exchange_record_tv_event"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="25dp"
-        android:text="购买XXXXX"
-        app:layout_constraintBottom_toTopOf="@+id/store_item_exchange_record_line"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="14dp"
+        android:text="卷卷鼠标垫"
+        android:textColor="@color/store_stamp_detail_common_text"
+        android:textSize="16sp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -18,68 +20,73 @@
         android:id="@+id/store_item_exchange_record_tv_count"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="25dp"
-        android:text="-666 邮票"
-        app:layout_constraintBottom_toTopOf="@+id/store_guideline3"
+        android:layout_marginEnd="31dp"
+        android:layout_marginTop="28dp"
+        android:textSize="16sp"
+        android:textColor="@color/store_stamp_detail_reduce_count"
+        android:text="-666"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
+    <ImageButton
+        android:id="@+id/store_common_toolbar_arrow_right"
+        android:layout_width="6dp"
+        android:layout_height="11.57dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="33dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:srcCompat="@drawable/store_ic_arrow_right" />
     <TextView
-        android:id="@+id/store_item_exchange_record_tv_time"
+        android:id="@+id/store_item_exchange_record_tv_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="25dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="43dp"
         android:text="2021.8.1"
-        app:layout_constraintBottom_toTopOf="@+id/store_guideline2"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/store_guideline3" />
-
-<!--    <ImageButton-->
-<!--        android:id="@+id/mine_store_item_exchange_record_arrow_right"-->
-<!--        android:layout_width="30dp"-->
-<!--        android:layout_height="30dp"-->
-<!--        android:background="?attr/selectableItemBackgroundBorderless"-->
-<!--        android:contentDescription="@string/mine_sign_store_back"-->
-<!--        app:layout_constraintBottom_toTopOf="@+id/store_guideline2"-->
-<!--        app:layout_constraintRight_toRightOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent"-->
-<!--        app:srcCompat="@drawable/mine_ic_arrow_right" />-->
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/mine_store_item_exchange_record_red_dot"
-        android:layout_width="8dp"
-        android:layout_height="8dp"
-        android:src="@drawable/store_ic_red_square"
-        android:layout_marginEnd="5dp"
-        android:layout_marginTop="15dp"
-        app:layout_constraintRight_toRightOf="parent"
+        android:textSize="12sp"
+        android:textColor="@color/store_stamp_detail_date"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+    <Button
+        android:id="@+id/store_btn_product_receive_tips"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="53dp"
+        android:layout_height="21dp"
+        android:layout_marginTop="14dp"
+        android:layout_marginStart="100dp"
+        android:text="@string/store_product_unclaimed"
+        android:background="@drawable/store_btn_product_receive_tips"
+        android:textColor="@color/store_btn_product_receive_tips_text"
+        android:textSize="11sp"
+        app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
+    <!--    <ImageButton-->
+    <!--        android:id="@+id/mine_store_item_exchange_record_arrow_right"-->
+    <!--        android:layout_width="30dp"-->
+    <!--        android:layout_height="30dp"-->
+    <!--        android:background="?attr/selectableItemBackgroundBorderless"-->
+    <!--        android:contentDescription="@string/mine_sign_store_back"-->
+    <!--        app:layout_constraintBottom_toTopOf="@+id/store_guideline2"-->
+    <!--        app:layout_constraintRight_toRightOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="parent"-->
+    <!--        app:srcCompat="@drawable/mine_ic_arrow_right" />-->
+    <!--    <de.hdodenhof.circleimageview.CircleImageView-->
+    <!--        android:id="@+id/mine_store_item_exchange_record_red_dot"-->
+    <!--        android:layout_width="8dp"-->
+    <!--        android:layout_height="8dp"-->
+    <!--        android:src="@drawable/store_ic_red_square"-->
+    <!--        android:layout_marginEnd="5dp"-->
+    <!--        android:layout_marginTop="15dp"-->
+    <!--        app:layout_constraintRight_toRightOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="parent"/>-->
 
     <View
         android:id="@+id/store_item_exchange_record_line"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_marginTop="50dp"
-        android:background="@drawable/mine_shape_divide_line"
+        android:layout_marginTop="73dp"
+        android:background="@drawable/store_shape_divide_line"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/store_guideline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_begin="0dp" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/store_guideline2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_begin="50dp" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/store_guideline3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_begin="25dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

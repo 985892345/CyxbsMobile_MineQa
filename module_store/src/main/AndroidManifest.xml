@@ -4,8 +4,8 @@
 
     <application>
         <activity android:name="com.mredrock.cyxbs.store.page.center.activity.StoreCenterActivity"></activity>
-        <activity android:name="com.mredrock.cyxbs.store.page.stamp.activity.StampDetailActivity" />
-        <activity android:name="com.mredrock.cyxbs.store.page.stamp.activity.ProductDetailActivity" />
+        <activity android:name="com.mredrock.cyxbs.store.page.record.activity.StampDetailActivity" />
+        <activity android:name="com.mredrock.cyxbs.store.page.exchange.activity.ProductExchangeActivity" />
     </application>
 
 </manifest>

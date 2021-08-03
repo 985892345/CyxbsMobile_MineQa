@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.mredrock.cyxbs.store.page.stamp.fragment.ProductImageFragment">
+    tools:context="com.mredrock.cyxbs.store.page.exchange.fragment.ProductImageFragment">
 
   <ImageView
       android:layout_width="wrap_content"

@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <declare-styleable name="ImageIndicatorView" tools:ignore="ResourceName">
-        <attr name="imageCount" format="integer" />
+    <declare-styleable name="EventIndicatorView" tools:ignore="ResourceName">
+        <attr name="count" format="integer" />
         <attr name="radius" format="float" />
+        <attr name="topColor" format="reference" />
+        <attr name="underColor" format="reference" />
     </declare-styleable>
 </resources>

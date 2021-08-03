@@ -12,14 +12,13 @@
         android:id="@+id/store_tv_stamp_detail_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="37dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginBottom="4dp"
+        android:layout_marginStart="37dp"
+        android:layout_marginTop="53dp"
         android:text="@string/store_string_stamp_detail"
         android:textColor="@color/store_stamp_detail_title"
         android:textSize="22sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/store_toolbar_stamp_detail"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent" />
 
     <com.google.android.material.tabs.TabLayout

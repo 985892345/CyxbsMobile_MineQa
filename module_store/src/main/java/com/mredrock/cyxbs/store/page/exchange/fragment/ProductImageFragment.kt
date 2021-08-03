@@ -1,4 +1,4 @@
-package com.mredrock.cyxbs.store.page.stamp.fragment
+package com.mredrock.cyxbs.store.page.exchange.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater

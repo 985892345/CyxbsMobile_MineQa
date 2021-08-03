@@ -1,14 +1,16 @@
-package com.mredrock.cyxbs.store.page.stamp.activity
+package com.mredrock.cyxbs.store.page.record.activity
 
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.widget.TextView
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.example.module_store.R
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.mredrock.cyxbs.common.config.STORE_STAMP_DETAIL
 import com.mredrock.cyxbs.common.ui.BaseActivity
-import com.mredrock.cyxbs.store.page.stamp.fragment.EventRecordFragment
-import com.mredrock.cyxbs.store.until.ui.BaseVPAdapter
+import com.mredrock.cyxbs.store.page.record.fragment.EventRecordFragment
+import com.mredrock.cyxbs.store.utils.ui.BaseVPAdapter
 import kotlinx.android.synthetic.main.store_activity_stamp_detail.*
 
 
@@ -32,28 +34,33 @@ class StampDetailActivity : BaseActivity() {
     }
 
     private fun initView() {
+        //设置TabLayout相关参数和监听
+        initTabLayout()
 
+    }
 
+    private fun initTabLayout() {
+        //设置tab选中监听 用于处理选中的title字体变大
         store_tab_stamp_record.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
-//                if (tab!=null){
-//                    val textView:TextView= LayoutInflater.from(this@StampDetailActivity).inflate(R.layout.mine_item_tab_text,null) as TextView
-//                    textView.text = tab.text
-//                    tab.customView = textView
-//                }
-
-
+                //当tab被选中时 用size更大的TextView来代替原TextView
+                if (tab != null) {
+                    val textView: TextView = LayoutInflater.from(this@StampDetailActivity).inflate(R.layout.store_item_tab_text, null) as TextView
+                    textView.text = tab.text
+                    tab.customView = textView
+                }
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab?) {
-
+                //当tab从选中状态到不被选中状态 还原
+                tab?.customView = null
             }
 
             override fun onTabReselected(tab: TabLayout.Tab?) {
 
             }
         })
-        //设置TabLayout
+        //添加title
         TabLayoutMediator(store_tab_stamp_record, store_vp_stamp_detail) { tab, position ->
             tab.text = mTabText[position]
         }.attach()

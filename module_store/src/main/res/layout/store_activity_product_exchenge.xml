@@ -49,10 +49,12 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/store_tv_product_detail_title" />
 
-    <com.mredrock.cyxbs.store.until.widget.ImageIndicatorView
+    <com.mredrock.cyxbs.store.utils.widget.EventIndicatorView
         android:id="@+id/store_image_indicator"
         android:layout_width="200dp"
         android:layout_height="15dp"
+        app:underColor="@color/store_indicator_under"
+        app:topColor="@color/store_stamp_detail_increase_count"
         app:layout_constraintBottom_toTopOf="@id/store_tv_product_name"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -143,7 +145,7 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginBottom="50dp"
-        android:background="@drawable/mine_shape_divide_line"
+        android:background="@drawable/store_shape_divide_line"
         app:layout_constraintBottom_toTopOf="@+id/store_product_detail_line3" />
 
     <de.hdodenhof.circleimageview.CircleImageView
@@ -194,6 +196,6 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginBottom="15dp"
-        android:background="@drawable/mine_shape_divide_line"
+        android:background="@drawable/store_shape_divide_line"
         app:layout_constraintBottom_toBottomOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

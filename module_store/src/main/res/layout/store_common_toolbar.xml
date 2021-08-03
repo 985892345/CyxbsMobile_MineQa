@@ -5,21 +5,20 @@
     android:layout_height="88dp">
 
     <ImageButton
-        android:id="@+id/mine_store_common_toolbar_arrow_left"
+        android:id="@+id/store_common_toolbar_arrow_left"
         android:layout_width="7dp"
-        android:layout_height="12dp"
+        android:layout_height="16dp"
         android:layout_marginStart="17dp"
         android:layout_marginTop="60.5dp"
         android:background="?attr/selectableItemBackgroundBorderless"
-        android:contentDescription="@string/mine_sign_store_back"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/mine_ic_arrow_left" />
+        app:srcCompat="@drawable/store_ic_arrow_left" />
 
     <View
-        android:id="@+id/mine_store_common_toolbar_line"
+        android:id="@+id/store_common_toolbar_line"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:background="@drawable/mine_shape_divide_line" />
+        android:background="@drawable/store_shape_divide_line" />
 </androidx.constraintlayout.widget.ConstraintLayout>

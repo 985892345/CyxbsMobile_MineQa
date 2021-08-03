@@ -2,12 +2,19 @@
 <resources>
     <!--    邮票中心界面泛用式分割线颜色-->
     <color name="store_common_divide_line">#1A2A4E84</color>
-    <!--    邮票明细界面相关标题颜色-->
+
+    <!--    邮票明细界面相关文字颜色-->
     <color name="store_stamp_detail_title">#15315B</color>
+    <color name="store_stamp_detail_common_text">#15315B</color>
     <color name="store_stamp_unselected_title">#CC15315B</color>
     <color name="store_stamp_selected_title">#5F75E4</color>
+    <color name="store_stamp_detail_date">#6615315B</color>
+    <color name="store_stamp_detail_reduce_count">#4B66F0</color>
+    <color name="store_stamp_detail_increase_count">#FFA92F</color>
+    <color name="store_btn_product_receive_tips">#E8F0FC</color>
+    <color name="store_btn_product_receive_tips_text">#94A6C4</color>
 
     <!--    商品图片滑动进度条颜色-->
-    <color name="store_image_indicator_under">#97b7f0</color>
-    <color name="store_image_indicator_select">#2923d2</color>
+    <color name="store_indicator_under">#97b7f0</color>
+    <color name="store_indicator_top">#2923d2</color>
 </resources>

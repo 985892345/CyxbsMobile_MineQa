@@ -1,4 +1,4 @@
-package com.mredrock.cyxbs.store.page.stamp.viewmodel
+package com.mredrock.cyxbs.store.page.record.viewmodel
 
 import com.mredrock.cyxbs.common.viewmodel.BaseViewModel
 

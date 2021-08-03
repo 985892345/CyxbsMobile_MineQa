@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.mredrock.cyxbs.store.page.stamp.fragment.EventRecordFragment">
+    tools:context="com.mredrock.cyxbs.store.page.record.fragment.EventRecordFragment">
 
  <androidx.recyclerview.widget.RecyclerView
      android:id="@+id/store_fragment_rv_event_record"

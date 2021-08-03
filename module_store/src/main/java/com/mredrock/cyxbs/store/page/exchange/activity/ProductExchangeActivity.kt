@@ -1,15 +1,15 @@
-package com.mredrock.cyxbs.store.page.stamp.activity
+package com.mredrock.cyxbs.store.page.exchange.activity
 
 import android.os.Bundle
 import androidx.viewpager2.widget.ViewPager2
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.example.module_store.R
-import com.mredrock.cyxbs.common.config.STORE_EXCHANGE
+import com.mredrock.cyxbs.common.config.STORE_PRODUCT_EXCHANGE
 import com.mredrock.cyxbs.common.ui.BaseViewModelActivity
-import com.mredrock.cyxbs.store.page.stamp.fragment.ProductImageFragment
-import com.mredrock.cyxbs.store.page.stamp.viewmodel.ProductDetailViewModel
-import com.mredrock.cyxbs.store.until.ui.BaseVPAdapter
-import kotlinx.android.synthetic.main.store_activity_product_detail.*
+import com.mredrock.cyxbs.store.page.exchange.fragment.ProductImageFragment
+import com.mredrock.cyxbs.store.page.exchange.viewmodel.ProductExchangeViewModel
+import com.mredrock.cyxbs.store.utils.ui.BaseVPAdapter
+import kotlinx.android.synthetic.main.store_activity_product_exchenge.*
 
 /**
  *    author : zz
@@ -17,13 +17,13 @@ import kotlinx.android.synthetic.main.store_activity_product_detail.*
  *    date   : 2021/8/2 11:55
  */
 
-@Route(path = STORE_EXCHANGE)
-class ProductDetailActivity : BaseViewModelActivity<ProductDetailViewModel>() {
+@Route(path = STORE_PRODUCT_EXCHANGE)
+class ProductExchangeActivity : BaseViewModelActivity<ProductExchangeViewModel>() {
     private var mImageViewPagerAdapter: BaseVPAdapter<ProductImageFragment>?=null
     private var mImageFragmentList = arrayListOf<ProductImageFragment>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.store_activity_product_detail)
+        setContentView(R.layout.store_activity_product_exchenge)
         initAdapter()
         initView()
         initData()
