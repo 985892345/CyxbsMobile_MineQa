@@ -1,3 +1,4 @@
+include ':module_store'
 rootProject.name = "CyxbsMobile_Single"
 include ':app'
 include ':lib_account:api_account'

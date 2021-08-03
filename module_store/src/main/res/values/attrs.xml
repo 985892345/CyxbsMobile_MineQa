@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <declare-styleable name="ImageIndicatorView" tools:ignore="ResourceName">
+        <attr name="imageCount" format="integer" />
+        <attr name="radius" format="float" />
+    </declare-styleable>
+</resources>

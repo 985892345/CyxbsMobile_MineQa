@@ -55,7 +55,10 @@ class UserFragment : BaseViewModelFragment<UserViewModel>() {
             mine_main_btn_sign.setOnClickListener { doIfLogin { startActivity<DailySignActivity>() } }
             mine_main_fm_setting.setOnSingleClickListener { doIfLogin { startActivity<SettingActivity>() } }
             mine_main_fm_about_us.setOnSingleClickListener { doIfLogin { startActivity<AboutActivity>() } }
-            mine_main_fm_point_store.setOnClickListener { doIfLogin { DailySignActivity.actionStart(this, BottomSheetBehavior.STATE_EXPANDED) } }
+            //先注释掉学长的代码 跳转到store模块的 邮票中心界面
+//            mine_main_fm_point_store.setOnClickListener { doIfLogin { DailySignActivity.actionStart(this, BottomSheetBehavior.STATE_EXPANDED) } }
+            mine_main_fm_point_store.setOnClickListener { doIfLogin { jump(STORE_STAMP_DETAIL) } }
+
             mine_main_tv_sign.setOnClickListener { doIfLogin { DailySignActivity.actionStart(this, BottomSheetBehavior.STATE_COLLAPSED) } }
             mine_main_tv_dynamic_number.setOnSingleClickListener { doIfLogin { jump(QA_DYNAMIC_MINE) } }
             mine_main_tv_dynamic.setOnSingleClickListener { doIfLogin { jump(QA_DYNAMIC_MINE) } }
@@ -144,7 +147,7 @@ class UserFragment : BaseViewModelFragment<UserViewModel>() {
         ARouter.getInstance().build(path).navigation()
     }
 
-    private fun jumpAndSaveTime(path: String, type: Int){
+    private fun jumpAndSaveTime(path: String, type: Int) {
         viewModel.saveCheckTimeStamp(type)
         jump(path)
     }

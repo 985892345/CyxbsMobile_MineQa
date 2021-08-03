@@ -21,8 +21,7 @@ import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.mredrock.cyxbs.common.component.CommonDialogFragment
-import com.mredrock.cyxbs.common.config.MINE_CHECK_IN
-import com.mredrock.cyxbs.common.config.MINE_STORE_EXCHANGE
+import com.mredrock.cyxbs.common.config.*
 import com.mredrock.cyxbs.common.ui.BaseViewModelActivity
 import com.mredrock.cyxbs.common.utils.extensions.dp2px
 import com.mredrock.cyxbs.common.utils.extensions.invisible
@@ -370,7 +369,8 @@ class DailySignActivity : BaseViewModelActivity<DailyViewModel>() {
 //                        }.show(supportFragmentManager, tag)
 //                    }
                 }
-                ARouter.getInstance().build(MINE_STORE_EXCHANGE).navigation()
+
+                ARouter.getInstance().build(STORE_STAMP_DETAIL).navigation()
 
             }
         }

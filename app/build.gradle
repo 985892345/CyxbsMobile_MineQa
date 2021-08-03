@@ -13,6 +13,7 @@ dependencies {
         implementation project(':module_main')
         implementation project(':module_mine')
         implementation project(':module_qa')
+        implementation project(':module_store')
     }
     kapt deps.arouter.compiler
     implementation(deps.hotfix.runtime) {
