@@ -18,4 +18,9 @@
         <attr name="shadowColor" format="color" />
         <attr name="shadowRadius" format="dimension" />
     </declare-styleable>
+
+    <declare-styleable name="ImageIndicatorView" tools:ignore="ResourceName">
+        <attr name="imageCount" format="integer"/>
+        <attr name="radius" format="float"/>
+    </declare-styleable>
 </resources>

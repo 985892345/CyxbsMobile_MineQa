@@ -43,6 +43,13 @@ const val MINE_FORGET_PASSWORD = "/forget_password/mine/entry"
 // 个人界面的绑定邮箱模块
 const val MINE_BIND_EMAIL = "/bind_email/mine/entry"
 
+//邮票中心商品兑换页
+const val MINE_STORE_EXCHANGE="/store_exchange/mine/entry"
+//邮票明细页
+const val MINE_STAMP_DETAIL="stamp_detail/mine/entry"
+//兑换详细界面
+const val MINE_EXCHANGE_DETAIL="exchange_detail/mine/entry"
+
 // NoCourseInviteActivity
 const val COURSE_NO_COURSE_INVITE = "/course/no_course_invite_activity"
 

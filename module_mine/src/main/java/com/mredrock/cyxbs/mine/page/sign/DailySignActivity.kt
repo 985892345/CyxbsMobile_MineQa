@@ -18,9 +18,11 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.Observer
 import com.alibaba.android.arouter.facade.annotation.Route
+import com.alibaba.android.arouter.launcher.ARouter
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.mredrock.cyxbs.common.component.CommonDialogFragment
 import com.mredrock.cyxbs.common.config.MINE_CHECK_IN
+import com.mredrock.cyxbs.common.config.MINE_STORE_EXCHANGE
 import com.mredrock.cyxbs.common.ui.BaseViewModelActivity
 import com.mredrock.cyxbs.common.utils.extensions.dp2px
 import com.mredrock.cyxbs.common.utils.extensions.invisible
@@ -348,26 +350,28 @@ class DailySignActivity : BaseViewModelActivity<DailyViewModel>() {
                         }.show(supportFragmentManager, tag)
                     }
                 } else {
-                    val tag = "lack of integral"
-                    //防止连续两次快速点击两次重复创建相同tag的DialogFragment
-                    if (supportFragmentManager.findFragmentByTag(tag) == null) {
-                        CommonDialogFragment().apply {
-                            initView(
-                                    containerRes = R.layout.mine_layout_dialog_exchange,
-                                    positiveString = "确认",
-                                    onPositiveClick = { dismiss() },
-                                    elseFunction = {
-                                        //区分是积分不足还是物品剩余数为0
-                                        if (product.count <= 0) {
-                                            it.findViewById<TextView>(R.id.mine_tv_exchange_for_sure_content).text = "物品被抢光了，明天再来吧"
-                                        } else {
-                                            it.findViewById<TextView>(R.id.mine_tv_exchange_for_sure_content).text = "积分不足"
-                                        }
-                                    }
-                            )
-                        }.show(supportFragmentManager, tag)
-                    }
+//                    val tag = "lack of integral"
+//                    //防止连续两次快速点击两次重复创建相同tag的DialogFragment
+//                    if (supportFragmentManager.findFragmentByTag(tag) == null) {
+//                        CommonDialogFragment().apply {
+//                            initView(
+//                                    containerRes = R.layout.mine_layout_dialog_exchange,
+//                                    positiveString = "确认",
+//                                    onPositiveClick = { dismiss() },
+//                                    elseFunction = {
+//                                        //区分是积分不足还是物品剩余数为0
+//                                        if (product.count <= 0) {
+//                                            it.findViewById<TextView>(R.id.mine_tv_exchange_for_sure_content).text = "物品被抢光了，明天再来吧"
+//                                        } else {
+//                                            it.findViewById<TextView>(R.id.mine_tv_exchange_for_sure_content).text = "积分不足"
+//                                        }
+//                                    }
+//                            )
+//                        }.show(supportFragmentManager, tag)
+//                    }
                 }
+                ARouter.getInstance().build(MINE_STORE_EXCHANGE).navigation()
+
             }
         }
         adapter.setOnExChangeClick(click)
