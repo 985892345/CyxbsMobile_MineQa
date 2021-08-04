@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
     <declare-styleable name="EventIndicatorView" tools:ignore="ResourceName">
-        <attr name="count" format="integer" />
-        <attr name="radius" format="float" />
+        <attr name="eventCount" format="integer" />
+        <attr name="roundRadius" format="float" />
         <attr name="topColor" format="reference" />
         <attr name="underColor" format="reference" />
+    </declare-styleable>
+    <declare-styleable name="ProgressDotView" tools:ignore="ResourceName">
+        <attr name="dotCount" format="integer"/>
+        <attr name="unSelectedColor" format="reference"/>
+        <attr name="selectedColor" format="reference"/>
+        <attr name="dotRadius" format="float"/>
     </declare-styleable>
 </resources>

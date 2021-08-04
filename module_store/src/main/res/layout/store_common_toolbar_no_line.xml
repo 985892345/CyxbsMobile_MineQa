@@ -5,7 +5,6 @@
     android:layout_height="match_parent">
 
     <ImageButton
-        android:id="@+id/store_common_toolbar_arrow_left"
         android:layout_width="7dp"
         android:layout_height="16dp"
         android:background="?attr/selectableItemBackgroundBorderless"
@@ -16,13 +15,4 @@
         app:layout_constraintVertical_bias="0.07786"
         app:layout_constraintBottom_toBottomOf="parent"
         app:srcCompat="@drawable/store_ic_arrow_left" />
-
-    <View
-        android:id="@+id/store_common_toolbar_line"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@drawable/store_shape_divide_line"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.11325" />
 </androidx.constraintlayout.widget.ConstraintLayout>

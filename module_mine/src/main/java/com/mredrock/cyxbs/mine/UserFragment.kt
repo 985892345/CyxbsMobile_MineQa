@@ -52,7 +52,7 @@ class UserFragment : BaseViewModelFragment<UserViewModel>() {
             mine_main_fm_about_us.setOnSingleClickListener { doIfLogin { startActivity<AboutActivity>() } }
             //先注释掉学长的代码 跳转到store模块的 邮票中心界面
 //            mine_main_fm_point_store.setOnClickListener { doIfLogin { DailySignActivity.actionStart(this, BottomSheetBehavior.STATE_EXPANDED) } }
-            mine_main_fm_point_store.setOnClickListener { doIfLogin { jump(STORE_CENTER) } }
+            mine_main_fm_point_store.setOnClickListener { doIfLogin { jump(STORE_PRODUCT_EXCHANGE) } }
 
             mine_main_tv_sign.setOnClickListener { doIfLogin { DailySignActivity.actionStart(this, BottomSheetBehavior.STATE_COLLAPSED) } }
             mine_main_tv_dynamic_number.setOnSingleClickListener { doIfLogin { jump(QA_DYNAMIC_MINE) } }

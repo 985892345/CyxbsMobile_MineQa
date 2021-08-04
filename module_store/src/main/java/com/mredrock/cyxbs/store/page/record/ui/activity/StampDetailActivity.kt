@@ -1,4 +1,4 @@
-package com.mredrock.cyxbs.store.page.record.activity
+package com.mredrock.cyxbs.store.page.record.ui.activity
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,8 +9,8 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.mredrock.cyxbs.common.config.STORE_STAMP_DETAIL
 import com.mredrock.cyxbs.common.ui.BaseActivity
-import com.mredrock.cyxbs.store.page.record.fragment.EventRecordFragment
-import com.mredrock.cyxbs.store.utils.ui.BaseVPAdapter
+import com.mredrock.cyxbs.store.page.record.ui.fragment.EventRecordFragment
+import com.mredrock.cyxbs.store.page.record.ui.adapter.StampDetailVPAdapter
 import kotlinx.android.synthetic.main.store_activity_stamp_detail.*
 
 
@@ -22,7 +22,7 @@ import kotlinx.android.synthetic.main.store_activity_stamp_detail.*
 
 @Route(path = STORE_STAMP_DETAIL)
 class StampDetailActivity : BaseActivity() {
-    private var mEventViewPagerAdapter: BaseVPAdapter<EventRecordFragment>? = null
+    private var mEventViewPagerAdapter: StampDetailVPAdapter<EventRecordFragment>? = null
     private var mEventRecordFragmentList = arrayListOf<EventRecordFragment>()
     private var mTabText = arrayOf("兑换记录", "获取记录")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -83,7 +83,7 @@ class StampDetailActivity : BaseActivity() {
         mEventRecordFragmentList.add(exchangeRecordFragment)
         mEventRecordFragmentList.add(stampGetRecordFragment)
 
-        mEventViewPagerAdapter = BaseVPAdapter(this, mEventRecordFragmentList)
+        mEventViewPagerAdapter = StampDetailVPAdapter(this, mEventRecordFragmentList)
         store_vp_stamp_detail.adapter = mEventViewPagerAdapter
     }
 

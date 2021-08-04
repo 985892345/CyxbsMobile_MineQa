@@ -20,23 +20,26 @@
         android:id="@+id/store_item_exchange_record_tv_count"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="31dp"
         android:layout_marginTop="28dp"
-        android:textSize="16sp"
-        android:textColor="@color/store_stamp_detail_reduce_count"
+        android:layout_marginEnd="31dp"
+        android:fontFamily="@font/store_din_medium"
         android:text="-666"
+        android:textColor="@color/store_stamp_detail_reduce_count"
+        android:textSize="16sp"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
     <ImageButton
         android:id="@+id/store_common_toolbar_arrow_right"
         android:layout_width="6dp"
         android:layout_height="11.57dp"
-        android:layout_marginEnd="16dp"
         android:layout_marginTop="33dp"
+        android:layout_marginEnd="16dp"
         android:background="?attr/selectableItemBackgroundBorderless"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/store_ic_arrow_right" />
+
     <TextView
         android:id="@+id/store_item_exchange_record_tv_date"
         android:layout_width="wrap_content"
@@ -44,23 +47,24 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="43dp"
         android:text="2021.8.1"
-        android:textSize="12sp"
         android:textColor="@color/store_stamp_detail_date"
+        android:textSize="12sp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
     <Button
         android:id="@+id/store_btn_product_receive_tips"
         style="?android:attr/borderlessButtonStyle"
         android:layout_width="53dp"
         android:layout_height="21dp"
-        android:layout_marginTop="14dp"
         android:layout_marginStart="100dp"
-        android:text="@string/store_product_unclaimed"
+        android:layout_marginTop="14dp"
         android:background="@drawable/store_btn_product_receive_tips"
+        android:text="@string/store_product_unclaimed"
         android:textColor="@color/store_btn_product_receive_tips_text"
         android:textSize="11sp"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent" />
     <!--    <ImageButton-->
     <!--        android:id="@+id/mine_store_item_exchange_record_arrow_right"-->
     <!--        android:layout_width="30dp"-->

@@ -1,4 +1,4 @@
-package com.mredrock.cyxbs.store.utils.ui
+package com.mredrock.cyxbs.store.base
 
 import android.view.LayoutInflater
 import android.view.View
@@ -24,7 +24,7 @@ import kotlin.math.abs
  * 需要在onBindViewHolder中回调的方法-->onBindView
  * 若集合size发生变化，务必调用refresh()方法 更新ItemCount
  */
-open class ReusableRecyclerAdapter<T>(private vararg var dataList: List<T>) :
+open class BaseSimplifyRecyclerAdapter2<T>(private vararg var dataList: List<T>) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private var itemCount = 0//总item数
     private var itemType = 0//item类型 为每个item的layoutId
@@ -37,7 +37,7 @@ open class ReusableRecyclerAdapter<T>(private vararg var dataList: List<T>) :
      */
     fun <DB : ViewDataBinding> onBindView(
         bindingCallBack: BindingCallBack<DB>
-    ): ReusableRecyclerAdapter<T> {
+    ): BaseSimplifyRecyclerAdapter2<T> {
         bindingCallBackList.add(bindingCallBack)
         return this
     }
@@ -48,7 +48,7 @@ open class ReusableRecyclerAdapter<T>(private vararg var dataList: List<T>) :
      */
     fun <VH : RecyclerView.ViewHolder> onBindView(
         commonCallBack: CommonCallBack<VH>
-    ): ReusableRecyclerAdapter<T> {
+    ): BaseSimplifyRecyclerAdapter2<T> {
         commonCallBackList.add(commonCallBack)
         return this
     }

@@ -15,7 +15,7 @@
         android:layout_marginStart="37dp"
         android:layout_marginTop="53dp"
         android:text="@string/store_string_stamp_detail"
-        android:textColor="@color/store_stamp_detail_title"
+        android:textColor="@color/store_common_title"
         android:textSize="22sp"
         android:textStyle="bold"
         app:layout_constraintTop_toTopOf="parent"

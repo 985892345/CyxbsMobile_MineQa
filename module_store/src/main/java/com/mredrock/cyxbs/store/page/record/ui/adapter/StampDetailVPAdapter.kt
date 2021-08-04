@@ -1,4 +1,4 @@
-package com.mredrock.cyxbs.store.utils.ui
+package com.mredrock.cyxbs.store.page.record.ui.adapter
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
@@ -9,7 +9,7 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
  *    e-mail : 1140143252@qq.com
  *    date   : 2021/8/2 13:36
  */
-class BaseVPAdapter<T>(
+class StampDetailVPAdapter<T>(
         fragmentActivity: FragmentActivity,
         private var fragmentList: ArrayList<T>
 ) : FragmentStateAdapter(fragmentActivity) {

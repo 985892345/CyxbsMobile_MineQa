@@ -1,4 +1,4 @@
-package com.mredrock.cyxbs.store.page.record.fragment
+package com.mredrock.cyxbs.store.page.record.ui.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import com.example.module_store.R
 import com.mredrock.cyxbs.common.ui.BaseViewModelFragment
 import com.mredrock.cyxbs.store.page.record.viewmodel.EventRecordViewModel
-import com.mredrock.cyxbs.store.utils.ui.ReusableRecyclerAdapter
+import com.mredrock.cyxbs.store.base.BaseSimplifyRecyclerAdapter2
 
 /**
  *    author : zz
@@ -16,7 +16,7 @@ import com.mredrock.cyxbs.store.utils.ui.ReusableRecyclerAdapter
  */
 
 class EventRecordFragment : BaseViewModelFragment<EventRecordViewModel>() {
-    private lateinit var eventRVAdapter: ReusableRecyclerAdapter<Any>
+    private lateinit var eventRVAdapter: BaseSimplifyRecyclerAdapter2<Any>
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
 

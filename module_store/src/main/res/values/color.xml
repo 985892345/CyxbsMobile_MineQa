@@ -3,8 +3,10 @@
     <!--    邮票中心界面泛用式分割线颜色-->
     <color name="store_common_divide_line">#1A2A4E84</color>
 
-    <!--    邮票明细界面相关文字颜色-->
-    <color name="store_stamp_detail_title">#15315B</color>
+    <!--    邮票中心界面通用标题颜色-->
+    <color name="store_common_title">#15315B</color>
+
+    <!--    邮票明细界面相关颜色-->
     <color name="store_stamp_detail_common_text">#15315B</color>
     <color name="store_stamp_unselected_title">#CC15315B</color>
     <color name="store_stamp_selected_title">#5F75E4</color>
@@ -14,7 +16,31 @@
     <color name="store_btn_product_receive_tips">#E8F0FC</color>
     <color name="store_btn_product_receive_tips_text">#94A6C4</color>
 
-    <!--    商品图片滑动进度条颜色-->
+    <!--    商品兑换界面相关颜色-->
+    <color name="store_btn_product_exchange">#4841E2</color>
+    <color name="store_balance">#6615315B</color>
+    <color name="store_exchange_detail_">#6615315B</color>
+    <color name="store_product_exchange_price">#5177FF</color>
+    <color name="store_product_describe">#CC15315B</color>
+    <color name="store_product_prescription">#CC15315B</color>
+    <color name="store_equity_description_title">#CC15315B</color>
+    <color name="store_product_stock">#6615315B</color>
+    <color name="store_equity_description">#6615315B</color>
+
+    <!--    兑换详细界面相关颜色-->
+    <color name="store_exchange_detail_order">#E6FFFFFF</color>
+    <color name="store_exchange_detail_common_text">#15315B</color>
+
+    <!--    任务进度条颜色-->
     <color name="store_indicator_under">#97b7f0</color>
     <color name="store_indicator_top">#2923d2</color>
+
+    <!--    商品图片滑动进度圆点颜色-->
+    <color name="store_progress_dot_unselected">#C4C4C4</color>
+    <color name="store_progress_dot_selected">#FFFFFF</color>
+
+    <!--    商品兑换界面Dialog按钮颜色-->
+    <color name="store_exchange_dialog_btn_positive">#4A44E4</color>
+    <color name="store_exchange_dialog_btn_negative">#C3D4EE</color>
+
 </resources>

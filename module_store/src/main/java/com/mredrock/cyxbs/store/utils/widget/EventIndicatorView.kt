@@ -62,8 +62,8 @@ class EventIndicatorView : View {
     private fun initAttrs(context: Context?, attrs: AttributeSet?) {
         if (context != null) {
             val a = context.obtainStyledAttributes(attrs, R.styleable.EventIndicatorView)
-            mCount = a.getInt(R.styleable.EventIndicatorView_count, 1)
-            mRectRadius = a.getFloat(R.styleable.EventIndicatorView_radius, 15f)
+            mCount = a.getInt(R.styleable.EventIndicatorView_eventCount, 1)
+            mRectRadius = a.getFloat(R.styleable.EventIndicatorView_roundRadius, 15f)
             mUnderColor = a.getResourceId(R.styleable.EventIndicatorView_underColor, R.color.store_indicator_under)
             mTopColor = a.getResourceId(R.styleable.EventIndicatorView_topColor, R.color.store_indicator_top)
         }

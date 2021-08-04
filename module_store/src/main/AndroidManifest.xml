@@ -3,9 +3,10 @@
     package="com.example.module_store">
 
     <application>
-        <activity android:name="com.mredrock.cyxbs.store.page.center.activity.StoreCenterActivity"></activity>
-        <activity android:name="com.mredrock.cyxbs.store.page.record.activity.StampDetailActivity" />
-        <activity android:name="com.mredrock.cyxbs.store.page.exchange.activity.ProductExchangeActivity" />
+        <activity android:name="com.mredrock.cyxbs.store.page.record.ui.activity.ExchangeDetailActivity"></activity>
+        <activity android:name="com.mredrock.cyxbs.store.page.center.activity.StoreCenterActivity" />
+        <activity android:name="com.mredrock.cyxbs.store.page.record.ui.activity.StampDetailActivity" />
+        <activity android:name="com.mredrock.cyxbs.store.page.exchange.ui.activity.ProductExchangeActivity" />
     </application>
 
 </manifest>

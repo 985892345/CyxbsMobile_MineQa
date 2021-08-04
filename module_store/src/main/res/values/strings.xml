@@ -3,4 +3,15 @@
     <string name="store_string_score_store">积分商城</string>
     <string name="store_string_stamp_detail">邮票明细</string>
     <string name="store_product_unclaimed">待领取</string>
+    <string name="store_exchange_detail">兑换详细</string>
+    <string name="store_product_detail">商品详细</string>
+    <string name="store_product_name_title">商品名称:</string>
+    <string name="store_product_price_title">商品价格:</string>
+    <string name="store_exchange_time_title">交易时间:</string>
+    <string name="store_product_state_title">商品状态:</string>
+    <string name="store_exchange">兑换</string>
+    <string name="store_balance_title">余额：</string>
+    <string name="store_product_prescription_title">有效期：</string>
+    <string name="store_product_stock_title">库存量：</string>
+    <string name="store_equity_description">权益说明</string>
 </resources>
