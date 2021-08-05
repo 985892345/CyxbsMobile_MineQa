@@ -1,10 +1,7 @@
 package com.mredrock.cyxbs.store.page.exchange.ui.activity
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import androidx.databinding.DataBindingUtil
-import androidx.databinding.ViewDataBinding
 import androidx.viewpager2.widget.ViewPager2
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.example.module_store.R
@@ -26,7 +23,7 @@ import kotlinx.android.synthetic.main.store_activity_product_exchenge.*
 class ProductExchangeActivity : BaseViewModelActivity<ProductExchangeViewModel>() {
     private var mImageViewPagerAdapter: ProductImageVPAdapter? = null
     private lateinit var dataBinding: StoreActivityProductExchengeBinding
-
+    private var mImageList = ArrayList<String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,18 +38,35 @@ class ProductExchangeActivity : BaseViewModelActivity<ProductExchangeViewModel>(
     }
 
     private fun initView() {
+        //设置起始页 通过 page：2 0 1 2 0 来实现 0 1 2 界面的循环滑动
+        store_vp_product_image.setCurrentItem(1, false)
         //添加VP的页面选中监听 来控制圆点重绘
         store_vp_product_image.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
-            override fun onPageSelected(position: Int) {
-                store_progress_dot.updatePosition(position)
-                super.onPageSelected(position)
+            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
+                super.onPageScrolled(position, positionOffset, positionOffsetPixels)
+                //更新圆点
+                store_progress_dot.updatePosition(position - 1, positionOffset)
+                //进行界面跳转 实现循环
+                if (position == mImageList.size - 1) {
+                    store_vp_product_image.setCurrentItem(1, false)
+                }
+                if (position == 0) {
+                    store_vp_product_image.setCurrentItem(mImageList.size - 1, false)
+                }
             }
         })
+
         dataBinding.eventHandle = EventHandle()
     }
 
     private fun initAdapter() {
-        mImageViewPagerAdapter = ProductImageVPAdapter(arrayListOf("ss", "dd"))
+        mImageList.add("2")
+        mImageList.add("0")
+        mImageList.add("1")
+        mImageList.add("2")
+        mImageList.add("0")
+
+        mImageViewPagerAdapter = ProductImageVPAdapter(mImageList)
         store_vp_product_image.adapter = mImageViewPagerAdapter
     }
 

@@ -1,4 +1,3 @@
-include ':module_store'
 rootProject.name = "CyxbsMobile_Single"
 include ':app'
 include ':lib_account:api_account'
@@ -10,3 +9,4 @@ include ':module_qa'
 include ':lib_update:api_update'
 include ':lib_update'
 include ':module_mine'
+include ':module_store'

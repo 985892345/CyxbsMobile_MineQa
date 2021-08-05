@@ -1,4 +1,4 @@
-package com.example.module_store
+package com.cyxbs.module_store
 
 import org.junit.Test
 

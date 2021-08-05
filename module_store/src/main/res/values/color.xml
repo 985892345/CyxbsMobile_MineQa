@@ -43,4 +43,6 @@
     <color name="store_exchange_dialog_btn_positive">#4A44E4</color>
     <color name="store_exchange_dialog_btn_negative">#C3D4EE</color>
 
+    <color name="store_null">#00000000</color>
+
 </resources>
