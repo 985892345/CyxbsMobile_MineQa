@@ -36,7 +36,8 @@ class StampDetailActivity : BaseActivity() {
     private fun initView() {
         //设置TabLayout相关参数和监听
         initTabLayout()
-
+        //设置预加载 使两个Fragment都加载 避免滑动到下一页时还需等待网络请求加载
+        store_vp_stamp_detail.offscreenPageLimit = 1
     }
 
     private fun initTabLayout() {
@@ -73,13 +74,14 @@ class StampDetailActivity : BaseActivity() {
      */
     private fun initAdapter() {
         //创建两个EventRecordFragment 用Bundle携带不同的事件字符串来控制Fragment中RecyclerView的item类型
-        val bundle = Bundle()
-        bundle.putString("event", "exchange")
+        val exchangeBundle = Bundle()
+        exchangeBundle.putString("event", "exchange")
         val exchangeRecordFragment = EventRecordFragment()
-        exchangeRecordFragment.arguments = bundle
-        bundle.clear()
-        bundle.putString("event", "getStamp")
+        exchangeRecordFragment.arguments = exchangeBundle
+        val stampBundle = Bundle()
         val stampGetRecordFragment = EventRecordFragment()
+        stampBundle.putString("event", "getStamp")
+        stampGetRecordFragment.arguments = stampBundle
         mEventRecordFragmentList.add(exchangeRecordFragment)
         mEventRecordFragmentList.add(stampGetRecordFragment)
 

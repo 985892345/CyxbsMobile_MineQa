@@ -8,6 +8,7 @@
         android:id="@+id/store_iv_product_image"
         android:layout_width="343dp"
         android:layout_height="178dp"
+        app:layout_constraintRight_toRightOf="parent"
         android:src="@drawable/store_bg_entity_product_exchange_order"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>

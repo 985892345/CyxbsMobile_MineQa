@@ -116,7 +116,6 @@ class ProgressDotView : View {
 
             //在外面设置了mProgress才绘制移动过程的圆
             if (mProgress != 0f) {
-
                 drawMoveCircle(canvas)
             }
 
@@ -140,7 +139,7 @@ class ProgressDotView : View {
             //记录此时左圆的X
             mLeftX = mStartX + 0f
         } else {
-            //滑动一半之后 左圆点开始平移向右至右圆点圆心 且缩小至不可见
+            //滑动mLeftCircleCanMovePosition之后 左圆点开始平移向右至右圆点圆心 且缩小至不可见
             mLeftCircleRadius = changeCircle(mCircleCenterInterval / (1 - mLeftCircleCanMovePosition) * (mProgress - mLeftCircleCanMovePosition), 0f, -mZoom + (mZoom - 1) / (1 - mLeftCircleCanMovePosition) * (mProgress - mLeftCircleCanMovePosition), canvas)
             //记录此时左圆的X
             mLeftX = mStartX + mCircleCenterInterval / (1 - mLeftCircleCanMovePosition) * (mProgress - mLeftCircleCanMovePosition)
@@ -148,12 +147,12 @@ class ProgressDotView : View {
         }
 
         if (mProgress < mLeftCircleCanMovePosition) {
-            //滑动一半之前 右圆点从左圆点圆心处出发 从0放大到正常大小的(1-mZoom)(默认百分之60) 同时移动到右侧圆心处
+            //滑动mLeftCircleCanMovePosition之前 右圆点从左圆点圆心处出发 从0放大到正常大小的(1-mZoom)(默认百分之60) 同时移动到右侧圆心处
             mRightCircleRadius = changeCircle(mCircleCenterInterval / mLeftCircleCanMovePosition * mProgress, 0f, -1 + (1 - mZoom) / mLeftCircleCanMovePosition * mProgress, canvas)
             //记录此时右圆的X
             mRightX = mStartX + mCircleCenterInterval / mLeftCircleCanMovePosition * mProgress
         } else {
-            //滑动一半之后 右圆点从正常大小的(1-mZoom)(默认百分之60)放大到正常大小
+            //滑动mLeftCircleCanMovePosition之后 右圆点从正常大小的(1-mZoom)(默认百分之60)放大到正常大小
             mRightCircleRadius = changeCircle(mCircleCenterInterval, 0f, -mZoom + mZoom / (1 - mLeftCircleCanMovePosition) * (mProgress - mLeftCircleCanMovePosition), canvas)
             //记录此时右圆的X
             mRightX = mStartX + mCircleCenterInterval

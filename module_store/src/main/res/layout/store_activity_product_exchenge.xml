@@ -3,9 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-<variable
-    name="eventHandle"
-    type="com.mredrock.cyxbs.store.page.exchange.ui.activity.ProductExchangeActivity.EventHandle" />
+
+        <variable
+            name="eventHandle"
+            type="com.mredrock.cyxbs.store.page.exchange.ui.activity.ProductExchangeActivity.EventHandle" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -20,16 +21,16 @@
             android:id="@+id/store_tv_product_detail_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-           app:layout_constraintVertical_bias="0.06821"
-            app:layout_constraintHorizontal_bias="0.09867"
             android:text="邮货详细"
             android:textColor="@color/store_common_title"
             android:textSize="22sp"
             android:textStyle="bold"
-            app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHorizontal_bias="0.09867"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.06821" />
 
 
         <androidx.viewpager2.widget.ViewPager2
@@ -156,7 +157,7 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginBottom="71dp"
-            android:background="@drawable/store_shape_divide_line"
+            android:background="@drawable/store_common_divide_line"
             app:layout_constraintBottom_toBottomOf="parent" />
 
         <ImageView
@@ -213,11 +214,11 @@
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="17dp"
             android:background="@drawable/store_btn_exchange"
+            android:onClick="@{eventHandle::onItemSingleClick}"
             android:text="@string/store_exchange"
             android:textColor="@color/common_white_font_color"
             android:textSize="16sp"
             android:textStyle="bold"
-            android:onClick="@{eventHandle::onItemSingleClick}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toRightOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>

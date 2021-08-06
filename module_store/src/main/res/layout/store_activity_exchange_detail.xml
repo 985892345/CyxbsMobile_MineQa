@@ -1,198 +1,172 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <include
-        android:id="@+id/store_toolbar_exchange_detail"
-        layout="@layout/store_common_toolbar_no_line" />
+    <data>
 
-    <TextView
-        android:id="@+id/store_tv_exchange_detail_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintVertical_bias="0.06821"
-        app:layout_constraintHorizontal_bias="0.09867"
-        android:text="@string/store_exchange_detail"
-        android:textColor="@color/store_common_title"
-        android:textSize="22sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    </data>
 
-    <ImageView
-        android:id="@+id/store_iv_exchange_order_bg"
-        android:layout_width="wrap_content"
-        android:layout_height="108dp"
-        android:layout_marginTop="132dp"
-        android:src="@drawable/store_bg_entity_product_exchange_order"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/store_tv_exchange_detail_order"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="55dp"
-        android:layout_marginTop="168dp"
-        android:text="245769"
-        android:textColor="@color/store_exchange_detail_order"
-        android:textSize="23sp"
-        android:textStyle="bold"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <include
+            android:id="@+id/store_toolbar_exchange_detail"
+            layout="@layout/store_common_toolbar_no_line" />
 
-    <TextView
-        android:id="@+id/store_tv_product_detail"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="280dp"
-        android:text="@string/store_product_detail"
-        android:textColor="@color/store_common_title"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <TextView
+            android:id="@+id/store_tv_exchange_detail_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintVertical_bias="0.06821"
+            app:layout_constraintHorizontal_bias="0.09867"
+            android:text="@string/store_exchange_detail"
+            android:textColor="@color/store_common_title"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <!--    <TextView-->
-    <!--        android:id="@+id/store_exchange_detail_product_id_title"-->
-    <!--        android:layout_width="wrap_content"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:layout_marginStart="25dp"-->
-    <!--        android:text="编号"-->
-    <!--        app:layout_constraintBottom_toTopOf="@+id/mine_store_exchange_detail_line1"-->
-    <!--        app:layout_constraintLeft_toLeftOf="parent"-->
-    <!--        app:layout_constraintTop_toBottomOf="@+id/store_toolbar_exchange_detail" />-->
+        <ImageView
+            android:id="@+id/store_iv_exchange_order_bg"
+            android:layout_width="match_parent"
+            android:layout_height="108dp"
+            android:layout_marginTop="132dp"
+            android:scaleType="centerCrop"
+            android:layout_marginRight="16dp"
+            android:layout_marginLeft="16dp"
+            android:src="@drawable/store_bg_entity_product_exchange_order"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <!--    <TextView-->
-    <!--        android:id="@+id/mine_store_exchange_detail_product_id"-->
-    <!--        android:layout_width="wrap_content"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:text="ZZZZZZZZZZZZ"-->
-    <!--        app:layout_constraintBottom_toTopOf="@+id/mine_store_exchange_detail_line1"-->
-    <!--        app:layout_constraintLeft_toLeftOf="parent"-->
-    <!--        app:layout_constraintRight_toRightOf="parent"-->
-    <!--        app:layout_constraintTop_toBottomOf="@+id/store_toolbar_exchange_detail" />-->
+        <TextView
+            android:id="@+id/store_tv_exchange_detail_order"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="168dp"
+            app:layout_constraintHorizontal_bias="0.12"
+            android:text="245769"
+            android:textColor="@color/store_exchange_detail_order"
+            android:textSize="23sp"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <!--    <TextView-->
-    <!--        android:id="@+id/store_exchange_detail_product_id_tips"-->
-    <!--        android:layout_width="wrap_content"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:text="如为实物提示  一个编号只能领一次哦~"-->
-    <!--        android:textSize="10sp"-->
-    <!--        app:layout_constraintLeft_toLeftOf="parent"-->
-    <!--        app:layout_constraintRight_toRightOf="parent"-->
-    <!--        app:layout_constraintTop_toBottomOf="@+id/mine_store_exchange_detail_product_id" />-->
-
-    <!--    <View-->
-    <!--        android:id="@+id/mine_store_exchange_detail_line1"-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="1dp"-->
-    <!--        android:layout_marginTop="50dp"-->
-    <!--        android:background="@drawable/mine_shape_divide_line"-->
-    <!--        app:layout_constraintTop_toBottomOf="@id/mine_toolbar_store_exchange_detail" />-->
-
-    <TextView
-        android:id="@+id/store_exchange_detail_product_name_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="322dp"
-        android:text="@string/store_product_name_title"
-        android:textColor="@color/store_common_title"
-        android:textSize="14sp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/store_exchange_detail_product_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="111dp"
-        android:layout_marginTop="322dp"
-        android:text="卷卷鼠标垫"
-        android:textColor="@color/store_exchange_detail_common_text"
-        android:textSize="14sp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <TextView
+            android:id="@+id/store_tv_product_detail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="280dp"
+            android:text="@string/store_product_detail"
+            android:textColor="@color/store_common_title"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
 
-    <TextView
-        android:id="@+id/store_exchange_detail_product_price_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="352dp"
-        android:text="@string/store_product_price_title"
-        android:textColor="@color/store_common_title"
-        android:textSize="14sp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <TextView
+            android:id="@+id/store_exchange_detail_product_name_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="322dp"
+            android:text="@string/store_product_name_title"
+            android:textColor="@color/store_common_title"
+            android:textSize="14sp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/store_exchange_detail_product_price"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="111dp"
-        android:layout_marginTop="352dp"
-        android:text="1000邮票"
-        android:textColor="@color/store_exchange_detail_common_text"
-        android:textSize="14sp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-
-    <TextView
-        android:id="@+id/store_exchange_detail_time_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="382dp"
-        android:text="@string/store_exchange_time_title"
-        android:textColor="@color/store_common_title"
-        android:textSize="14sp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/store_exchange_detail_time"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="111dp"
-        android:layout_marginTop="382dp"
-        android:text="2021-2-25 14:32"
-        android:textColor="@color/store_exchange_detail_common_text"
-        android:textSize="14sp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <TextView
+            android:id="@+id/store_exchange_detail_product_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="111dp"
+            android:layout_marginTop="322dp"
+            android:text="卷卷鼠标垫"
+            android:textColor="@color/store_exchange_detail_common_text"
+            android:textSize="14sp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
 
-    <TextView
-        android:id="@+id/store_exchange_detail_state_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="412dp"
-        android:text="@string/store_product_state_title"
-        android:textColor="@color/store_common_title"
-        android:textSize="14sp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <TextView
+            android:id="@+id/store_exchange_detail_product_price_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="352dp"
+            android:text="@string/store_product_price_title"
+            android:textColor="@color/store_common_title"
+            android:textSize="14sp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/store_exchange_detail_state"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="111dp"
-        android:layout_marginTop="412dp"
-        android:text="待领取/已领取"
-        android:textColor="@color/store_exchange_detail_common_text"
-        android:textSize="14sp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:id="@+id/store_exchange_detail_product_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="111dp"
+            android:layout_marginTop="352dp"
+            android:text="1000邮票"
+            android:textColor="@color/store_exchange_detail_common_text"
+            android:textSize="14sp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <TextView
+            android:id="@+id/store_exchange_detail_time_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="382dp"
+            android:text="@string/store_exchange_time_title"
+            android:textColor="@color/store_common_title"
+            android:textSize="14sp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/store_exchange_detail_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="111dp"
+            android:layout_marginTop="382dp"
+            android:text="2021-2-25 14:32"
+            android:textColor="@color/store_exchange_detail_common_text"
+            android:textSize="14sp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <TextView
+            android:id="@+id/store_exchange_detail_state_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="412dp"
+            android:text="@string/store_product_state_title"
+            android:textColor="@color/store_common_title"
+            android:textSize="14sp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/store_exchange_detail_state"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="111dp"
+            android:layout_marginTop="412dp"
+            android:text="待领取/已领取"
+            android:textColor="@color/store_exchange_detail_common_text"
+            android:textSize="14sp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
