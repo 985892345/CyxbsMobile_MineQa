@@ -4,11 +4,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.widget.TextView
 import com.alibaba.android.arouter.facade.annotation.Route
-import com.example.module_store.R
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.mredrock.cyxbs.common.config.STORE_STAMP_DETAIL
 import com.mredrock.cyxbs.common.ui.BaseActivity
+import com.mredrock.cyxbs.store.R
 import com.mredrock.cyxbs.store.page.record.ui.fragment.EventRecordFragment
 import com.mredrock.cyxbs.store.page.record.ui.adapter.StampDetailVPAdapter
 import kotlinx.android.synthetic.main.store_activity_stamp_detail.*

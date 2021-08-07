@@ -8,7 +8,7 @@ import android.graphics.RectF
 import android.util.AttributeSet
 import android.view.View
 import androidx.core.content.ContextCompat
-import com.example.module_store.R
+import com.mredrock.cyxbs.store.R
 
 /**
  *    author : zz
@@ -34,9 +34,9 @@ class EventIndicatorView : View {
     private var mRectRadius = 18f //矩形圆角角度
     private var mType = IndicatorType.FIXED //默认类型
 
-    constructor(context: Context?) : this(context, null)
-    constructor(context: Context?, attrs: AttributeSet?) : this(context, attrs, 0)
-    constructor(context: Context?, attrs: AttributeSet?, defStyleAttr: Int) : super(
+    constructor(context: Context) : this(context, null)
+    constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
+    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(
             context,
             attrs,
             defStyleAttr
@@ -59,14 +59,13 @@ class EventIndicatorView : View {
     }
 
     @SuppressLint("ResourceAsColor")
-    private fun initAttrs(context: Context?, attrs: AttributeSet?) {
-        if (context != null) {
-            val a = context.obtainStyledAttributes(attrs, R.styleable.EventIndicatorView)
-            mCount = a.getInt(R.styleable.EventIndicatorView_eventCount, 1)
-            mRectRadius = a.getFloat(R.styleable.EventIndicatorView_roundRadius, 15f)
-            mUnderColor = a.getResourceId(R.styleable.EventIndicatorView_underColor, R.color.store_indicator_under)
-            mTopColor = a.getResourceId(R.styleable.EventIndicatorView_topColor, R.color.store_indicator_top)
-        }
+    private fun initAttrs(context: Context, attrs: AttributeSet?) {
+        val a = context.obtainStyledAttributes(attrs, R.styleable.EventIndicatorView)
+        mCount = a.getInt(R.styleable.EventIndicatorView_eventCount, 1)
+        mRectRadius = a.getFloat(R.styleable.EventIndicatorView_roundRadius, 15f)
+        mUnderColor = a.getResourceId(R.styleable.EventIndicatorView_underColor, R.color.store_indicator_under)
+        mTopColor = a.getResourceId(R.styleable.EventIndicatorView_topColor, R.color.store_indicator_top)
+        a.recycle()
     }
 
     private fun initPaints() {

@@ -5,9 +5,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.module_store.R
-import com.mredrock.cyxbs.common.component.showPhotos
 import com.mredrock.cyxbs.common.utils.extensions.onClick
+import com.mredrock.cyxbs.store.R
 
 /**
  *    author : zz

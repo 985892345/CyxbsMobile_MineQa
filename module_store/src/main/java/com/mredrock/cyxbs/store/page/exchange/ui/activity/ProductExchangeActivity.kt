@@ -4,10 +4,10 @@ import android.os.Bundle
 import android.view.View
 import androidx.viewpager2.widget.ViewPager2
 import com.alibaba.android.arouter.facade.annotation.Route
-import com.example.module_store.R
-import com.example.module_store.databinding.StoreActivityProductExchengeBinding
 import com.mredrock.cyxbs.common.config.STORE_PRODUCT_EXCHANGE
 import com.mredrock.cyxbs.common.ui.BaseViewModelActivity
+import com.mredrock.cyxbs.store.R
+import com.mredrock.cyxbs.store.databinding.StoreActivityProductExchengeBinding
 import com.mredrock.cyxbs.store.page.exchange.ui.adapter.ProductImageVPAdapter
 import com.mredrock.cyxbs.store.page.exchange.viewmodel.ProductExchangeViewModel
 import com.mredrock.cyxbs.store.utils.ui.ProductExchangeDialogFragment

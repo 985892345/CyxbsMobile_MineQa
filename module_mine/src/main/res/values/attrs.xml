@@ -18,5 +18,4 @@
         <attr name="shadowColor" format="color" />
         <attr name="shadowRadius" format="dimension" />
     </declare-styleable>
-
 </resources>

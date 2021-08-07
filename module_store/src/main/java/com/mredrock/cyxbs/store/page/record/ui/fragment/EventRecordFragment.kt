@@ -7,14 +7,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.alibaba.android.arouter.launcher.ARouter
-import com.example.module_store.R
-import com.example.module_store.databinding.StoreRecyclerItemExchangeRecordBinding
-import com.example.module_store.databinding.StoreRecyclerItemStampGetRecordBinding
 import com.mredrock.cyxbs.common.config.STORE_EXCHANGE_DETAIL
 import com.mredrock.cyxbs.common.ui.BaseViewModelFragment
 import com.mredrock.cyxbs.common.utils.extensions.doIfLogin
+import com.mredrock.cyxbs.store.R
 import com.mredrock.cyxbs.store.page.record.viewmodel.EventRecordViewModel
 import com.mredrock.cyxbs.store.base.BaseSimplifyRecyclerAdapter2
+import com.mredrock.cyxbs.store.databinding.StoreRecyclerItemExchangeRecordBinding
+import com.mredrock.cyxbs.store.databinding.StoreRecyclerItemStampGetRecordBinding
 import kotlinx.android.synthetic.main.store_fragment_event_record.*
 
 /**

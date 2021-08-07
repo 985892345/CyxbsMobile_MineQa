@@ -10,8 +10,8 @@ import android.view.ViewGroup
 import android.view.Window
 import androidx.annotation.LayoutRes
 import androidx.fragment.app.DialogFragment
-import com.example.module_store.R
 import com.mredrock.cyxbs.common.utils.extensions.onClick
+import com.mredrock.cyxbs.store.R
 import kotlinx.android.synthetic.main.store_dialog_exchange_product.*
 
 /**

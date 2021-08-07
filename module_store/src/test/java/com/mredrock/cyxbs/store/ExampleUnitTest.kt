@@ -1,4 +1,4 @@
-package com.cyxbs.module_store
+package com.mredrock.cyxbs.store
 
 import org.junit.Test
 

@@ -1,13 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!--    邮票中心界面泛用式分割线颜色-->
-    <color name="mine_store_common_divide_line">#1A2A4E84</color>
-    <!--    邮票明细界面相关标题颜色-->
-    <color name="mine_store_stamp_detail_title">#15315B</color>
-    <color name="mine_store_stamp_unselected_title">#CC15315B</color>
-    <color name="mine_store_stamp_selected_title">#5F75E4</color>
 
-    <!--    商品图片滑动进度条颜色-->
-    <color name="mine_store_image_indicator_under">#97b7f0</color>
-    <color name="mine_store_image_indicator_select">#2923d2</color>
 </resources>
