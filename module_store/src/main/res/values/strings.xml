@@ -19,4 +19,6 @@
     <string name="store_product_prescription_title">有效期：</string>
     <string name="store_product_stock_title">库存量：</string>
     <string name="store_equity_description">权益说明</string>
+    <string name="store_pic_save_alert_dialog_title">是否保存</string>
+    <string name="store_pic_save_alert_dialog_message">这张图片将保存到手机</string>
 </resources>

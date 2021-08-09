@@ -5,7 +5,7 @@ import com.alibaba.android.arouter.facade.annotation.Route
 import com.mredrock.cyxbs.common.config.STORE_EXCHANGE_DETAIL
 import com.mredrock.cyxbs.common.ui.BaseActivity
 import com.mredrock.cyxbs.store.databinding.StoreActivityExchangeDetailBinding
-import kotlinx.android.synthetic.main.store_activity_exchange_detail.*
+import kotlinx.android.synthetic.main.store_common_toolbar_no_line.*
 
 /**
  *    author : zz
@@ -27,7 +27,11 @@ class ExchangeDetailActivity : BaseActivity() {
     private fun initView() {
         //绑定数据
         //...
-        //判断类型 动态改变IV的src
+        //判断类型 动态改变IV
 //        store_iv_exchange_order_bg.setImageDrawable()
+        //设置左上角返回点击事件
+        store_iv_toolbar_no_line_arrow_left.setOnClickListener {
+            finish()
+        }
     }
 }

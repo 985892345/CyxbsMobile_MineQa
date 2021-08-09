@@ -6,6 +6,7 @@
 
     <ImageView
         android:id="@+id/store_iv_product_image"
+        android:transitionName="productImage"
         android:layout_width="343dp"
         android:layout_height="178dp"
         app:layout_constraintRight_toRightOf="parent"

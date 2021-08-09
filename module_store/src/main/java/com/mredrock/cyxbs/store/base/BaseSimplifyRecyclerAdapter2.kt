@@ -11,7 +11,7 @@ import kotlin.math.abs
 /**
  *    author : zz
  *    e-mail : 1140143252@qq.com
- *    date   : 2021/8/2 16:10
+ *    date   : 2021/7/16
  *
  * 可复用的RecyclerAdapter
  * 支持常规的RecyclerAdapter以及含DataBinding的RecyclerAdapter

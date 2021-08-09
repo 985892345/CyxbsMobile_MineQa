@@ -6,6 +6,7 @@
     android:layout_height="match_parent">
 
     <ImageView
+        android:id="@+id/store_iv_toolbar_arrow_left"
         android:layout_width="7dp"
         android:layout_height="16dp"
         android:background="?attr/selectableItemBackgroundBorderless"

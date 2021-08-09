@@ -2,8 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.mredrock.cyxbs.store">
 
-    <application
-        android:theme="@style/AppTheme">
+    <application android:theme="@style/AppTheme">
+        <activity android:name=".utils.ui.activity.PhotoActivity"></activity>
         <activity android:name=".page.record.ui.activity.ExchangeDetailActivity" />
         <activity android:name=".page.center.ui.activity.StoreCenterActivity" />
         <activity android:name=".page.record.ui.activity.StampDetailActivity" />

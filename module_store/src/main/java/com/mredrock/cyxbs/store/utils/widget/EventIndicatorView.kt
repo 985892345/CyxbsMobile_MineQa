@@ -1,5 +1,6 @@
 package com.mredrock.cyxbs.store.utils.widget
 
+import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Canvas
@@ -17,9 +18,14 @@ import com.mredrock.cyxbs.store.R
  */
 class EventIndicatorView : View {
 
-    //进度条状态 分为两种 一种是左边会跟着进度移动 一种是固定左边 仅右边移动
+    /**
+     * 进度条状态 分为三种
+     * MOVE:左边会跟着进度移动
+     * FIX:固定左边 仅右边静态显示进度
+     * ANIM:进度从左往右慢慢变长的动画
+     */
     enum class IndicatorType() {
-        MOVE, FIXED
+        MOVE, FIXED, ANIM
     }
 
     private var mCount = 1 //总数
@@ -32,7 +38,9 @@ class EventIndicatorView : View {
     private var mUnderColor = R.color.store_indicator_under //底部颜色
     private var mTopColor = R.color.store_indicator_top //顶部颜色
     private var mRectRadius = 18f //矩形圆角角度
-    private var mType = IndicatorType.FIXED //默认类型
+    private var mType = IndicatorType.ANIM //默认类型
+    private var mAnim: ValueAnimator? = null
+    private var mAnimProgress = 0f //动画进度
 
     constructor(context: Context) : this(context, null)
     constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
@@ -85,6 +93,20 @@ class EventIndicatorView : View {
     override fun onDraw(canvas: Canvas?) {
         //绘制矩形
         drawRoundRect(canvas)
+        //设置Anim
+        if (mAnim == null) {
+            initAnim()
+        }
+    }
+
+    private fun initAnim() {
+        mAnim = ValueAnimator.ofFloat((measuredWidth * (mPosition / mCount.toFloat())) + (1 / mCount.toFloat()) * measuredWidth * mProgress)
+        mAnim?.duration = 1000
+        mAnim?.addUpdateListener {
+            mAnimProgress = it.animatedValue as Float
+            invalidate()
+        }
+        mAnim?.start()
     }
 
     private fun drawRoundRect(canvas: Canvas?) {
@@ -107,8 +129,17 @@ class EventIndicatorView : View {
             IndicatorType.FIXED -> {
                 mTopRect.top = 0f
                 mTopRect.bottom = measuredHeight.toFloat()
-                mTopRect.left =0f
+                mTopRect.left = 0f
                 mTopRect.right = (measuredWidth * (mPosition / mCount.toFloat())) + (1 / mCount.toFloat()) * measuredWidth * mProgress
+                canvas?.drawRoundRect(mTopRect, mRectRadius, mRectRadius, mIndicatorTopPaint)
+            }
+            IndicatorType.ANIM -> {
+
+
+                mTopRect.top = 0f
+                mTopRect.bottom = measuredHeight.toFloat()
+                mTopRect.left = 0f
+                mTopRect.right = mAnimProgress
                 canvas?.drawRoundRect(mTopRect, mRectRadius, mRectRadius, mIndicatorTopPaint)
             }
         }

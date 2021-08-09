@@ -1,6 +1,5 @@
 package com.mredrock.cyxbs.store.utils.widget
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Paint
@@ -33,9 +32,9 @@ class ProgressDotView : View {
     private var mPosition = 0 //当前选中的位置 从0开始
     private var mProgress = 0f //页面由一个到另一个的进度
 
-    constructor(context: Context?) : this(context, null)
-    constructor(context: Context?, attrs: AttributeSet?) : this(context, attrs, 0)
-    constructor(context: Context?, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
+    constructor(context: Context) : this(context, null)
+    constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
+    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
         //获取相关属性
         initAttrs(context, attrs)
         //初始化画笔
@@ -67,18 +66,16 @@ class ProgressDotView : View {
         }
     }
 
-    @SuppressLint("Recycle")
-    private fun initAttrs(context: Context?, attrs: AttributeSet?) {
-        if (context != null) {
-            val a = context.obtainStyledAttributes(attrs, R.styleable.ProgressDotView)
-            mRadius = a.getFloat(R.styleable.ProgressDotView_dotRadius, 3f)
-            mRadius = context.dp2px(mRadius).toFloat()
-            mDotCount = a.getInt(R.styleable.ProgressDotView_dotCount, 3)
-            mUnselectedColor = a.getResourceId(R.styleable.ProgressDotView_unSelectedColor, R.color.store_progress_dot_unselected)
-            mSelectedColor = a.getResourceId(R.styleable.ProgressDotView_selectedColor, R.color.store_progress_dot_selected)
-            mZoom = a.getFloat(R.styleable.ProgressDotView_circleZoom, 0.4f)
-            mLeftCircleCanMovePosition = a.getFloat(R.styleable.ProgressDotView_leftCircleCanMovePosition, 0.5f)
-        }
+    private fun initAttrs(context: Context, attrs: AttributeSet?) {
+        val a = context.obtainStyledAttributes(attrs, R.styleable.ProgressDotView)
+        mRadius = a.getFloat(R.styleable.ProgressDotView_dotRadius, 3f)
+        mRadius = context.dp2px(mRadius).toFloat()
+        mDotCount = a.getInt(R.styleable.ProgressDotView_dotCount, 3)
+        mUnselectedColor = a.getResourceId(R.styleable.ProgressDotView_unSelectedColor, R.color.store_progress_dot_unselected)
+        mSelectedColor = a.getResourceId(R.styleable.ProgressDotView_selectedColor, R.color.store_progress_dot_selected)
+        mZoom = a.getFloat(R.styleable.ProgressDotView_circleZoom, 0.4f)
+        mLeftCircleCanMovePosition = a.getFloat(R.styleable.ProgressDotView_leftCircleCanMovePosition, 0.5f)
+        a.recycle()
     }
 
     override fun onDraw(canvas: Canvas?) {

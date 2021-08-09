@@ -1,6 +1,7 @@
 package com.mredrock.cyxbs.store.bean
 
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
 /**
  *    author : zz
@@ -9,4 +10,4 @@ import com.google.gson.annotations.SerializedName
  */
 data class ExchangeDetail(
         @SerializedName("name")
-        val name:String)
+        val name:String): Serializable

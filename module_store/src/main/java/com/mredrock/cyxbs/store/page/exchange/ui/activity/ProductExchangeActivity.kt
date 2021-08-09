@@ -1,7 +1,10 @@
 package com.mredrock.cyxbs.store.page.exchange.ui.activity
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.activity.result.contract.ActivityResultContract
 import androidx.viewpager2.widget.ViewPager2
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.mredrock.cyxbs.common.config.STORE_PRODUCT_EXCHANGE
@@ -10,8 +13,11 @@ import com.mredrock.cyxbs.store.R
 import com.mredrock.cyxbs.store.databinding.StoreActivityProductExchengeBinding
 import com.mredrock.cyxbs.store.page.exchange.ui.adapter.ProductImageVPAdapter
 import com.mredrock.cyxbs.store.page.exchange.viewmodel.ProductExchangeViewModel
-import com.mredrock.cyxbs.store.utils.ui.ProductExchangeDialogFragment
+import com.mredrock.cyxbs.store.utils.ui.activity.PhotoActivity
+import com.mredrock.cyxbs.store.utils.ui.fragment.ProductExchangeDialogFragment
 import kotlinx.android.synthetic.main.store_activity_product_exchenge.*
+import kotlinx.android.synthetic.main.store_common_toolbar.*
+import kotlinx.android.synthetic.main.store_common_toolbar_no_line.*
 
 /**
  *    author : zz
@@ -21,9 +27,40 @@ import kotlinx.android.synthetic.main.store_activity_product_exchenge.*
 
 @Route(path = STORE_PRODUCT_EXCHANGE)
 class ProductExchangeActivity : BaseViewModelActivity<ProductExchangeViewModel>() {
+    companion object {
+        //配置商品图片的元素共享动画
+//        fun activityStart(page: Any?, data: XXBean, vararg sharedElements: Pair<View, String>) {
+//            page.apply {
+//                var activity: Activity? = null
+//                var fragment: Fragment? = null
+//                if (page is Fragment) {
+//                    fragment = page
+//                    activity = page.activity
+//                } else if (page is Activity) {
+//                    activity = page
+//                }
+//                activity?.let { it ->
+//                    val options = ActivityOptions.makeSceneTransitionAnimation(it, *sharedElements)
+//                    val intent = Intent(it, ProductExchangeActivity::class.java)
+//                    intent.putExtra("productDetail", data)
+//                    if (fragment != null) {
+//                        fragment.startActivity(intent, options.toBundle())
+//                    } else {
+//                        it.startActivity(intent, options.toBundle())
+//                    }
+//                }
+//            }
+//        }
+    }
+
     private var mImageViewPagerAdapter: ProductImageVPAdapter? = null
     private lateinit var dataBinding: StoreActivityProductExchengeBinding
     private var mImageList = ArrayList<String>()
+    private var mPosition = 0 //当前VP显示的item的位置
+    private val mLauncher = registerForActivityResult(ResultContract()) { result ->
+        //从PhotoActivity回到该Activity时 将VP中图片位置移动到退出时PhotoActivity时图片的位置
+        store_vp_product_image.setCurrentItem(result, false)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,6 +75,19 @@ class ProductExchangeActivity : BaseViewModelActivity<ProductExchangeViewModel>(
     }
 
     private fun initView() {
+
+        //设置左上角返回点击事件
+        store_iv_toolbar_arrow_left.setOnClickListener {
+            finish()
+        }
+
+        //初始化可循环滑动的VP
+        initViewPager()
+
+        dataBinding.eventHandle = EventHandle()
+    }
+
+    private fun initViewPager() {
         //设置起始页 通过 page：2 0 1 2 0 来实现 0 1 2 界面的循环滑动
         store_vp_product_image.setCurrentItem(1, false)
         //添加VP的页面选中监听 来控制圆点重绘
@@ -54,19 +104,22 @@ class ProductExchangeActivity : BaseViewModelActivity<ProductExchangeViewModel>(
                     store_vp_product_image.setCurrentItem(mImageList.size - 1, false)
                 }
             }
-        })
 
-        dataBinding.eventHandle = EventHandle()
+            override fun onPageSelected(position: Int) {
+                super.onPageSelected(position)
+                mPosition = position - 1
+            }
+        })
     }
 
     private fun initAdapter() {
-        mImageList.add("2")
-        mImageList.add("0")
-        mImageList.add("1")
-        mImageList.add("2")
-        mImageList.add("0")
+        mImageList.add("http://hakaimg.com/i/2021/08/09/nr64i7.jpg")
+        mImageList.add("http://hakaimg.com/i/2021/08/09/nr64i7.jpg")
+        mImageList.add("http://hakaimg.com/i/2021/08/09/nr64i7.jpg")
+        mImageList.add("http://hakaimg.com/i/2021/08/09/nr64i7.jpg")
+        mImageList.add("http://hakaimg.com/i/2021/08/09/nr64i7.jpg")
 
-        mImageViewPagerAdapter = ProductImageVPAdapter(mImageList)
+        mImageViewPagerAdapter = ProductImageVPAdapter(mImageList, mLauncher,this)
         store_vp_product_image.adapter = mImageViewPagerAdapter
     }
 
@@ -96,6 +149,23 @@ class ProductExchangeActivity : BaseViewModelActivity<ProductExchangeViewModel>(
                     }
                 }
             }
+        }
+    }
+
+    inner class ResultContract : ActivityResultContract<Boolean, Int>() {
+
+        override fun createIntent(context: Context, input: Boolean?): Intent {
+            return Intent(context, PhotoActivity::class.java).apply {
+                putExtra("position", mPosition)
+                putStringArrayListExtra("imageUrlList", arrayListOf("http://hakaimg.com/i/2021/08/09/nr64i7.jpg", "http://hakaimg.com/i/2021/08/09/nr64i7.jpg", "http://hakaimg.com/i/2021/08/09/nr64i7.jpg"))
+            }
+        }
+
+        override fun parseResult(resultCode: Int, intent: Intent?): Int {
+            if (intent != null) {
+                return intent.getIntExtra("position", 0)
+            }
+            return 0
         }
     }
 }
