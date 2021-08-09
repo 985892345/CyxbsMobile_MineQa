@@ -7,7 +7,7 @@
     <color name="store_common_title">#15315B</color>
 
     <!--    邮票中心界面背景颜色-->
-    <color name="store_stamp_center_background">#F2F3F8</color>
+    <color name="store_stamp_center_background">#F8F2F2</color>
     <color name="store_stamp_center_my_stamp_character">#FFFFFF</color>
     <color name="store_stamp_center_my_stamp_number">#FFFFFF</color>
     <color name="store_stamp_center_get_remind">#FFFFFF</color>

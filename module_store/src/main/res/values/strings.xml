@@ -3,6 +3,8 @@
     <string name="store_stamp_center">邮票中心</string>
     <string name="store_stamp_center_my_stamp">我的邮票</string>
     <string name="store_stamp_center_get_remind">你还有待领取的商品，请尽快领取</string>
+    <string name="store_stamp_center_small_shop">邮票小店</string>
+    <string name="store_stamp_center_stamp_task">邮票任务</string>
 
     <string name="store_string_stamp_detail">邮票明细</string>
     <string name="store_product_unclaimed">待领取</string>

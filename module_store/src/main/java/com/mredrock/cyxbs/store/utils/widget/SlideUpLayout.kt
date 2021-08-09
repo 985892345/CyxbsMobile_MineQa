@@ -21,6 +21,9 @@ import kotlin.math.pow
 /**
  * 继承于 LinearLayout, 可以使用 LinearLayout 全部属性
  *
+ * **WARNING:** 只有第一层下的第一个 View(ViewGroup) 才能改变大小, 且那个 View 的高度必须为确定值,
+ * 不能为 wrap_content、match_parent, 但它里面的子 View 高度不受任何限制
+ *
  * **原理:** 使用了嵌套滑动, 具体实现思路可以查看 [onNestedPreScroll]、[onNestedScroll]
  *
  * **NOTE:** 如果无法布局, 请检查是否设置 orientation="vertical" 属性
@@ -41,6 +44,10 @@ class SlideUpLayout(
         mCurrentFirstChildRect.set(rect)
         rect
     }
+    private val mCanMoveHeight by lazy {
+        val lp = getChildAt(0).layoutParams
+        (lp.height * 0.8).toInt()
+    }
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         val height = MeasureSpec.getSize(heightMeasureSpec)
         var newHeightMS = heightMeasureSpec
@@ -49,10 +56,9 @@ class SlideUpLayout(
                 newHeightMS = MeasureSpec.makeMeasureSpec(0, MeasureSpec.EXACTLY)
             }
             MeasureSpec.EXACTLY -> {
-                // 为什么直接使用 getChildAt(0).measuredHeight/2？
-                // 因为我打 log 后发现整个 View 树会测量三次，所以该 View 第一次测量 getChildAt(0).measuredHeight/2
-                // 值为 0，而第二次测量就能得到具体值了
-                newHeightMS = MeasureSpec.makeMeasureSpec(height + getChildAt(0).measuredHeight/2, MeasureSpec.EXACTLY)
+                // 通过拿到第一个 child 的 layoutParams 而拿到高度
+
+                newHeightMS = MeasureSpec.makeMeasureSpec(height + mCanMoveHeight, MeasureSpec.EXACTLY)
             }
         }
         super.onMeasure(widthMeasureSpec, newHeightMS)
@@ -68,12 +74,12 @@ class SlideUpLayout(
             MotionEvent.ACTION_MOVE -> {
                 // 下面两个判断为什么放在这里，不放在嵌套处理中?
                 // 因为如果放在嵌套处理中,会因为内部嵌套的 View 的坐标系移动,而出现手指移动的错误判断
-                if (y > mLastMoveY + 4) { // 在加载上滑动画的时候手指向下滑动
+                if (y > mLastMoveY + 20) { // 在加载上滑动画的时候手指向下滑动
                     if (mIsInterceptFastSlideUp) {
                         mSlowlyMoveAnimate?.cancel()
                         mIsAllowNonTouch = true // 结束
                     }
-                }else if (mLastMoveY > y + 4) { // 在加载下滑动画的时候手指向上滑动
+                }else if (mLastMoveY > y + 20) { // 在加载下滑动画的时候手指向上滑动
                     if (mIsInterceptFastSlideDown) {
                         mSlowlyMoveAnimate?.cancel()
                         mIsAllowNonTouch = true // 结束
@@ -137,7 +143,7 @@ class SlideUpLayout(
         val newSecondTop = mSecondChild.top - dyUnconsumed // 将要移到的位置
         when (type) {
             ViewCompat.TYPE_TOUCH -> {
-                // 拦截快速向上滑动, 直接加载动画, 并消耗接下来的所有滑动距离
+                // 拦截快速向下滑动, 直接加载动画, 并消耗接下来的所有滑动距离
                 if (-mDownMaxDy > 80 && mSecondChild.top != mOriginalFirstChildRect.bottom) {
                     mIsInterceptFastSlideDown = true // 开始
                     mIsAllowNonTouch = false // 开始
@@ -158,6 +164,16 @@ class SlideUpLayout(
                 }
             }
             ViewCompat.TYPE_NON_TOUCH -> {
+                // 拦截离手时的惯性滑动, 直接加载动画, 并消耗接下来的所有滑动距离
+                if (mSecondChild.top != mOriginalFirstChildRect.bottom) {
+                    slowlyAnimate(mSecondChild.top, mOriginalFirstChildRect.bottom,
+                        onEnd = { mIsInterceptFastSlideDown = false/*结束*/ },
+                        onCancel = { mIsInterceptFastSlideDown = false/*结束*/ },
+                        onMove = { moveTo(it) }
+                    )
+                    mIsInterceptFastSlideDown = true // 开始
+                    mIsAllowNonTouch = false // 开始
+                }
                 // 如果不在下边界处,就先滑到下边界
                 if (mSecondChild.top <= mOriginalFirstChildRect.bottom) {
                     // 将要滑到的位置超过了滑动范围
@@ -205,23 +221,25 @@ class SlideUpLayout(
         when (type) {
             ViewCompat.TYPE_TOUCH -> {
                 // 如果正处于拦截快速滑动状态, 消耗所有滑动距离
+                // 取消动画写在了 dispatchTouchEvent 中
                 if (mIsInterceptFastSlideUp || mIsInterceptFastSlideDown) { consumed[1] = dy; return }
                 // 拦截快速向上滑动, 直接加载动画, 并消耗接下来的所有滑动距离
-                if (mUpMaxDy > 80 && mSecondChild.top != mOriginalFirstChildRect.centerY()) {
-                    mIsInterceptFastSlideUp = true // 开始
-                    mIsAllowNonTouch = false // 开始
+                if (mUpMaxDy > 80 && mSecondChild.top != mOriginalFirstChildRect.bottom - mCanMoveHeight) {
+                    Log.d("123","(SlideUpLayout.kt:232)-->> start")
                     consumed[1] = dy
-                    slowlyAnimate(mSecondChild.top, mOriginalFirstChildRect.centerY(),
+                    slowlyAnimate(mSecondChild.top, mOriginalFirstChildRect.bottom - mCanMoveHeight,
                         onEnd = { mIsInterceptFastSlideUp = false/*结束*/ },
                         onCancel = { mIsInterceptFastSlideUp = false/*结束*/ },
                         onMove = { moveTo(it) }
                     )
+                    mIsInterceptFastSlideUp = true // 开始
+                    mIsAllowNonTouch = false // 开始
                 }
                 // 如果不在上边界处,就先滑到上边界
-                else if (mSecondChild.top >= (mOriginalFirstChildRect.centerY()+1)) {
+                else if (mSecondChild.top >= (mOriginalFirstChildRect.bottom - mCanMoveHeight+1)) {
                     // 将要滑到的位置超过了滑动范围
-                    if (newSecondTop <= mOriginalFirstChildRect.centerY()+1) { // 留个1用于继续滑动
-                        moveTo(mOriginalFirstChildRect.centerY())
+                    if (newSecondTop <= mOriginalFirstChildRect.bottom - mCanMoveHeight+1) { // 留个1用于继续滑动
+                        moveTo(mOriginalFirstChildRect.bottom - mCanMoveHeight)
                         consumed[1] = dy
                     }else {
                         moveTo(newSecondTop)
@@ -236,15 +254,15 @@ class SlideUpLayout(
                     return
                 }
                 // 如果不在上边界处,就先滑到上边界
-                if (mSecondChild.top >= (mOriginalFirstChildRect.centerY()+1)) {
+                if (mSecondChild.top >= (mOriginalFirstChildRect.bottom - mCanMoveHeight+1)) {
                     consumed[1] = dy
-                    if (newSecondTop <= mOriginalFirstChildRect.centerY()+1) { // 留个1用于继续滑动
-                        moveTo(mOriginalFirstChildRect.centerY())
+                    if (newSecondTop <= mOriginalFirstChildRect.bottom - mCanMoveHeight+1) { // 留个1用于继续滑动
+                        moveTo(mOriginalFirstChildRect.bottom - mCanMoveHeight)
                     }else {
                         moveTo(newSecondTop)
                     }
                 }else {
-                    consumed[1] = (dy * 0.6).toInt() // 减速
+                    consumed[1] = (dy * 0.5).toInt() // 减速
                 }
             }
         }
@@ -252,6 +270,7 @@ class SlideUpLayout(
     private fun slideDown(dy: Int, type: Int, consumed: IntArray) {
         when (type) {
             ViewCompat.TYPE_TOUCH -> {
+                // 取消动画写在了 dispatchTouchEvent 中
                 if (mIsInterceptFastSlideDown || mIsInterceptFastSlideUp) { consumed[1] = dy; return }
             }
             ViewCompat.TYPE_NON_TOUCH -> {
@@ -272,18 +291,23 @@ class SlideUpLayout(
     private fun changeFirstChild(newSecondTop: Int) {
         val dy = mCurrentFirstChildRect.bottom - newSecondTop
         val multiple = (mCurrentFirstChildRect.height() - 2 * dy)/mOriginalFirstChildRect.height().toFloat()
-        if (multiple in 0F..1F) {
-            mFirstChild.alpha = multiple
-            mFirstChild.scaleX = multiple
-            mFirstChild.scaleY = multiple
-        }else if (multiple > 1F) {
-            mFirstChild.alpha = 1F
-            mFirstChild.scaleX = multiple
-            mFirstChild.scaleY = multiple
-        }else if (multiple < 0F) {
-            mFirstChild.alpha = 0F
-            mFirstChild.scaleX = 0F
-            mFirstChild.scaleY = 0F
+        when {
+            multiple in 0F..1F -> {
+                mFirstChild.alpha = multiple
+                mFirstChild.scaleX = multiple
+                mFirstChild.scaleY = multiple
+            }
+            multiple > 1F -> {
+                val decimals = multiple - multiple.toInt()
+                mFirstChild.alpha = 1F
+                mFirstChild.scaleX = multiple.toInt() + decimals/2
+                mFirstChild.scaleY = multiple.toInt() + decimals/2
+            }
+            multiple < 0F -> {
+                mFirstChild.alpha = 0F
+                mFirstChild.scaleX = 0F
+                mFirstChild.scaleY = 0F
+            }
         }
     }
     private fun changeOtherChild(newSecondTop: Int) {
@@ -299,6 +323,7 @@ class SlideUpLayout(
         }
     }
     private fun moveOver(newSecondTop: Int) {
+        if (newSecondTop < mOriginalFirstChildRect.centerY()) return
         val dy = mCurrentFirstChildRect.bottom - newSecondTop
         mCurrentFirstChildRect.top += dy
         mCurrentFirstChildRect.bottom -= dy
@@ -311,12 +336,11 @@ class SlideUpLayout(
         mIsAllowNonTouch = true // 结束
         if (mIsInterceptFastSlideUp) { return }
         if (mIsInterceptFastSlideDown) { return }
-        Log.d("123","(SlideUpLayout5.kt:263)-->> Over")
 
-        val halfY = mOriginalFirstChildRect.centerY() + mOriginalFirstChildRect.height()/4
+        val halfY = mOriginalFirstChildRect.bottom - mCanMoveHeight/2
         if (mSecondChild.top < halfY ) {
-            if (mSecondChild.top != mOriginalFirstChildRect.centerY()) {
-                slowlyAnimate(mSecondChild.top, mOriginalFirstChildRect.centerY()) { moveTo(it) }
+            if (mSecondChild.top != mOriginalFirstChildRect.bottom - mCanMoveHeight) {
+                slowlyAnimate(mSecondChild.top, mOriginalFirstChildRect.bottom - mCanMoveHeight) { moveTo(it) }
             }
         }else if (mSecondChild.top >= halfY) { // 此时回到展开状态
             if (mSecondChild.top != mOriginalFirstChildRect.bottom) {

@@ -1,14 +1,16 @@
 package com.mredrock.cyxbs.store.page.center.ui.activity
 
-import android.os.Bundle
-import android.view.View
-import androidx.recyclerview.widget.RecyclerView
+import   android.os.Bundle
 import androidx.viewpager2.widget.ViewPager2
 import com.alibaba.android.arouter.facade.annotation.Route
+import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayoutMediator
 import com.mredrock.cyxbs.common.config.STORE_CENTER
 import com.mredrock.cyxbs.common.ui.BaseViewModelActivity
 import com.mredrock.cyxbs.store.R
 import com.mredrock.cyxbs.store.base.SimpleRVAdapter
+import com.mredrock.cyxbs.store.page.center.ui.item.SmallShopItem
+import com.mredrock.cyxbs.store.page.center.ui.item.StampTaskItem
 import com.mredrock.cyxbs.store.page.center.viewmodel.StoreCenterViewModel
 
 /**
@@ -20,68 +22,40 @@ import com.mredrock.cyxbs.store.page.center.viewmodel.StoreCenterViewModel
 class StoreCenterActivity : BaseViewModelActivity<StoreCenterViewModel>() {
 
     private lateinit var mViewPager2: ViewPager2
+    private lateinit var mTabLayout: TabLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.store_activity_store_center)
         initView()
         initViewPager2()
+        initTabLayout()
     }
 
     private fun initView() {
-        mViewPager2 = findViewById(R.id.vp_stamp_center)
+        mViewPager2 = findViewById(R.id.store_vp_stamp_center)
     }
 
     private fun initViewPager2() {
         mViewPager2.adapter = SimpleRVAdapter(2)
-            .addItem(SmallShopItem())
+            .addItem(SmallShopItem(this))
             .addItem(StampTaskItem())
     }
+    
+    private fun initTabLayout() {
+        mTabLayout = findViewById(R.id.store_tl_stamp_center)
+        val tabs = listOf(
+            getString(R.string.store_stamp_center_small_shop),
+            getString(R.string.store_stamp_center_stamp_task)
+        )
+        TabLayoutMediator(
+            mTabLayout, mViewPager2
+        ) { tab, position -> tab.text = tabs[position] }.attach()
 
-    private class SmallShopItem : SimpleRVAdapter.VHItem<SmallShopItem.SmallShopVH>(
-        R.layout.store_item_small_shop
-    ) {
-        class SmallShopVH(itemView: View) : RecyclerView.ViewHolder(itemView)
-
-        override fun isInHere(position: Int): Boolean {
-            return position == 0
-        }
-
-        override fun getNewViewHolder(itemView: View): SmallShopVH {
-            return SmallShopVH(itemView)
-        }
-
-        override fun create(holder: SmallShopVH) {
-        }
-
-        override fun refactor(holder: SmallShopVH, position: Int) {
-
-        }
-
-        override fun refresh(holder: SmallShopVH, position: Int) {
-
-            super.refresh(holder, position)
-        }
-    }
-
-    private class StampTaskItem : SimpleRVAdapter.VHItem<StampTaskItem.StampShopTitleVH>(
-        R.layout.store_item_stamp_task
-    ) {
-        class StampShopTitleVH(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        }
-
-        override fun isInHere(position: Int): Boolean {
-            return position == 1
-        }
-
-        override fun getNewViewHolder(itemView: View): StampShopTitleVH {
-            return StampShopTitleVH(itemView)
-        }
-
-        override fun create(holder: StampShopTitleVH) {
-        }
-
-        override fun refactor(holder: StampShopTitleVH, position: Int) {
+        val tab = mTabLayout.getTabAt(1)
+        if (tab != null) {
+            val badge = tab.orCreateBadge
+            badge.backgroundColor = 0xFF6D68FF.toInt()
         }
     }
 }

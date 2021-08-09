@@ -8,66 +8,75 @@
     </data>
 
     <androidx.cardview.widget.CardView
-        android:layout_width="167dp"
-        android:layout_height="237dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="6dp"
         app:cardCornerRadius="8dp"
-        android:layout_margin="2dp">
+        app:cardElevation="2px"
+        tools:ignore="PxUsage">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
             <ImageView
-                android:id="@+id/store_imageview2"
+                android:id="@+id/store_iv_small_shop_product"
                 android:layout_width="match_parent"
-                android:layout_height="145dp"
-                android:src="@drawable/store_bg_stamp_center_product_example"
+                android:layout_height="0dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/img_product_example"
+                app:layout_constraintDimensionRatio="12:10"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:ignore="ContentDescription" />
 
             <TextView
-                android:id="@+id/store_textview4"
+                android:id="@+id/store_tv_small_shop_product_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="别看了，没货！"
+                android:text="给个工作吧!"
                 android:textColor="#15315B"
                 android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/store_imageview2"
+                app:layout_constraintTop_toBottomOf="@+id/store_iv_small_shop_product"
                 tools:ignore="HardcodedText" />
 
             <TextView
-                android:id="@+id/store_textview5"
+                android:id="@+id/store_tv_small_shop_product_stock"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
                 android:layout_marginTop="2dp"
-                android:alpha="0.7"
+                android:alpha="0.4"
                 android:text="库存：-∞"
                 android:textColor="#15315B"
                 android:textSize="12sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/store_textview4"
+                app:layout_constraintTop_toBottomOf="@+id/store_tv_small_shop_product_name"
                 tools:ignore="HardcodedText" />
 
             <TextView
+                android:id="@+id/store_tv_small_shop_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
-                android:layout_marginBottom="18dp"
-                android:drawableStart="@drawable/store_ic_stamp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="16dp"
                 android:text="+∞"
                 android:textColor="#5177FF"
                 android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                tools:ignore="HardcodedText" />
+                app:layout_constraintTop_toBottomOf="@+id/store_tv_small_shop_product_stock"
+                app:layout_constraintVertical_bias="1.0"
+                app:drawableStartCompat="@drawable/store_ic_stamp"
+                tools:ignore="HardcodedText"/>
 
             <Button
+                android:id="@+id/store_btn_small_shop_product_exchange"
                 android:layout_width="48dp"
                 android:layout_height="26dp"
                 android:layout_marginEnd="12dp"
@@ -78,7 +87,8 @@
                 android:textSize="14dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                tools:ignore="HardcodedText,SpUsage" />
+                tools:ignore="HardcodedText,SpUsage"
+                style="?android:attr/borderlessButtonStyle"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

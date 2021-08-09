@@ -174,7 +174,7 @@ class SimpleRVAdapter(
     }
 
     /**
-     * 更高效的自动判断刷新方式的刷新
+     * 更高效的自动判断刷新方式的刷新 ***(调用该刷新后的回调必须实现 item 中的 refresh() 方法)***
      *
      * 本方法使用了谷歌官方的 DiffUtil 来自动判断刷新方式替代 notifyDataSetChanged() 刷新
      *
@@ -215,6 +215,9 @@ class SimpleRVAdapter(
         itemCount = newItemCount
     }
 
+    /**
+     * 单个 item 刷新,  ***(调用该刷新后的回调必须实现 Item 中的 refresh() 方法)***
+     */
     fun refreshItem(position: Int) {
         // payload 传入不为 null 都可以
         notifyItemChanged(position, "")
