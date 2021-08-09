@@ -1,10 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!--    邮票中心界面泛用式分割线颜色-->
+    <!--    邮票商城界面泛用式分割线颜色-->
     <color name="store_common_divide_line">#1A2A4E84</color>
 
-    <!--    邮票中心界面通用标题颜色-->
+    <!--    邮票商城界面通用标题颜色-->
     <color name="store_common_title">#15315B</color>
+
+    <!--    邮票中心界面背景颜色-->
+    <color name="store_stamp_center_background">#F2F3F8</color>
+    <color name="store_stamp_center_my_stamp_character">#FFFFFF</color>
+    <color name="store_stamp_center_my_stamp_number">#FFFFFF</color>
+    <color name="store_stamp_center_get_remind">#FFFFFF</color>
+    <color name="store_stamp_center_cardView_background">#FBFCFF</color>
 
     <!--    邮票明细界面相关颜色-->
     <color name="store_stamp_detail_common_text">#15315B</color>

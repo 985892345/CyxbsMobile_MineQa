@@ -57,7 +57,7 @@ class UserFragment : BaseViewModelFragment<UserViewModel>() {
             mine_main_fm_about_us.setOnSingleClickListener { doIfLogin { startActivity<AboutActivity>() } }
 //            mine_main_fm_point_store.setOnClickListener { doIfLogin { DailySignActivity.actionStart(this, BottomSheetBehavior.STATE_EXPANDED) } }
 
-            mine_main_fm_point_store.setOnClickListener { jump(STORE_STAMP_DETAIL) }
+            mine_main_fm_point_store.setOnClickListener { jump(STORE_CENTER) }
 
             mine_main_tv_sign.setOnClickListener { doIfLogin { DailySignActivity.actionStart(this, BottomSheetBehavior.STATE_COLLAPSED) } }
             mine_main_tv_dynamic_number.setOnSingleClickListener { doIfLogin { jump(QA_DYNAMIC_MINE) } }

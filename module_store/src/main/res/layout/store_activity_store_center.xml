@@ -4,6 +4,145 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.mredrock.cyxbs.store.page.center.activity.StoreCenterActivity">
+    android:orientation="vertical"
+    android:background="@color/store_stamp_center_background"
+    tools:context="com.mredrock.cyxbs.store.page.center.ui.activity.StoreCenterActivity">
+
+    <include
+        android:id="@+id/store_toolbar_stamp_detail"
+        layout="@layout/store_common_toolbar_no_line" />
+
+    <TextView
+        android:id="@+id/store_tv_stamp_center_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintVertical_bias="0.06821"
+        app:layout_constraintHorizontal_bias="0.09867"
+        android:text="@string/store_stamp_center"
+        android:textColor="@color/store_common_title"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.mredrock.cyxbs.store.utils.widget.SlideUpLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="92dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="170dp">
+
+            <ImageView
+                android:id="@+id/store_imageview"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/store_bg_stamp_center_my_stamp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="ContentDescription" />
+
+            <TextView
+                android:id="@+id/store_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="43dp"
+                android:text="@string/store_stamp_center_my_stamp"
+                android:textColor="@color/store_stamp_center_my_stamp_character"
+                android:textSize="12dp"
+                app:layout_constraintStart_toStartOf="@+id/store_imageview"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="SpUsage" />
+
+            <TextView
+                android:id="@+id/store_textview2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/store_my_stamp_number"
+                android:text="999999"
+                android:textColor="@color/store_stamp_center_my_stamp_number"
+                android:textSize="45dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/store_textview"
+                app:layout_constraintTop_toTopOf="@+id/store_textview"
+                app:layout_constraintVertical_bias="0.13999999"
+                tools:ignore="HardcodedText,SpUsage" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:fontFamily="@font/store_my_stamp_number"
+                android:text="@string/store_stamp_center_get_remind"
+                android:textSize="12dp"
+                android:textColor="@color/store_stamp_center_get_remind"
+                android:alpha="0.9"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/store_imageview"
+                app:layout_constraintTop_toBottomOf="@+id/store_textview2"
+                app:layout_constraintVertical_bias="0.41000003"
+                tools:ignore="SpUsage" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tl_stamp_center"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            app:tabBackground="@color/common_transparent_background"
+            app:tabGravity="fill"
+            app:tabIndicator="@drawable/store_ic_tab_indicator"
+            app:tabIndicatorColor="@color/common_mine_tab_layout_indicator_color"
+            app:tabIndicatorFullWidth="false"
+            app:tabIndicatorHeight="3dp"
+            app:tabMode="fixed"
+            app:tabRippleColor="@color/common_transparent_background"
+            app:tabSelectedTextColor="@color/common_level_two_font_color"
+            app:tabTextAppearance="@style/tab_style"
+            app:tabTextColor="@color/common_alpha_level_two_font_color" />
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/store_stamp_center_cardView_background"
+            app:cardCornerRadius="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/tl_stamp_center"
+            app:layout_constraintStart_toStartOf="@+id/tl_stamp_center"
+            app:layout_constraintTop_toBottomOf="@+id/tl_stamp_center">
+
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/vp_stamp_center"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="16dp"/>
+
+        </androidx.cardview.widget.CardView>
+
+    </com.mredrock.cyxbs.store.utils.widget.SlideUpLayout>
+
+    <!--下面的 View 用于遮挡底部-->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="16dp"
+        android:background="@color/store_stamp_center_cardView_background"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

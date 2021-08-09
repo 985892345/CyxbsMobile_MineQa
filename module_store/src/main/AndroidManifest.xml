@@ -5,7 +5,7 @@
     <application
         android:theme="@style/AppTheme">
         <activity android:name=".page.record.ui.activity.ExchangeDetailActivity" />
-        <activity android:name=".page.center.activity.StoreCenterActivity" />
+        <activity android:name=".page.center.ui.activity.StoreCenterActivity" />
         <activity android:name=".page.record.ui.activity.StampDetailActivity" />
         <activity android:name=".page.exchange.ui.activity.ProductExchangeActivity" />
     </application>
