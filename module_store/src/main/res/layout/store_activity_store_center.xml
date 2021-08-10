@@ -28,7 +28,34 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <com.mredrock.cyxbs.store.utils.widget.AppearLayout
+        android:id="@+id/store_gradualColorLayout_stamp_center"
+        android:layout_width="wrap_content"
+        android:layout_height="27dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/store_shape_stamp_center_right_top_stamp"
+        app:bgColor="@color/store_stamp_center_background"
+        app:layout_constraintBottom_toBottomOf="@+id/store_tv_stamp_center_title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/store_tv_stamp_center_title">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="12dp"
+            android:fontFamily="@font/store_din_medium"
+            android:text="999"
+            android:textColor="#E9F2FB"
+            android:textSize="19dp"
+            app:drawableStartCompat="@drawable/store_ic_stamp"
+            tools:ignore="HardcodedText,SpUsage" />
+
+    </com.mredrock.cyxbs.store.utils.widget.AppearLayout>
+
     <com.mredrock.cyxbs.store.utils.widget.SlideUpLayout
+        android:id="@+id/store_slideUpLayout_stamp_center"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="92dp"

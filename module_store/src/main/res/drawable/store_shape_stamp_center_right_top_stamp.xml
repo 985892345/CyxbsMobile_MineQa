@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="rectangle">
-    <corners android:radius="27dp" />
-    <solid android:color="@color/store_btn_product_exchange"/>
+    <corners android:radius="16dp" />
+    <solid android:color="@color/store_stamp_center_left_top_stamp"/>
 </shape>

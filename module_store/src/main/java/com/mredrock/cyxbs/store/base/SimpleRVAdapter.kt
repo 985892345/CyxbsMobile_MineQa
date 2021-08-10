@@ -225,14 +225,15 @@ class SimpleRVAdapter(
 
     private val mLayoutIdWithCallback = HashMap<Int, Callback>() // LayoutId 与 CallBack 的对应关系
 
-    override fun onCreateViewHolder(parent: ViewGroup, layoutId: Int): RecyclerView.ViewHolder {
-        val callBack = mLayoutIdWithCallback[layoutId]
+    override fun onCreateViewHolder(parent: ViewGroup, layoutIdOrPosition: Int): RecyclerView.ViewHolder {
+        val callBack = mLayoutIdWithCallback[layoutIdOrPosition]
         if (callBack != null) {
             val viewHolder = callBack.createNewViewHolder(parent)
             callBack.create(viewHolder) // 在这里用于设置你在 create 接口中的点击监听或其他只用设置一次的东西
             return viewHolder
         }
-        throw RuntimeException("这是一个不可能会发生的报错, 原因在于你使用的 SimpleRvAdapter 的某个 layoutId 被修改")
+        throw RuntimeException("找不到 $layoutIdOrPosition 位置的 Item, 请检查 Item 中的 isInHere() 方法!" +
+                "  相信我绝对不是我的问题, 是你的 Item 没有设置完!")
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
@@ -272,7 +273,7 @@ class SimpleRVAdapter(
                 return map.value.item.layoutId
             }
         }
-        return 0
+        return position
     }
 
     class BindingVH(val binding: ViewDataBinding) : RecyclerView.ViewHolder(binding.root)
@@ -374,6 +375,8 @@ class SimpleRVAdapter(
         /**
          * 在 item 创建时的回调, 建议在此处进行一些只需进行一次的操作, 如: 设置点击监听、设置用于 item 整个生命周期的对象
          *
+         * **WARNING:** ***禁止在这里使用 kotlin 的扩展插件只使用 layoutId 得到 View***
+         *
          * **WARNING:** 在该方法中并**不能直接得到当前 item 的 position**, 但对于设置**点击事件等回调除外**,
          * 对于点击事件, 它本身是一种回调, 可以在回调时通过 holder 得到 position, 此时 item 已经被加载
          *
@@ -421,6 +424,8 @@ class SimpleRVAdapter(
 
         /**
          * 在 item 创建时的回调, 建议在此处进行一些只需进行一次的操作, 如: 设置点击监听、设置用于 item 整个生命周期的对象
+         *
+         * **WARNING:** ***禁止在这里使用 kotlin 的扩展插件只使用 layoutId 得到 View***
          *
          * **WARNING:** 在该方法中并**不能直接得到当前 item 的 position**, 但对于设置**点击事件等回调除外**,
          * 对于点击事件, 它本身是一种回调, 可以在回调时通过 holder 得到 position, 此时 item 已经被加载

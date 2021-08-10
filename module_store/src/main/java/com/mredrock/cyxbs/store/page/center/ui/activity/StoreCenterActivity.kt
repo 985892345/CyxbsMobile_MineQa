@@ -12,6 +12,8 @@ import com.mredrock.cyxbs.store.base.SimpleRVAdapter
 import com.mredrock.cyxbs.store.page.center.ui.item.SmallShopItem
 import com.mredrock.cyxbs.store.page.center.ui.item.StampTaskItem
 import com.mredrock.cyxbs.store.page.center.viewmodel.StoreCenterViewModel
+import com.mredrock.cyxbs.store.utils.widget.AppearLayout
+import com.mredrock.cyxbs.store.utils.widget.SlideUpLayout
 
 /**
  * @author 985892345 (Guo Xiangrui)
@@ -30,6 +32,7 @@ class StoreCenterActivity : BaseViewModelActivity<StoreCenterViewModel>() {
         initView()
         initViewPager2()
         initTabLayout()
+        initSlideUpLayoutWithLeftTopStamp()
     }
 
     private fun initView() {
@@ -56,6 +59,14 @@ class StoreCenterActivity : BaseViewModelActivity<StoreCenterViewModel>() {
         if (tab != null) {
             val badge = tab.orCreateBadge
             badge.backgroundColor = 0xFF6D68FF.toInt()
+        }
+    }
+
+    private fun initSlideUpLayoutWithLeftTopStamp() {
+        val slideUpLayout: SlideUpLayout = findViewById(R.id.store_slideUpLayout_stamp_center)
+        val appearLayout: AppearLayout = findViewById(R.id.store_gradualColorLayout_stamp_center)
+        slideUpLayout.setMoveListener {
+            appearLayout.setMultiple(1 - it)
         }
     }
 }

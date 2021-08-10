@@ -1,12 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <declare-styleable name="EventIndicatorView" tools:ignore="ResourceName">
-        <attr name="eventCount" format="integer" />
-        <attr name="roundRadius" format="float" />
-        <attr name="topColor" format="reference" />
-        <attr name="underColor" format="reference" />
-    </declare-styleable>
-
     <declare-styleable name="ProgressDotView" tools:ignore="ResourceName">
         <attr name="dotCount" format="integer"/>
         <attr name="unSelectedColor" format="reference"/>
@@ -14,5 +7,10 @@
         <attr name="dotRadius" format="float"/>
         <attr name="circleZoom" format="float"/>
         <attr name="leftCircleCanMovePosition" format="float"/>
+    </declare-styleable>
+
+    <declare-styleable name="GradualColorLayout" tools:ignore="ResourceName">
+        <!--背景颜色-->
+        <attr name="bgColor" format="color"/>
     </declare-styleable>
 </resources>
