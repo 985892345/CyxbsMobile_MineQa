@@ -101,7 +101,7 @@
                 tools:ignore="SpUsage" />
 
             <TextView
-                android:id="@+id/store_textview3"
+                android:id="@+id/store_tv_stamp_center_detail"
                 android:layout_width="36dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"

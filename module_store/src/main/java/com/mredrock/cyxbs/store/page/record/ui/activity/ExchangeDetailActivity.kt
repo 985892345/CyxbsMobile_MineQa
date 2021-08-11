@@ -1,8 +1,6 @@
 package com.mredrock.cyxbs.store.page.record.ui.activity
 
 import android.os.Bundle
-import com.alibaba.android.arouter.facade.annotation.Route
-import com.mredrock.cyxbs.common.config.STORE_EXCHANGE_DETAIL
 import com.mredrock.cyxbs.common.ui.BaseActivity
 import com.mredrock.cyxbs.store.databinding.StoreActivityExchangeDetailBinding
 import kotlinx.android.synthetic.main.store_common_toolbar_no_line.*
@@ -12,8 +10,6 @@ import kotlinx.android.synthetic.main.store_common_toolbar_no_line.*
  *    e-mail : 1140143252@qq.com
  *    date   : 2021/8/4 11:39
  */
-
-@Route(path = STORE_EXCHANGE_DETAIL)
 class ExchangeDetailActivity : BaseActivity() {
     private lateinit var dataBinding: StoreActivityExchangeDetailBinding
     override fun onCreate(savedInstanceState: Bundle?) {

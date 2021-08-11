@@ -1,6 +1,8 @@
 package com.mredrock.cyxbs.store.page.center.ui.activity
 
-import   android.os.Bundle
+import android.os.Bundle
+import android.widget.ImageButton
+import android.widget.TextView
 import androidx.viewpager2.widget.ViewPager2
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.google.android.material.tabs.TabLayout
@@ -12,6 +14,7 @@ import com.mredrock.cyxbs.store.base.SimpleRVAdapter
 import com.mredrock.cyxbs.store.page.center.ui.item.SmallShopItem
 import com.mredrock.cyxbs.store.page.center.ui.item.StampTaskItem
 import com.mredrock.cyxbs.store.page.center.viewmodel.StoreCenterViewModel
+import com.mredrock.cyxbs.store.page.record.ui.activity.StampDetailActivity
 import com.mredrock.cyxbs.store.utils.widget.AppearLayout
 import com.mredrock.cyxbs.store.utils.widget.SlideUpLayout
 
@@ -33,6 +36,7 @@ class StoreCenterActivity : BaseViewModelActivity<StoreCenterViewModel>() {
         initViewPager2()
         initTabLayout()
         initSlideUpLayoutWithLeftTopStamp()
+        initJumpActivity()
     }
 
     private fun initView() {
@@ -41,7 +45,7 @@ class StoreCenterActivity : BaseViewModelActivity<StoreCenterViewModel>() {
 
     private fun initViewPager2() {
         mViewPager2.adapter = SimpleRVAdapter(2)
-            .addItem(SmallShopItem(this))
+            .addItem(SmallShopItem())
             .addItem(StampTaskItem())
     }
     
@@ -67,6 +71,19 @@ class StoreCenterActivity : BaseViewModelActivity<StoreCenterViewModel>() {
         val appearLayout: AppearLayout = findViewById(R.id.store_gradualColorLayout_stamp_center)
         slideUpLayout.setMoveListener {
             appearLayout.setMultiple(1 - it)
+        }
+    }
+
+    private fun initJumpActivity() {
+
+        val btnBack: ImageButton = findViewById(R.id.store_iv_toolbar_no_line_arrow_left)
+        btnBack.setOnClickListener {
+            finish()
+        }
+
+        val tvDetail: TextView = findViewById(R.id.store_tv_stamp_center_detail)
+        tvDetail.setOnClickListener {
+            startActivity<StampDetailActivity>()
         }
     }
 }

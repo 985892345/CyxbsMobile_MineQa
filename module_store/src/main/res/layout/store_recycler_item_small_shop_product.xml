@@ -8,6 +8,7 @@
     </data>
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/store_cv_stamp_small_shop"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="6dp"
@@ -25,7 +26,6 @@
                 android:layout_height="0dp"
                 android:scaleType="centerCrop"
                 android:transitionName="productImage"
-                android:src="@drawable/img_product_example"
                 app:layout_constraintDimensionRatio="12:10"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -68,7 +68,8 @@
                 android:layout_marginStart="12dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="16dp"
-                android:text="+∞"
+                android:gravity="bottom"
+                android:text="999"
                 android:textColor="#5177FF"
                 android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -78,13 +79,15 @@
                 app:drawableStartCompat="@drawable/store_ic_stamp"
                 tools:ignore="HardcodedText"/>
 
-            <ImageView
+            <!---->
+            <TextView
                 android:id="@+id/store_btn_small_shop_product_exchange"
                 android:layout_width="48dp"
                 android:layout_height="26dp"
                 android:layout_marginEnd="12dp"
                 android:layout_marginBottom="12dp"
                 android:background="@drawable/store_btn_exchange"
+                android:gravity="center"
                 android:text="兑换"
                 android:transitionName="exchange"
                 android:textColor="#FFFFFF"

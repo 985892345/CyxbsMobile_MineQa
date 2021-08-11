@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.mredrock.cyxbs.store.R
 import com.mredrock.cyxbs.store.base.SimpleRVAdapter
+import com.mredrock.cyxbs.common.BaseApp.Companion.context
 
 /**
  * ...
@@ -15,9 +16,7 @@ import com.mredrock.cyxbs.store.base.SimpleRVAdapter
  * @email 2767465918@qq.com
  * @data 2021/8/9
  */
-class SmallShopItem(
-    private val fragmentActivity: FragmentActivity
-) : SimpleRVAdapter.VHItem<SmallShopItem.SmallShopVH>(
+class SmallShopItem : SimpleRVAdapter.VHItem<SmallShopItem.SmallShopVH>(
     R.layout.store_item_small_shop
 ) {
     class SmallShopVH(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -33,7 +32,7 @@ class SmallShopItem(
     }
 
     override fun create(holder: SmallShopVH) {
-        val layoutManager = GridLayoutManager(fragmentActivity, 2)
+        val layoutManager = GridLayoutManager(context, 2)
         layoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
             override fun getSpanSize(position: Int): Int = if (position == 0) 2 else 1
         }
@@ -41,13 +40,13 @@ class SmallShopItem(
         holder.recyclerView.layoutAnimation =
             LayoutAnimationController(
                 AnimationUtils.loadAnimation(
-                    holder.recyclerView.context,
+                    context,
                     R.anim.store_product_fade_in
                 )
             )
         holder.recyclerView.adapter = SimpleRVAdapter(10)
             .addItem(SmallShopTitleItem(listOf("装扮")))
-            .addItem(SmallShopProductItem(fragmentActivity))
+            .addItem(SmallShopProductItem())
         holder.recyclerView.overScrollMode
     }
 

@@ -2,16 +2,10 @@ package com.mredrock.cyxbs.store.page.exchange.ui.activity
 
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
 import android.os.Bundle
 import android.view.View
-import android.view.Window
 import androidx.activity.result.contract.ActivityResultContract
 import androidx.viewpager2.widget.ViewPager2
-import com.alibaba.android.arouter.facade.annotation.Route
-import com.google.android.material.transition.platform.MaterialContainerTransform
-import com.google.android.material.transition.platform.MaterialContainerTransformSharedElementCallback
-import com.mredrock.cyxbs.common.config.STORE_PRODUCT_EXCHANGE
 import com.mredrock.cyxbs.common.ui.BaseViewModelActivity
 import com.mredrock.cyxbs.store.R
 import com.mredrock.cyxbs.store.base.SimpleRVAdapter
@@ -28,8 +22,6 @@ import kotlinx.android.synthetic.main.store_common_toolbar.*
  *    e-mail : 1140143252@qq.com
  *    date   : 2021/8/2 11:55
  */
-
-@Route(path = STORE_PRODUCT_EXCHANGE)
 class ProductExchangeActivity : BaseViewModelActivity<ProductExchangeViewModel>() {
     companion object {
         //配置商品图片的元素共享动画
@@ -74,7 +66,6 @@ class ProductExchangeActivity : BaseViewModelActivity<ProductExchangeViewModel>(
         initAdapter()
         initView()
         initData()
-
     }
 
     private fun initView() {

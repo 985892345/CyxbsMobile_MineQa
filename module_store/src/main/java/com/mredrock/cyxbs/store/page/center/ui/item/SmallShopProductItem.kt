@@ -1,12 +1,10 @@
 package com.mredrock.cyxbs.store.page.center.ui.item
 
-import android.app.ActivityOptions
 import android.content.Intent
-import androidx.fragment.app.FragmentActivity
-import com.bumptech.glide.Glide
+import com.mredrock.cyxbs.common.BaseApp.Companion.context
 import com.mredrock.cyxbs.common.utils.extensions.onClick
+import com.mredrock.cyxbs.common.utils.extensions.setImageFromUrl
 import com.mredrock.cyxbs.store.R
-import android.util.Pair as UtilPair
 import com.mredrock.cyxbs.store.base.SimpleRVAdapter
 import com.mredrock.cyxbs.store.databinding.StoreRecyclerItemSmallShopProductBinding
 import com.mredrock.cyxbs.store.page.exchange.ui.activity.ProductExchangeActivity
@@ -17,9 +15,7 @@ import com.mredrock.cyxbs.store.page.exchange.ui.activity.ProductExchangeActivit
  * @email 2767465918@qq.com
  * @data 2021/8/9
  */
-class SmallShopProductItem(
-    private val fragmentActivity: FragmentActivity
-) : SimpleRVAdapter.DBItem<StoreRecyclerItemSmallShopProductBinding>(
+class SmallShopProductItem : SimpleRVAdapter.DBItem<StoreRecyclerItemSmallShopProductBinding>(
     R.layout.store_recycler_item_small_shop_product
 ) {
     override fun isInHere(position: Int): Boolean {
@@ -42,8 +38,8 @@ class SmallShopProductItem(
 //            val options = ActivityOptions.makeSceneTransitionAnimation(fragmentActivity,
 //                    UtilPair.create(binding.storeCvStampSmallShop,"productDetail")
 //            )
-           val intent=Intent(fragmentActivity,ProductExchangeActivity::class.java)
-            fragmentActivity.startActivity(intent)
+            val intent = Intent(context, ProductExchangeActivity::class.java)
+            context.startActivity(intent)
         }
     }
 
@@ -53,19 +49,10 @@ class SmallShopProductItem(
         position: Int
     ) {
         val correctPosition = getCorrectPosition(position)
-//        binding.storeIvSmallShopProduct.setImageDrawable(
-//            ContextCompat.getDrawable(
-//                fragmentActivity,
-//                R.drawable.img_product_example
-//            )
-//        )
-        Glide
-            .with(fragmentActivity)
-            .load("http://hakaimg.com/i/2021/08/09/nr64i7.jpg")
-            .into(binding.storeIvSmallShopProduct)
+        binding.storeIvSmallShopProduct.setImageFromUrl("http://hakaimg.com/i/2021/08/09/nr64i7.jpg")
     }
 
-    fun getCorrectPosition(position: Int): Int {
+    private fun getCorrectPosition(position: Int): Int {
         return position - 1
     }
 }

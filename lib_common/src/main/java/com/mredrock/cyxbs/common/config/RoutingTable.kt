@@ -46,12 +46,6 @@ const val MINE_BIND_EMAIL = "/bind_email/mine/entry"
 
 //邮票中心页
 const val STORE_CENTER="/center/store/entry"
-//邮票中心商品兑换页
-const val STORE_PRODUCT_EXCHANGE="/product_exchange/store/entry"
-//邮票明细页
-const val STORE_STAMP_DETAIL="/stamp_detail/store/entry"
-//兑换详细界面
-const val STORE_EXCHANGE_DETAIL="/exchange_detail/store/entry"
 
 
 // NoCourseInviteActivity
