@@ -23,31 +23,6 @@ import kotlinx.android.synthetic.main.store_common_toolbar.*
  *    date   : 2021/8/2 11:55
  */
 class ProductExchangeActivity : BaseViewModelActivity<ProductExchangeViewModel>() {
-    companion object {
-        //配置商品图片的元素共享动画
-//        fun activityStart(page: Any?, data: XXBean, vararg sharedElements: Pair<View, String>) {
-//            page.apply {
-//                var activity: Activity? = null
-//                var fragment: Fragment? = null
-//                if (page is Fragment) {
-//                    fragment = page
-//                    activity = page.activity
-//                } else if (page is Activity) {
-//                    activity = page
-//                }
-//                activity?.let { it ->
-//                    val options = ActivityOptions.makeSceneTransitionAnimation(it, *sharedElements)
-//                    val intent = Intent(it, ProductExchangeActivity::class.java)
-//                    intent.putExtra("productDetail", data)
-//                    if (fragment != null) {
-//                        fragment.startActivity(intent, options.toBundle())
-//                    } else {
-//                        it.startActivity(intent, options.toBundle())
-//                    }
-//                }
-//            }
-//        }
-    }
 
     private var mImageViewPagerAdapter: SimpleRVAdapter? = null
     private lateinit var dataBinding: StoreActivityProductExchengeBinding

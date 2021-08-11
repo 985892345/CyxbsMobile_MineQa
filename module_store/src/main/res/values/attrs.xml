@@ -2,8 +2,8 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <declare-styleable name="ProgressDotView" tools:ignore="ResourceName">
         <attr name="dotCount" format="integer"/>
-        <attr name="unSelectedColor" format="reference"/>
-        <attr name="selectedColor" format="reference"/>
+        <attr name="unSelectedColor" format="color"/>
+        <attr name="selectedColor" format="color"/>
         <attr name="dotRadius" format="float"/>
         <attr name="circleZoom" format="float"/>
         <attr name="leftCircleCanMovePosition" format="float"/>

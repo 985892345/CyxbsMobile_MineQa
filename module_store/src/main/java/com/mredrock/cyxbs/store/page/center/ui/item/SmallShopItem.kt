@@ -16,9 +16,7 @@ import com.mredrock.cyxbs.common.BaseApp.Companion.context
  * @email 2767465918@qq.com
  * @data 2021/8/9
  */
-class SmallShopItem(
-    private val fragmentActivity: FragmentActivity
-) : SimpleRVAdapter.VHItem<SmallShopItem.SmallShopVH>(
+class SmallShopItem : SimpleRVAdapter.VHItem<SmallShopItem.SmallShopVH>(
     R.layout.store_item_small_shop
 ) {
     class SmallShopVH(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -48,7 +46,7 @@ class SmallShopItem(
             )
         holder.recyclerView.adapter = SimpleRVAdapter(10)
             .addItem(SmallShopTitleItem(listOf("装扮")))
-            .addItem(SmallShopProductItem(fragmentActivity))
+            .addItem(SmallShopProductItem())
         holder.recyclerView.overScrollMode
     }
 

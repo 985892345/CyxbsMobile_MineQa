@@ -45,7 +45,7 @@ class StoreCenterActivity : BaseViewModelActivity<StoreCenterViewModel>() {
 
     private fun initViewPager2() {
         mViewPager2.adapter = SimpleRVAdapter(2)
-            .addItem(SmallShopItem(this))
+            .addItem(SmallShopItem())
             .addItem(StampTaskItem())
     }
     
@@ -75,7 +75,6 @@ class StoreCenterActivity : BaseViewModelActivity<StoreCenterViewModel>() {
     }
 
     private fun initJumpActivity() {
-
         val btnBack: ImageButton = findViewById(R.id.store_iv_toolbar_no_line_arrow_left)
         btnBack.setOnClickListener {
             finish()

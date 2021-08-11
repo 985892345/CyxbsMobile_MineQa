@@ -19,21 +19,40 @@ import com.mredrock.cyxbs.store.R
  *    根据View宽度、圆点个数与半径自动均分圆点间隔
  */
 class ProgressDotView : View {
+
+    /**
+     *
+     */
+    fun updatePosition(position: Int) {
+        mPosition = position
+        invalidate()
+    }
+
+    /**
+     *
+     */
+    fun updatePosition(position: Int, progress: Float) {
+        mPosition = position
+        mProgress = progress
+        invalidate()
+    }
+
     private var mRadius = 3f //圆点半径 dp
     private var mInterval = 0f //两圆间隔
     private var mCircleCenterInterval = 0f //两相邻圆圆心间隔
     private var mDotCount = 3 //圆点个数
-    private var mUnselectedColor = R.color.store_progress_dot_unselected //未选中的圆点颜色
-    private var mSelectedColor = R.color.store_progress_dot_selected //选中的圆点颜色
+    private var mUnselectedColor = 0xFFC4C4C4.toInt() //未选中的圆点颜色
+    private var mSelectedColor = 0xFFFFFFFF.toInt() //选中的圆点颜色
     private var mUnselectedDotPaint = Paint() //未选中圆点画笔
     private var mSelectedDotPaint = Paint() //选中圆点画笔
     private var mPathPaint = Paint() //移动路径画笔
     private var mPath = Path() //移动路径
     private var mPosition = 0 //当前选中的位置 从0开始
-    private var mProgress = 0f //页面由一个到另一个的进度
 
+    private var mProgress = 0f //页面由一个到另一个的进度
     constructor(context: Context) : this(context, null)
     constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
+
     constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
         //获取相关属性
         initAttrs(context, attrs)
@@ -68,17 +87,18 @@ class ProgressDotView : View {
 
     private fun initAttrs(context: Context, attrs: AttributeSet?) {
         val a = context.obtainStyledAttributes(attrs, R.styleable.ProgressDotView)
-        mRadius = a.getFloat(R.styleable.ProgressDotView_dotRadius, 3f)
+        mRadius = a.getFloat(R.styleable.ProgressDotView_dotRadius, mRadius)
         mRadius = context.dp2px(mRadius).toFloat()
-        mDotCount = a.getInt(R.styleable.ProgressDotView_dotCount, 3)
-        mUnselectedColor = a.getResourceId(R.styleable.ProgressDotView_unSelectedColor, R.color.store_progress_dot_unselected)
-        mSelectedColor = a.getResourceId(R.styleable.ProgressDotView_selectedColor, R.color.store_progress_dot_selected)
+        mDotCount = a.getInt(R.styleable.ProgressDotView_dotCount, mDotCount)
+        mUnselectedColor = a.getColor(R.styleable.ProgressDotView_unSelectedColor, mUnselectedColor)
+        mSelectedColor = a.getColor(R.styleable.ProgressDotView_selectedColor, mSelectedColor)
         mZoom = a.getFloat(R.styleable.ProgressDotView_circleZoom, 0.4f)
-        mLeftCircleCanMovePosition = a.getFloat(R.styleable.ProgressDotView_leftCircleCanMovePosition, 0.5f)
+        mLeftCircleCanMovePosition = a.getFloat(R.styleable.ProgressDotView_leftCircleCanMovePosition,
+            mLeftCircleCanMovePosition)
         a.recycle()
     }
 
-    override fun onDraw(canvas: Canvas?) {
+    override fun onDraw(canvas: Canvas) {
         //计算间距
         initInterval()
         //绘制点
@@ -88,7 +108,6 @@ class ProgressDotView : View {
             drawPath(canvas)
         }
     }
-
     private var mStartX = 0f //移动前起始圆点圆心X坐标
     private var mEndX = 0f //移动后最终点圆心X坐标
     private var mLeftX = 0f //移动时左圆的X坐标值
@@ -98,24 +117,22 @@ class ProgressDotView : View {
     private var mRightCircleRadius = 0f //右圆的实时半径
     private var mZoom = 0.4f //左圆缩放mZoom后开始移动 右圆放大到(1-mZoom)后刚好移动到mEnd
     private var mLeftCircleCanMovePosition = 0.5f //当mProgress大于该值时 左圆缩放mZoom完毕 开始移动
+
     private var mIsEnd = false //是否达到最后一页
 
-    private fun drawDot(canvas: Canvas?) {
+    private fun drawDot(canvas: Canvas) {
         mStartX = mRadius + mPosition * mRadius * 2 + mPosition * mInterval
         mEndX = mStartX + mCircleCenterInterval
         mLeftX = mStartX
         mRightX = mStartX
         mY = measuredHeight / 2f
 
-        if (canvas != null) {
-            //初始化Dot 此时未滑动
-            initDot(canvas)
+        //初始化Dot 此时未滑动
+        initDot(canvas)
 
-            //在外面设置了mProgress才绘制移动过程的圆
-            if (mProgress != 0f) {
-                drawMoveCircle(canvas)
-            }
-
+        //在外面设置了mProgress才绘制移动过程的圆
+        if (mProgress != 0f) {
+            drawMoveCircle(canvas)
         }
     }
 
@@ -190,16 +207,5 @@ class ProgressDotView : View {
 
         //返回此时圆的半径
         return mRadius * (1 + changeProportionRadius)
-    }
-
-    fun updatePosition(position: Int) {
-        mPosition = position
-        invalidate()
-    }
-
-    fun updatePosition(position: Int, progress: Float) {
-        mPosition = position
-        mProgress = progress
-        invalidate()
     }
 }
