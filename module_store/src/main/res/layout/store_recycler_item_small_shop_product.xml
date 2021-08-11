@@ -24,6 +24,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:scaleType="centerCrop"
+                android:transitionName="productImage"
                 android:src="@drawable/img_product_example"
                 app:layout_constraintDimensionRatio="12:10"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -36,10 +37,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="给个工作吧!"
+                android:layout_marginStart="12dp"
+                android:text="小米充电宝"
                 android:textColor="#15315B"
                 android:textSize="14sp"
-                app:layout_constraintEnd_toEndOf="parent"
+                android:transitionName="productName"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/store_iv_small_shop_product"
                 tools:ignore="HardcodedText" />
@@ -51,7 +53,8 @@
                 android:layout_marginStart="12dp"
                 android:layout_marginTop="2dp"
                 android:alpha="0.4"
-                android:text="库存：-∞"
+                android:transitionName="productStock"
+                android:text="库存：999"
                 android:textColor="#15315B"
                 android:textSize="12sp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -65,7 +68,6 @@
                 android:layout_marginStart="12dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="16dp"
-                android:gravity="bottom"
                 android:text="+∞"
                 android:textColor="#5177FF"
                 android:textSize="14sp"
@@ -76,7 +78,7 @@
                 app:drawableStartCompat="@drawable/store_ic_stamp"
                 tools:ignore="HardcodedText"/>
 
-            <Button
+            <ImageView
                 android:id="@+id/store_btn_small_shop_product_exchange"
                 android:layout_width="48dp"
                 android:layout_height="26dp"
@@ -84,12 +86,12 @@
                 android:layout_marginBottom="12dp"
                 android:background="@drawable/store_btn_exchange"
                 android:text="兑换"
+                android:transitionName="exchange"
                 android:textColor="#FFFFFF"
                 android:textSize="14dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                tools:ignore="HardcodedText,SpUsage"
-                style="?android:attr/borderlessButtonStyle"/>
+                tools:ignore="HardcodedText,SpUsage" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

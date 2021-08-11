@@ -1,22 +1,17 @@
 package com.mredrock.cyxbs.store.page.record.ui.fragment
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.AlphaAnimation
 import android.view.animation.AnimationUtils
 import android.view.animation.LayoutAnimationController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.alibaba.android.arouter.launcher.ARouter
-import com.mredrock.cyxbs.common.config.STORE_EXCHANGE_DETAIL
 import com.mredrock.cyxbs.common.ui.BaseViewModelFragment
-import com.mredrock.cyxbs.common.utils.extensions.doIfLogin
 import com.mredrock.cyxbs.store.R
-import com.mredrock.cyxbs.store.base.BaseSimplifyRecyclerAdapter2
-import com.mredrock.cyxbs.store.databinding.StoreRecyclerItemExchangeRecordBinding
-import com.mredrock.cyxbs.store.databinding.StoreRecyclerItemStampGetRecordBinding
+import com.mredrock.cyxbs.store.base.SimpleRVAdapter
+import com.mredrock.cyxbs.store.page.record.ui.item.ExchangeRecordItem
+import com.mredrock.cyxbs.store.page.record.ui.item.StampGetRecordItem
 import com.mredrock.cyxbs.store.page.record.viewmodel.EventRecordViewModel
 import kotlinx.android.synthetic.main.store_fragment_event_record.*
 
@@ -27,7 +22,8 @@ import kotlinx.android.synthetic.main.store_fragment_event_record.*
  */
 
 class EventRecordFragment : BaseViewModelFragment<EventRecordViewModel>() {
-    private lateinit var mEventRVAdapter: BaseSimplifyRecyclerAdapter2<Any>
+    //    private lateinit var mEventRVAdapter: BaseSimplifyRecyclerAdapter2<Any>
+    private lateinit var mEventRVAdapter: SimpleRVAdapter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -52,14 +48,14 @@ class EventRecordFragment : BaseViewModelFragment<EventRecordViewModel>() {
 //             viewModel.getExchangeRecord()
             }
             "getStamp" -> {
-//                viewModel.getStampRecord()
+//             viewModel.getStampRecord()
             }
         }
     }
 
     private fun initView() {
         store_fragment_rv_event_record.layoutManager = LinearLayoutManager(context)
-        store_fragment_rv_event_record.layoutAnimation= LayoutAnimationController(AnimationUtils.loadAnimation(context,R.anim.slide_from_right_to_left_in))
+        store_fragment_rv_event_record.layoutAnimation = LayoutAnimationController(AnimationUtils.loadAnimation(context, R.anim.store_slide_from_right_to_left_in))
     }
 
     /**
@@ -73,52 +69,41 @@ class EventRecordFragment : BaseViewModelFragment<EventRecordViewModel>() {
                 //观察 在观察中配置adapter
                 //若adapter未设置 则进行设置
                 if (store_fragment_rv_event_record.adapter == null) {
-                    mEventRVAdapter = BaseSimplifyRecyclerAdapter2(arrayListOf("1", "2", "3"), arrayListOf(1, 2))
-                            .onBindView(BaseSimplifyRecyclerAdapter2.BindingCallBack<StoreRecyclerItemExchangeRecordBinding>(
-                                    R.layout.store_recycler_item_exchange_record,
-                                    isItemPosition = { position -> position in 0 until 5 },
-                                    onBindView = { binding, holder, position ->
-                                        Log.d("zzzz", "(EventRecordFragment.kt:70)-->> onBindView")
-                                        binding.eventHandle = EventHandle()
-                                        //设置待领取提示的出场动画
-                                        val anim = AlphaAnimation(0f, 1f)
-                                        anim.duration = 1000
-                                        binding.storeBtnProductReceiveTips.startAnimation(anim)
-                                    }
-                            ))
+//                    mEventRVAdapter = BaseSimplifyRecyclerAdapter2(arrayListOf("1", "2", "3"), arrayListOf(1, 2))
+//                            .onBindView(BaseSimplifyRecyclerAdapter2.BindingCallBack<StoreRecyclerItemExchangeRecordBinding>(
+//                                    R.layout.store_recycler_item_exchange_record,
+//                                    isItemPosition = { position -> position in 0 until 5 },
+//                                    onBindView = { binding, holder, position ->
+//                                        Log.d("zzzz", "(EventRecordFragment.kt:70)-->> onBindView")
+//                                        binding.eventHandle = EventHandle()
+//                                        //设置待领取提示的出场动画
+//                                        val anim = AlphaAnimation(0f, 1f)
+//                                        anim.duration = 1000
+//                                        binding.storeBtnProductReceiveTips.startAnimation(anim)
+//                                    }
+//                            ))
+                    mEventRVAdapter = SimpleRVAdapter(5)
+                            .addItem(ExchangeRecordItem())
                 }
 
             }
             "getStamp" -> {
                 //若adapter未设置 则进行设置
                 if (store_fragment_rv_event_record.adapter == null) {
-                    mEventRVAdapter = BaseSimplifyRecyclerAdapter2(arrayListOf("1", "2", "3"), arrayListOf(1, 2))
-                            .onBindView(BaseSimplifyRecyclerAdapter2.BindingCallBack<StoreRecyclerItemStampGetRecordBinding>(
-                                    R.layout.store_recycler_item_stamp_get_record,
-                                    isItemPosition = { position -> position in 0 until 5 },
-                                    onBindView = { binding, holder, position -> Log.d("zzzz", "(EventRecordFragment.kt:70)-->> onBindView") }
-                            ))
+//                    mEventRVAdapter = BaseSimplifyRecyclerAdapter2(arrayListOf("1", "2", "3"), arrayListOf(1, 2))
+//                            .onBindView(BaseSimplifyRecyclerAdapter2.BindingCallBack<StoreRecyclerItemStampGetRecordBinding>(
+//                                    R.layout.store_recycler_item_stamp_get_record,
+//                                    isItemPosition = { position -> position in 0 until 5 },
+//                                    onBindView = { binding, holder, position -> Log.d("zzzz", "(EventRecordFragment.kt:70)-->> onBindView") }
+//                            ))
+                    mEventRVAdapter = SimpleRVAdapter(5)
+                            .addItem(StampGetRecordItem())
                 }
 
             }
         }
+
         store_fragment_rv_event_record.adapter = mEventRVAdapter
 
-    }
-
-    /**
-     * 事件处理内部类
-     * 通过binding绑定到xml中
-     */
-    inner class EventHandle() {
-        //处理单击事件
-        fun onItemSingleClick(view: View) {
-
-            when (view.id) {
-                R.id.store_layout_exchange_record -> {
-                    context?.doIfLogin { ARouter.getInstance().build(STORE_EXCHANGE_DETAIL).navigation() }
-                }
-            }
-        }
     }
 }

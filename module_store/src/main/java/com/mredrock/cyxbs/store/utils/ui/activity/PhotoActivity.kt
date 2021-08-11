@@ -30,6 +30,8 @@ class PhotoActivity : AppCompatActivity() {
         setContentView(R.layout.store_activity_photo)
         setTheme(R.style.Theme_MaterialComponents)
         setFullScreen()
+        //降低进入activity后的白闪情况
+        window.setBackgroundDrawableResource(R.color.store_transparent)
 
         initData()
         initAdapter()
@@ -42,8 +44,8 @@ class PhotoActivity : AppCompatActivity() {
     }
 
     private fun initAdapter() {
-        //对图片保存的处理是照搬邮问 ViewImageActivity
-        mPhotoVPAdapter = PhotoVPAdapter(mImgUrls,
+        //对图片保存的处理是照搬 邮问 ViewImageActivity
+        mPhotoVPAdapter = PhotoVPAdapter(mImgUrls, this,
                 photoTapClick = { finish() },
                 savePicClick = { bitmap, url ->
                     doPermissionAction(Manifest.permission.WRITE_EXTERNAL_STORAGE) {
@@ -83,7 +85,7 @@ class PhotoActivity : AppCompatActivity() {
         store_vp_product_image.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 //设置图片进度(1/X)
-                store_tv_position.text = "${position + 1}/${mImgUrls?.size}"
+                store_tv_position.text = "${position + 1}/${mImgUrls?.size?.minus(2)}"
                 //传入当前选中位置
                 val intent = Intent().apply {
                     putExtra("position", position + 1)

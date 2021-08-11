@@ -7,7 +7,6 @@
 
     <com.github.chrisbanes.photoview.PhotoView
         android:id="@+id/store_pv_view_image"
-        android:transitionName="productImage"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="fitCenter"

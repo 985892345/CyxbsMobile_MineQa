@@ -14,4 +14,6 @@ object RequestResultCode {
     const val PHOTO_REQUEST = 1
     // 回ProductExchangeActivity
     const val PHOTO_RESULT = 2
+    // 从邮票中心到兑换界面的请求
+    const val EXCHANGE_REQUEST=3
 }

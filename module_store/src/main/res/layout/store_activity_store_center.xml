@@ -4,9 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:clipChildren="false"
     android:background="@color/store_stamp_center_background"
+    android:clipChildren="false"
+    android:orientation="vertical"
     tools:context="com.mredrock.cyxbs.store.page.center.ui.activity.StoreCenterActivity">
 
     <include
@@ -17,16 +17,17 @@
         android:id="@+id/store_tv_stamp_center_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintVertical_bias="0.06821"
-        app:layout_constraintHorizontal_bias="0.09867"
+        android:layout_marginStart="7dp"
         android:text="@string/store_stamp_center"
         android:textColor="@color/store_common_title"
         android:textSize="22sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintHorizontal_bias="0.09867"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.06821" />
 
     <com.mredrock.cyxbs.store.utils.widget.AppearLayout
         android:id="@+id/store_gradualColorLayout_stamp_center"
@@ -60,8 +61,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="92dp"
-        android:orientation="vertical"
         android:clipChildren="false"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -133,11 +134,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
+                android:alpha="0.9"
                 android:fontFamily="@font/store_my_stamp_number"
                 android:text="@string/store_stamp_center_get_remind"
-                android:textSize="12dp"
                 android:textColor="@color/store_stamp_center_get_remind"
-                android:alpha="0.9"
+                android:textSize="12dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/store_imageview"
                 app:layout_constraintTop_toBottomOf="@+id/store_textview2"
@@ -150,18 +151,18 @@
             android:id="@+id/store_tl_stamp_center"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:theme="@style/Theme.MaterialComponents.DayNight"
             android:backgroundTint="@android:color/transparent"
+            android:theme="@style/Theme.MaterialComponents.DayNight"
             app:tabGravity="fill"
             app:tabIndicator="@drawable/store_ic_tab_indicator"
             app:tabIndicatorColor="@color/common_mine_tab_layout_indicator_color"
             app:tabIndicatorFullWidth="false"
             app:tabIndicatorHeight="3dp"
-            app:tabMode="fixed"
             app:tabMaxWidth="160dp"
             app:tabMinWidth="150dp"
-            app:tabPaddingStart="40dp"
+            app:tabMode="fixed"
             app:tabPaddingEnd="40dp"
+            app:tabPaddingStart="40dp"
             app:tabRippleColor="@color/common_transparent_background"
             app:tabSelectedTextColor="@color/common_level_two_font_color"
             app:tabTextAppearance="@style/tab_style"
@@ -181,7 +182,7 @@
                 android:id="@+id/store_vp_stamp_center"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_margin="16dp"/>
+                android:layout_margin="16dp" />
 
         </androidx.cardview.widget.CardView>
 

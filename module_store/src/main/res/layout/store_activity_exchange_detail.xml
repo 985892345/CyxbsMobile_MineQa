@@ -19,6 +19,7 @@
             android:id="@+id/store_tv_exchange_detail_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="7dp"
             app:layout_constraintVertical_bias="0.06821"
             app:layout_constraintHorizontal_bias="0.09867"
             android:text="@string/store_exchange_detail"
