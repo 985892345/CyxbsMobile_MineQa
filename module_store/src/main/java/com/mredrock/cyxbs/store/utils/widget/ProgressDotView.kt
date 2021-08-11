@@ -67,19 +67,19 @@ class ProgressDotView : View {
 
     private fun initPaint() {
         mUnselectedDotPaint.apply {
-            color = ContextCompat.getColor(context, mUnselectedColor)
+            color = 0xFFC4C4C4.toInt()
             style = Paint.Style.FILL
             isAntiAlias = true
 
         }
         mSelectedDotPaint.apply {
-            color = ContextCompat.getColor(context, mSelectedColor)
+            color = 0xFFFFFFFF.toInt()
             style = Paint.Style.FILL
             isAntiAlias = true
         }
 
         mPathPaint.apply {
-            color = ContextCompat.getColor(context, mSelectedColor)
+            color = 0xFFFFFFFF.toInt()
             style = Paint.Style.FILL_AND_STROKE
             isAntiAlias = true
         }

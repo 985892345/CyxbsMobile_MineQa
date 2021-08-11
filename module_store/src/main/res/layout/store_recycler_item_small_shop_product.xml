@@ -39,7 +39,7 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginStart="12dp"
                 android:text="小米充电宝"
-                android:textColor="#15315B"
+                android:textColor="@color/store_small_shop_product_name"
                 android:textSize="14sp"
                 android:transitionName="productName"
                 app:layout_constraintStart_toStartOf="parent"
@@ -55,11 +55,12 @@
                 android:alpha="0.4"
                 android:transitionName="productStock"
                 android:text="库存：999"
-                android:textColor="#15315B"
+                android:textColor="@color/store_small_shop_product_stock"
                 android:textSize="12sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/store_tv_small_shop_product_name"
                 tools:ignore="HardcodedText" />
+
 
             <TextView
                 android:id="@+id/store_tv_small_shop_price"
@@ -70,7 +71,7 @@
                 android:layout_marginBottom="16dp"
                 android:gravity="bottom"
                 android:text="999"
-                android:textColor="#5177FF"
+                android:textColor="@color/store_small_shop_price"
                 android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -79,7 +80,7 @@
                 app:drawableStartCompat="@drawable/store_ic_stamp"
                 tools:ignore="HardcodedText"/>
 
-            <!---->
+            <!--设置了整个 CardView 的点击事件, 所以这里设置成 TextView 更好-->
             <TextView
                 android:id="@+id/store_btn_small_shop_product_exchange"
                 android:layout_width="48dp"
@@ -90,7 +91,7 @@
                 android:gravity="center"
                 android:text="兑换"
                 android:transitionName="exchange"
-                android:textColor="#FFFFFF"
+                android:textColor="@color/store_small_shop_product_exchange"
                 android:textSize="14dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

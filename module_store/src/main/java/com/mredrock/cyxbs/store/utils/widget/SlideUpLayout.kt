@@ -4,13 +4,10 @@ import android.animation.ValueAnimator
 import android.content.Context
 import android.graphics.Rect
 import android.util.AttributeSet
-import android.util.Log
-import android.view.Gravity
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.OvershootInterpolator
-import android.widget.FrameLayout
 import androidx.core.animation.addListener
 import androidx.core.view.NestedScrollingParent2
 import androidx.core.view.NestedScrollingParentHelper
@@ -27,8 +24,7 @@ import kotlin.math.pow
  *
  * **原理:** 使用了嵌套滑动, 具体实现思路可以查看 [onNestedPreScroll]、[onNestedScroll]
  *
- * **NOTE:** 如果出现在调用 addView 等可能会对整个布局重新 layout 的, 会使它自动变成展开状态,
- * 原因在与继承的 LinearLayout 实现的功能
+ * **NOTE:** 默认能够滑动的距离请看 [mCanMoveHeight]
  * @author 985892345 (Guo Xiangrui)
  * @email 2767465918@qq.com
  * @data 2021/8/6
@@ -52,16 +48,17 @@ class SlideUpLayout(
     private var mMoveListener: ((multiple: Float) -> Unit)? = null
     private val mFirstChild by lazy { getChildAt(0) }
     private val mSecondChild by lazy { getChildAt(1) }
-    private val mCurrentFirstChildRect = Rect()
-    private val mOriginalFirstChildRect by lazy {
+    private val mCurrentFirstChildRect = Rect() // 第一个子 View 当前的 Rect, 会实时改变
+    private val mOriginalFirstChildRect by lazy { // 第一个子 View 原始的 Rect, 不会改变
         val rect = Rect(mFirstChild.left, mFirstChild.top, mFirstChild.right, mFirstChild.bottom)
         mCurrentFirstChildRect.set(rect)
         rect
     }
-    private val mCanMoveHeight by lazy {
+    private val mCanMoveHeight by lazy { // 能够滑动的距离
         val lp = getChildAt(0).layoutParams
         (lp.height * 0.8).toInt()
     }
+    // 能够移动的上限值
     private val mUpperHeight by lazy { mOriginalFirstChildRect.bottom - mCanMoveHeight }
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         val width = MeasureSpec.getSize(widthMeasureSpec)
@@ -76,14 +73,22 @@ class SlideUpLayout(
         if (heightMode == MeasureSpec.AT_MOST || heightMode == MeasureSpec.UNSPECIFIED) {
             hMS = MeasureSpec.makeMeasureSpec(height, MeasureSpec.EXACTLY)
         }
-        for (i in 0 until childCount) {
-            val child = getChildAt(i)
-            val lp = child.layoutParams
-            val childWidthMS = getChildMeasureSpec(wMS, 0, lp.width)
-            val childHeightMS = getChildMeasureSpec(hMS, 0, lp.height)
-            child.measure(childWidthMS, childHeightMS)
+        setMeasuredDimension(wMS, hMS)
+        val child1 = getChildAt(0)
+        val child2 = getChildAt(1)
+        val lp1 = child1.layoutParams
+        val childWidthMS1 = getChildMeasureSpec(wMS, 0, lp1.width)
+        val childHeightMS1 = MeasureSpec.makeMeasureSpec(lp1.height, MeasureSpec.EXACTLY)
+        child1.measure(childWidthMS1, childHeightMS1)
+
+        val lp2 = child2.layoutParams
+        val childWidthMS2 = getChildMeasureSpec(wMS, 0, lp2.width)
+        val childHeightMS2: Int = if (lp2.height >= 0) {
+            MeasureSpec.makeMeasureSpec(lp2.height, MeasureSpec.EXACTLY)
+        }else {
+            MeasureSpec.makeMeasureSpec(height - lp1.height + mCanMoveHeight, MeasureSpec.EXACTLY)
         }
-        super.onMeasure(wMS, hMS)
+        child2.measure(childWidthMS2, childHeightMS2)
     }
 
     private var mLastMoveY = 0

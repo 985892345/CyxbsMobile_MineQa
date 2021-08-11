@@ -13,7 +13,7 @@
         android:layout_marginStart="12dp"
         android:text="更多任务"
         android:textSize="20sp"
-        android:textColor="#15315B"
+        android:textColor="@color/store_stamp_task_title"
         android:textStyle="bold"
         tools:ignore="HardcodedText" />
 

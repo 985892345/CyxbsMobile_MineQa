@@ -6,13 +6,28 @@
     <!--    邮票商城界面通用标题颜色-->
     <color name="store_common_title">#15315B</color>
 
-    <!--    邮票中心界面背景颜色-->
+    <!--    邮票中心界面颜色-->
     <color name="store_stamp_center_background">#F2F3F8</color>
     <color name="store_stamp_center_my_stamp_character">#FFFFFF</color>
     <color name="store_stamp_center_my_stamp_number">#FFFFFF</color>
     <color name="store_stamp_center_get_remind">#FFFFFF</color>
     <color name="store_stamp_center_cardView_background">#FBFCFF</color>
-    <color name="store_stamp_center_left_top_stamp">#662B333F</color>
+    <color name="store_stamp_center_left_top_stamp_bg">#662B333F</color>
+    <color name="store_stamp_center_left_top_stamp_text">#E9F2FB</color>
+    <color name="store_stamp_center_detail">#FFFFFF</color>
+    <!--邮票中心界面的邮票小店-->
+    <color name="store_small_shop_product_name">#15315B</color>
+    <color name="store_small_shop_product_stock">#15315B</color>
+    <color name="store_small_shop_price">#5177FF</color>
+    <color name="store_small_shop_product_exchange">#FFFFFF</color>
+    <color name="store_small_shop_title">#15315B</color>
+    <color name="store_small_shop_hint">#15315B</color>
+    <!--邮票中心界面的邮票任务-->
+    <color name="store_stamp_task_name">#15315B</color>
+    <color name="store_stamp_task_detail">#15315B</color>
+    <color name="store_stamp_task_progress_text">#7D8AFF</color>
+    <color name="store_stamp_task_go_btn">#FFFFFF</color>
+    <color name="store_stamp_task_title">#15315B</color>
 
     <!--    邮票明细界面相关颜色-->
     <color name="store_stamp_detail_common_text">#15315B</color>
@@ -55,6 +70,5 @@
     <!--    商品兑换界面Dialog按钮颜色-->
     <color name="store_exchange_dialog_btn_positive">#4A44E4</color>
     <color name="store_exchange_dialog_btn_negative">#C3D4EE</color>
-
 
 </resources>

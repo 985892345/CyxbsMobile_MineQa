@@ -21,8 +21,8 @@ class AppearLayout(
 ) : FrameLayout(context, attrs) {
 
     /**
-     * 设置移动多少, 会移动切割线和透明度
-     * @param multiple
+     * 设置移动多少, 会移动切割线和改变透明度
+     * @param multiple [0, 1], 传入范围外的会取边界值
      */
     fun setMultiple(multiple: Float) {
         when {

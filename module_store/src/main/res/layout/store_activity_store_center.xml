@@ -49,7 +49,7 @@
             android:gravity="center_vertical"
             android:fontFamily="@font/store_din_medium"
             android:text="999"
-            android:textColor="#E9F2FB"
+            android:textColor="@color/store_stamp_center_left_top_stamp_text"
             android:textSize="19dp"
             app:drawableStartCompat="@drawable/store_ic_stamp"
             tools:ignore="HardcodedText,SpUsage" />
@@ -105,9 +105,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:gravity="center_horizontal"
-                android:text="明细"
+                android:text="@string/store_stamp_center_detail"
                 android:textSize="10dp"
-                android:textColor="#FFFFFF"
+                android:textColor="@color/store_stamp_center_detail"
                 app:layout_constraintBottom_toBottomOf="@+id/store_textview"
                 app:layout_constraintStart_toEndOf="@+id/store_textview"
                 app:layout_constraintTop_toTopOf="@+id/store_textview"
@@ -146,44 +146,51 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <com.google.android.material.tabs.TabLayout
-            android:id="@+id/store_tl_stamp_center"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:backgroundTint="@android:color/transparent"
-            android:theme="@style/Theme.MaterialComponents.DayNight"
-            app:tabGravity="fill"
-            app:tabIndicator="@drawable/store_ic_tab_indicator"
-            app:tabIndicatorColor="@color/common_mine_tab_layout_indicator_color"
-            app:tabIndicatorFullWidth="false"
-            app:tabIndicatorHeight="3dp"
-            app:tabMaxWidth="160dp"
-            app:tabMinWidth="150dp"
-            app:tabMode="fixed"
-            app:tabPaddingEnd="40dp"
-            app:tabPaddingStart="40dp"
-            app:tabRippleColor="@color/common_transparent_background"
-            app:tabSelectedTextColor="@color/common_level_two_font_color"
-            app:tabTextAppearance="@style/tab_style"
-            app:tabTextColor="@color/common_alpha_level_two_font_color" />
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="680dp"
-            android:backgroundTint="@color/store_stamp_center_cardView_background"
-            app:cardCornerRadius="16dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/store_tl_stamp_center"
-            app:layout_constraintStart_toStartOf="@+id/store_tl_stamp_center"
-            app:layout_constraintTop_toBottomOf="@+id/store_tl_stamp_center">
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/store_tl_stamp_center"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:backgroundTint="@android:color/transparent"
+                android:theme="@style/Theme.MaterialComponents.DayNight"
+                app:tabGravity="fill"
+                app:tabIndicator="@drawable/store_ic_tab_indicator"
+                app:tabIndicatorColor="@color/common_mine_tab_layout_indicator_color"
+                app:tabIndicatorFullWidth="false"
+                app:tabIndicatorHeight="3dp"
+                app:tabMaxWidth="160dp"
+                app:tabMinWidth="150dp"
+                app:tabMode="fixed"
+                app:tabPaddingEnd="40dp"
+                app:tabPaddingStart="40dp"
+                app:tabRippleColor="@color/common_transparent_background"
+                app:tabSelectedTextColor="@color/common_level_two_font_color"
+                app:tabTextAppearance="@style/tab_style"
+                app:tabTextColor="@color/common_alpha_level_two_font_color" />
 
-            <androidx.viewpager2.widget.ViewPager2
-                android:id="@+id/store_vp_stamp_center"
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_margin="16dp" />
+                android:backgroundTint="@color/store_stamp_center_cardView_background"
+                app:cardCornerRadius="16dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/store_tl_stamp_center"
+                app:layout_constraintStart_toStartOf="@+id/store_tl_stamp_center"
+                app:layout_constraintTop_toBottomOf="@+id/store_tl_stamp_center">
 
-        </androidx.cardview.widget.CardView>
+                <androidx.viewpager2.widget.ViewPager2
+                    android:id="@+id/store_vp_stamp_center"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="16dp" />
+
+            </androidx.cardview.widget.CardView>
+
+        </LinearLayout>
 
     </com.mredrock.cyxbs.store.utils.widget.SlideUpLayout>
 
