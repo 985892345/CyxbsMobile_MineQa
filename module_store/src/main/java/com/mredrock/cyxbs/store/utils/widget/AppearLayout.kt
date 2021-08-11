@@ -37,8 +37,8 @@ class AppearLayout(
     private val bgColor: Int
 
     init {
-        val ty = context.obtainStyledAttributes(attrs, R.styleable.GradualColorLayout)
-        bgColor = ty.getColor(R.styleable.GradualColorLayout_bgColor, 0xFFF8F2F2.toInt())
+        val ty = context.obtainStyledAttributes(attrs, R.styleable.AppearLayout)
+        bgColor = ty.getColor(R.styleable.AppearLayout_bgColor, 0xFFF8F2F2.toInt())
         ty.recycle()
     }
     private val rect by lazy { Rect(0, 0, width, height) }

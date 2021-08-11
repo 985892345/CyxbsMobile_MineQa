@@ -1,6 +1,7 @@
 package com.mredrock.cyxbs.store.page.center.ui.activity
 
 import   android.os.Bundle
+import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.google.android.material.tabs.TabLayout

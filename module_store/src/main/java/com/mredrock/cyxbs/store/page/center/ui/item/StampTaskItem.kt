@@ -1,6 +1,10 @@
 package com.mredrock.cyxbs.store.page.center.ui.item
 
+import android.animation.AnimatorInflater
 import android.view.View
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
+import android.view.animation.LayoutAnimationController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.mredrock.cyxbs.store.R
@@ -29,6 +33,13 @@ class StampTaskItem : SimpleRVAdapter.VHItem<StampTaskItem.StampShopTitleVH>(
 
     override fun create(holder: StampShopTitleVH) {
         holder.recyclerView.layoutManager = LinearLayoutManager(holder.itemView.context)
+        holder.recyclerView.layoutAnimation =
+            LayoutAnimationController(
+                AnimationUtils.loadAnimation(
+                    holder.recyclerView.context,
+                    R.anim.store_slide_from_left_to_right_in
+                )
+            )
         holder.recyclerView.adapter = SimpleRVAdapter(10)
             .addItem(StampTaskTitleItem())
             .addItem(StampTaskListItem())

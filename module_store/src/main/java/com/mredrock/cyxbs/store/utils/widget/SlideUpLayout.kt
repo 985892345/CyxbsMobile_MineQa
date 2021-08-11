@@ -13,6 +13,7 @@ import androidx.core.animation.addListener
 import androidx.core.view.NestedScrollingParent2
 import androidx.core.view.NestedScrollingParentHelper
 import androidx.core.view.ViewCompat
+import androidx.recyclerview.widget.RecyclerView
 import kotlin.math.abs
 import kotlin.math.max
 import kotlin.math.min
@@ -26,7 +27,8 @@ import kotlin.math.pow
  *
  * **原理:** 使用了嵌套滑动, 具体实现思路可以查看 [onNestedPreScroll]、[onNestedScroll]
  *
- * **NOTE:** 如果无法布局, 请检查是否设置 orientation="vertical" 属性
+ * **NOTE:** 如果出现在调用 addView 等可能会对整个布局重新 layout 的, 会使它自动变成展开状态,
+ * 原因在与继承的 LinearLayout 实现的功能
  * @author 985892345 (Guo Xiangrui)
  * @email 2767465918@qq.com
  * @data 2021/8/6
@@ -71,7 +73,6 @@ class SlideUpLayout(
             }
             MeasureSpec.EXACTLY -> {
                 // 通过拿到第一个 child 的 layoutParams 而拿到高度
-
                 newHeightMS = MeasureSpec.makeMeasureSpec(height + mCanMoveHeight, MeasureSpec.EXACTLY)
             }
         }
@@ -141,7 +142,7 @@ class SlideUpLayout(
         if (dyUnconsumed > 0) { // 向上滑, 此时一定处于 RecyclerView 底部
             unconsumedSlideUp(dyUnconsumed, type)
         }else if (dyUnconsumed < 0) { // 向下滑, 此时一定处于 RecyclerView 顶部
-            unconsumedSlideDown(dyUnconsumed, type)
+            unconsumedSlideDown(target, dyUnconsumed, type)
         }
     }
 
@@ -153,7 +154,7 @@ class SlideUpLayout(
             }
         }
     }
-    private fun unconsumedSlideDown(dyUnconsumed: Int, type: Int) {
+    private fun unconsumedSlideDown(target: View, dyUnconsumed: Int, type: Int) {
         val newSecondTop = mSecondChild.top - dyUnconsumed // 将要移到的位置
         when (type) {
             ViewCompat.TYPE_TOUCH -> {
@@ -210,8 +211,6 @@ class SlideUpLayout(
         if (mIsFirstSlide) {
             mIsFirstSlide = false // 结束
             mUpMaxDy = 0 // 还原
-            mIsInterceptFastSlideUp = false // 还原
-            mIsInterceptFastSlideDown = false // 还原
             mIsAllowNonTouch = true // 还原
             mUpMaxDy = dy
             mIsExistPreScroll = true // 还原
@@ -224,22 +223,36 @@ class SlideUpLayout(
         consume(dy, type, target, consumed)
     }
     private fun consume(dy: Int, type: Int, target: View, consumed: IntArray) {
-        if (dy > 0) { // 向上滑
-            slideUp(dy, type, consumed)
-        }else if (dy < 0) { // 向下滑
-            slideDown(dy, type, consumed)
+        if (type == ViewCompat.TYPE_TOUCH) {
+            // 如果正处于拦截快速滑动后的动画状态, 消耗所有滑动距离
+            // 向反方向滑动取消动画因 target view 坐标系改变原因, 写在了 dispatchTouchEvent() 中
+            if (mIsInterceptFastSlideUp || mIsInterceptFastSlideDown) { consumed[1] = dy; return }
+        }else if (type == ViewCompat.TYPE_NON_TOUCH) {
+            if (!mIsAllowNonTouch || mIsInterceptFastSlideUp || mIsInterceptFastSlideDown) {
+                /*
+                * 此时处于拦截快速滑动后的动画状态, 可以取消惯性滑动
+                * 如果不取消, 则会因为 RecyclerView 正处于惯性滑动
+                * 而拦截掉 VP2 的左右滑动
+                * 可以查看 RecyclerView 源码的第 3199 行, 因处于 SCROLL_STATE_SETTLING
+                * 而直接调用了 requestDisallowInterceptTouchEvent(true), 调用后 VP2
+                * 再也不会调用 onInterceptTouch() 来拦截事件
+                * */
+                if (target is RecyclerView) { target.stopScroll() }
+                consumed[1] = dy
+                return
+            }
         }
+        // 下面的是允许你滑动的时候
+        if (dy > 0) slideUp(target, dy, type, consumed) // 向上滑
+        else if (dy < 0) slideDown(target, dy, type, consumed) // 向下滑
+
     }
-    private fun slideUp(dy: Int, type: Int, consumed: IntArray) {
+    private fun slideUp(target: View, dy: Int, type: Int, consumed: IntArray) {
         val newSecondTop = mSecondChild.top - dy // 将要移到的位置
         when (type) {
             ViewCompat.TYPE_TOUCH -> {
-                // 如果正处于拦截快速滑动状态, 消耗所有滑动距离
-                // 取消动画写在了 dispatchTouchEvent 中
-                if (mIsInterceptFastSlideUp || mIsInterceptFastSlideDown) { consumed[1] = dy; return }
                 // 拦截快速向上滑动, 直接加载动画, 并消耗接下来的所有滑动距离
                 if (mUpMaxDy > 80 && mSecondChild.top != mUpperHeight) {
-                    Log.d("123","(SlideUpLayout.kt:232)-->> start")
                     consumed[1] = dy
                     slowlyAnimate(mSecondChild.top, mUpperHeight,
                         onEnd = { mIsInterceptFastSlideUp = false/*结束*/ },
@@ -262,11 +275,6 @@ class SlideUpLayout(
                 }
             }
             ViewCompat.TYPE_NON_TOUCH -> {
-                // 如果正处于拦截快速滑动状态, 消耗所有滑动距离
-                if (!mIsAllowNonTouch || mIsInterceptFastSlideUp || mIsInterceptFastSlideDown) {
-                    consumed[1] = dy
-                    return
-                }
                 // 如果不在上边界处,就先滑到上边界
                 if (mSecondChild.top >= (mUpperHeight+1)) {
                     consumed[1] = dy
@@ -281,17 +289,11 @@ class SlideUpLayout(
             }
         }
     }
-    private fun slideDown(dy: Int, type: Int, consumed: IntArray) {
+    private fun slideDown(target: View, dy: Int, type: Int, consumed: IntArray) {
         when (type) {
             ViewCompat.TYPE_TOUCH -> {
-                // 取消动画写在了 dispatchTouchEvent 中
-                if (mIsInterceptFastSlideDown || mIsInterceptFastSlideUp) { consumed[1] = dy; return }
             }
             ViewCompat.TYPE_NON_TOUCH -> {
-                if (!mIsAllowNonTouch || mIsInterceptFastSlideUp || mIsInterceptFastSlideDown) {
-                    consumed[1] = dy
-                    return
-                }
             }
         }
     }
@@ -313,10 +315,12 @@ class SlideUpLayout(
                 mFirstChild.scaleY = multiple
             }
             multiple > 1F -> {
+                // 得到 multiple 的小数
                 val decimals = multiple - multiple.toInt()
                 mFirstChild.alpha = 1F
-                mFirstChild.scaleX = multiple.toInt() + decimals * 0.4F
-                mFirstChild.scaleY = multiple.toInt() + decimals * 0.4F
+                // 降低因过弹插值器引起的过于放大的影响
+                mFirstChild.scaleX = multiple.toInt() + decimals * 0.3F
+                mFirstChild.scaleY = multiple.toInt() + decimals * 0.3F
             }
             multiple < 0F -> {
                 mFirstChild.alpha = 0F
@@ -389,7 +393,7 @@ class SlideUpLayout(
                     mSlowlyMoveAnimate = null
                 }
             )
-            interpolator = OvershootInterpolator(2.5F)
+            interpolator = OvershootInterpolator()
             duration = (abs(newY - oldY).toDouble().pow(0.9) + 300).toLong()
             start()
         }

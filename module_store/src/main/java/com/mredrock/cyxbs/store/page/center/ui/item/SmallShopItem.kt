@@ -1,9 +1,10 @@
 package com.mredrock.cyxbs.store.page.center.ui.item
 
 import android.view.View
+import android.view.animation.AnimationUtils
+import android.view.animation.LayoutAnimationController
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.mredrock.cyxbs.store.R
 import com.mredrock.cyxbs.store.base.SimpleRVAdapter
@@ -20,7 +21,7 @@ class SmallShopItem(
     R.layout.store_item_small_shop
 ) {
     class SmallShopVH(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val recycler: RecyclerView = itemView.findViewById(R.id.store_rv_small_shop)
+        val recyclerView: RecyclerView = itemView.findViewById(R.id.store_rv_small_shop)
     }
 
     override fun isInHere(position: Int): Boolean {
@@ -36,10 +37,18 @@ class SmallShopItem(
         layoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
             override fun getSpanSize(position: Int): Int = if (position == 0) 2 else 1
         }
-        holder.recycler.layoutManager = layoutManager
-        holder.recycler.adapter = SimpleRVAdapter(10)
+        holder.recyclerView.layoutManager = layoutManager
+        holder.recyclerView.layoutAnimation =
+            LayoutAnimationController(
+                AnimationUtils.loadAnimation(
+                    holder.recyclerView.context,
+                    R.anim.store_product_fade_in
+                )
+            )
+        holder.recyclerView.adapter = SimpleRVAdapter(10)
             .addItem(SmallShopTitleItem(listOf("装扮")))
             .addItem(SmallShopProductItem(fragmentActivity))
+        holder.recyclerView.overScrollMode
     }
 
     override fun refactor(holder: SmallShopVH, position: Int) {

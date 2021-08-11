@@ -9,7 +9,7 @@
         <attr name="leftCircleCanMovePosition" format="float"/>
     </declare-styleable>
 
-    <declare-styleable name="GradualColorLayout" tools:ignore="ResourceName">
+    <declare-styleable name="AppearLayout" tools:ignore="ResourceName">
         <!--背景颜色-->
         <attr name="bgColor" format="color"/>
     </declare-styleable>

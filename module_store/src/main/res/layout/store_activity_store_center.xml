@@ -45,6 +45,7 @@
             android:layout_gravity="center"
             android:layout_marginStart="12dp"
             android:layout_marginEnd="12dp"
+            android:gravity="center_vertical"
             android:fontFamily="@font/store_din_medium"
             android:text="999"
             android:textColor="#E9F2FB"
@@ -97,6 +98,21 @@
                 app:layout_constraintStart_toStartOf="@+id/store_imageview"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:ignore="SpUsage" />
+
+            <TextView
+                android:id="@+id/store_textview3"
+                android:layout_width="36dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:gravity="center_horizontal"
+                android:text="明细"
+                android:textSize="10dp"
+                android:textColor="#FFFFFF"
+                app:layout_constraintBottom_toBottomOf="@+id/store_textview"
+                app:layout_constraintStart_toEndOf="@+id/store_textview"
+                app:layout_constraintTop_toTopOf="@+id/store_textview"
+                tools:ignore="HardcodedText,SpUsage"
+                app:drawableStartCompat="@drawable/store_ic_stamp_center_detail" />
 
             <TextView
                 android:id="@+id/store_textview2"
