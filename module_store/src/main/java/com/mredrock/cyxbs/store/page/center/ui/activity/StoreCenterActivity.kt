@@ -1,10 +1,12 @@
 package com.mredrock.cyxbs.store.page.center.ui.activity
 
 import   android.os.Bundle
+import android.view.Window
 import androidx.viewpager2.widget.ViewPager2
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import com.google.android.material.transition.platform.MaterialContainerTransformSharedElementCallback
 import com.mredrock.cyxbs.common.config.STORE_CENTER
 import com.mredrock.cyxbs.common.ui.BaseViewModelActivity
 import com.mredrock.cyxbs.store.R

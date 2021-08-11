@@ -2,22 +2,26 @@ package com.mredrock.cyxbs.store.page.exchange.ui.activity
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.view.View
+import android.view.Window
 import androidx.activity.result.contract.ActivityResultContract
 import androidx.viewpager2.widget.ViewPager2
 import com.alibaba.android.arouter.facade.annotation.Route
+import com.google.android.material.transition.platform.MaterialContainerTransform
+import com.google.android.material.transition.platform.MaterialContainerTransformSharedElementCallback
 import com.mredrock.cyxbs.common.config.STORE_PRODUCT_EXCHANGE
 import com.mredrock.cyxbs.common.ui.BaseViewModelActivity
 import com.mredrock.cyxbs.store.R
+import com.mredrock.cyxbs.store.base.SimpleRVAdapter
 import com.mredrock.cyxbs.store.databinding.StoreActivityProductExchengeBinding
-import com.mredrock.cyxbs.store.page.exchange.ui.adapter.ProductImageVPAdapter
+import com.mredrock.cyxbs.store.page.exchange.ui.item.ProductImageItem
 import com.mredrock.cyxbs.store.page.exchange.viewmodel.ProductExchangeViewModel
 import com.mredrock.cyxbs.store.utils.ui.activity.PhotoActivity
 import com.mredrock.cyxbs.store.utils.ui.fragment.ProductExchangeDialogFragment
 import kotlinx.android.synthetic.main.store_activity_product_exchenge.*
 import kotlinx.android.synthetic.main.store_common_toolbar.*
-import kotlinx.android.synthetic.main.store_common_toolbar_no_line.*
 
 /**
  *    author : zz
@@ -53,7 +57,7 @@ class ProductExchangeActivity : BaseViewModelActivity<ProductExchangeViewModel>(
 //        }
     }
 
-    private var mImageViewPagerAdapter: ProductImageVPAdapter? = null
+    private var mImageViewPagerAdapter: SimpleRVAdapter? = null
     private lateinit var dataBinding: StoreActivityProductExchengeBinding
     private var mImageList = ArrayList<String>()
     private var mPosition = 0 //当前VP显示的item的位置
@@ -67,7 +71,6 @@ class ProductExchangeActivity : BaseViewModelActivity<ProductExchangeViewModel>(
         //创建binding
         dataBinding = StoreActivityProductExchengeBinding.inflate(layoutInflater)
         setContentView(dataBinding.root)
-
         initAdapter()
         initView()
         initData()
@@ -119,7 +122,10 @@ class ProductExchangeActivity : BaseViewModelActivity<ProductExchangeViewModel>(
         mImageList.add("http://hakaimg.com/i/2021/08/09/nr64i7.jpg")
         mImageList.add("http://hakaimg.com/i/2021/08/09/nr64i7.jpg")
 
-        mImageViewPagerAdapter = ProductImageVPAdapter(mImageList, mLauncher,this)
+//        mImageViewPagerAdapter = ProductImageVPAdapter(mImageList, mLauncher,this)
+        mImageViewPagerAdapter = SimpleRVAdapter(5)
+                .addItem(ProductImageItem(mImageList, mLauncher, this))
+
         store_vp_product_image.adapter = mImageViewPagerAdapter
     }
 
@@ -131,7 +137,7 @@ class ProductExchangeActivity : BaseViewModelActivity<ProductExchangeViewModel>(
      * 事件处理内部类
      * 通过binding绑定到xml中
      */
-    inner class EventHandle() {
+    inner class EventHandle {
         //处理单击事件
         fun onItemSingleClick(view: View) {
 
@@ -157,7 +163,7 @@ class ProductExchangeActivity : BaseViewModelActivity<ProductExchangeViewModel>(
         override fun createIntent(context: Context, input: Boolean?): Intent {
             return Intent(context, PhotoActivity::class.java).apply {
                 putExtra("position", mPosition)
-                putStringArrayListExtra("imageUrlList", arrayListOf("http://hakaimg.com/i/2021/08/09/nr64i7.jpg", "http://hakaimg.com/i/2021/08/09/nr64i7.jpg", "http://hakaimg.com/i/2021/08/09/nr64i7.jpg"))
+                putStringArrayListExtra("imageUrlList", mImageList)
             }
         }
 

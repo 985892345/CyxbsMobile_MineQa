@@ -13,7 +13,6 @@ import com.mredrock.cyxbs.store.page.record.ui.adapter.StampDetailVPAdapter
 import com.mredrock.cyxbs.store.page.record.ui.fragment.EventRecordFragment
 import kotlinx.android.synthetic.main.store_activity_stamp_detail.*
 import kotlinx.android.synthetic.main.store_common_toolbar.*
-import kotlinx.android.synthetic.main.store_common_toolbar_no_line.*
 
 
 /**
@@ -41,7 +40,7 @@ class StampDetailActivity : BaseActivity() {
         //设置预加载 使两个Fragment都加载 避免滑动到下一页时还需等待网络请求加载
         store_vp_stamp_detail.offscreenPageLimit = 1
         //设置左上角返回点击事件
-        store_iv_toolbar_no_line_arrow_left.setOnClickListener {
+        store_iv_toolbar_arrow_left.setOnClickListener {
             finish()
         }
     }

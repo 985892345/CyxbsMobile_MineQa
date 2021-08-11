@@ -20,7 +20,10 @@ import com.mredrock.cyxbs.api.account.IAccountService
 import com.mredrock.cyxbs.common.config.*
 import com.mredrock.cyxbs.common.service.ServiceManager
 import com.mredrock.cyxbs.common.ui.BaseViewModelFragment
-import com.mredrock.cyxbs.common.utils.extensions.*
+import com.mredrock.cyxbs.common.utils.extensions.doIfLogin
+import com.mredrock.cyxbs.common.utils.extensions.loadAvatar
+import com.mredrock.cyxbs.common.utils.extensions.setOnSingleClickListener
+import com.mredrock.cyxbs.common.utils.extensions.startActivity
 import com.mredrock.cyxbs.mine.page.about.AboutActivity
 import com.mredrock.cyxbs.mine.page.edit.EditInfoActivity
 import com.mredrock.cyxbs.mine.page.security.util.Jump2QQHelper
@@ -52,7 +55,7 @@ class UserFragment : BaseViewModelFragment<UserViewModel>() {
             mine_main_fm_about_us.setOnSingleClickListener { doIfLogin { startActivity<AboutActivity>() } }
 //            mine_main_fm_point_store.setOnClickListener { doIfLogin { DailySignActivity.actionStart(this, BottomSheetBehavior.STATE_EXPANDED) } }
 
-            mine_main_fm_point_store.setOnClickListener { jump(STORE_CENTER) }
+            mine_main_fm_point_store.setOnClickListener { jump(STORE_STAMP_DETAIL) }
 
             mine_main_tv_sign.setOnClickListener { doIfLogin { DailySignActivity.actionStart(this, BottomSheetBehavior.STATE_COLLAPSED) } }
             mine_main_tv_dynamic_number.setOnSingleClickListener { doIfLogin { jump(QA_DYNAMIC_MINE) } }
@@ -142,7 +145,7 @@ class UserFragment : BaseViewModelFragment<UserViewModel>() {
         ARouter.getInstance().build(path).navigation()
     }
 
-    private fun jumpAndSaveTime(path: String, type: Int){
+    private fun jumpAndSaveTime(path: String, type: Int) {
         viewModel.saveCheckTimeStamp(type)
         jump(path)
     }
