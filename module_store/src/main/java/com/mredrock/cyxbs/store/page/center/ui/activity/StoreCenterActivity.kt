@@ -45,7 +45,7 @@ class StoreCenterActivity : BaseViewModelActivity<StoreCenterViewModel>() {
 
     private fun initViewPager2() {
         mViewPager2.adapter = SimpleRVAdapter(2)
-            .addItem(SmallShopItem())
+            .addItem(SmallShopItem(this))
             .addItem(StampTaskItem())
     }
     

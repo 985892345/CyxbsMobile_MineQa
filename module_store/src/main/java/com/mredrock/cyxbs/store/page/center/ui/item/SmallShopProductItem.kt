@@ -1,6 +1,9 @@
 package com.mredrock.cyxbs.store.page.center.ui.item
 
 import android.content.Intent
+import androidx.core.content.ContextCompat
+import androidx.fragment.app.FragmentActivity
+import com.bumptech.glide.Glide
 import com.mredrock.cyxbs.common.BaseApp.Companion.context
 import com.mredrock.cyxbs.common.utils.extensions.onClick
 import com.mredrock.cyxbs.common.utils.extensions.setImageFromUrl
@@ -15,7 +18,9 @@ import com.mredrock.cyxbs.store.page.exchange.ui.activity.ProductExchangeActivit
  * @email 2767465918@qq.com
  * @data 2021/8/9
  */
-class SmallShopProductItem : SimpleRVAdapter.DBItem<StoreRecyclerItemSmallShopProductBinding>(
+class SmallShopProductItem(
+    private val fragmentActivity: FragmentActivity
+) : SimpleRVAdapter.DBItem<StoreRecyclerItemSmallShopProductBinding>(
     R.layout.store_recycler_item_small_shop_product
 ) {
     override fun isInHere(position: Int): Boolean {
@@ -48,8 +53,13 @@ class SmallShopProductItem : SimpleRVAdapter.DBItem<StoreRecyclerItemSmallShopPr
         holder: SimpleRVAdapter.BindingVH,
         position: Int
     ) {
+//        binding.storeIvSmallShopProduct.setBackgroundColor(ContextCompat.getColor(context, android.R.color.black))
         val correctPosition = getCorrectPosition(position)
         binding.storeIvSmallShopProduct.setImageFromUrl("http://hakaimg.com/i/2021/08/09/nr64i7.jpg")
+//        Glide
+//            .with(fragmentActivity)
+//            .load("http://hakaimg.com/i/2021/08/09/nr64i7.jpg")
+//            .into(binding.storeIvSmallShopProduct)
     }
 
     private fun getCorrectPosition(position: Int): Int {

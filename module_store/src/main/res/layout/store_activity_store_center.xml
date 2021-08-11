@@ -62,7 +62,6 @@
         android:layout_height="match_parent"
         android:layout_marginTop="92dp"
         android:clipChildren="false"
-        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -170,7 +169,7 @@
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="680dp"
             android:backgroundTint="@color/store_stamp_center_cardView_background"
             app:cardCornerRadius="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -189,12 +188,12 @@
     </com.mredrock.cyxbs.store.utils.widget.SlideUpLayout>
 
     <!--下面的 View 用于遮挡底部-->
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="16dp"
-        android:background="@color/store_stamp_center_cardView_background"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+<!--    <View-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="16dp"-->
+<!--        android:background="@color/store_stamp_center_cardView_background"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent" />-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -5,10 +5,12 @@ import android.content.Context
 import android.graphics.Rect
 import android.util.AttributeSet
 import android.util.Log
+import android.view.Gravity
 import android.view.MotionEvent
 import android.view.View
+import android.view.ViewGroup
 import android.view.animation.OvershootInterpolator
-import android.widget.LinearLayout
+import android.widget.FrameLayout
 import androidx.core.animation.addListener
 import androidx.core.view.NestedScrollingParent2
 import androidx.core.view.NestedScrollingParentHelper
@@ -20,8 +22,6 @@ import kotlin.math.min
 import kotlin.math.pow
 
 /**
- * 继承于 LinearLayout, 可以使用 LinearLayout 全部属性
- *
  * **WARNING:** 只有第一层下的第一个 View(ViewGroup) 才能改变大小, 且那个 View 的高度必须为确定值,
  * 不能为 wrap_content、match_parent, 但它里面的子 View 高度不受任何限制
  *
@@ -36,7 +36,7 @@ import kotlin.math.pow
 class SlideUpLayout(
     context: Context,
     attrs: AttributeSet
-) : LinearLayout(context, attrs), NestedScrollingParent2 {
+) : ViewGroup(context, attrs), NestedScrollingParent2 {
 
     /**
      * 设置移动监听
@@ -49,7 +49,6 @@ class SlideUpLayout(
         mMoveListener = l
     }
 
-    init { orientation = VERTICAL }
     private var mMoveListener: ((multiple: Float) -> Unit)? = null
     private val mFirstChild by lazy { getChildAt(0) }
     private val mSecondChild by lazy { getChildAt(1) }
@@ -65,18 +64,26 @@ class SlideUpLayout(
     }
     private val mUpperHeight by lazy { mOriginalFirstChildRect.bottom - mCanMoveHeight }
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
+        val width = MeasureSpec.getSize(widthMeasureSpec)
         val height = MeasureSpec.getSize(heightMeasureSpec)
-        var newHeightMS = heightMeasureSpec
-        when (MeasureSpec.getMode(heightMeasureSpec)) {
-            MeasureSpec.AT_MOST, MeasureSpec.UNSPECIFIED -> {
-                newHeightMS = MeasureSpec.makeMeasureSpec(0, MeasureSpec.EXACTLY)
-            }
-            MeasureSpec.EXACTLY -> {
-                // 通过拿到第一个 child 的 layoutParams 而拿到高度
-                newHeightMS = MeasureSpec.makeMeasureSpec(height + mCanMoveHeight, MeasureSpec.EXACTLY)
-            }
+        val widthMode = MeasureSpec.getMode(widthMeasureSpec)
+        val heightMode = MeasureSpec.getMode(heightMeasureSpec)
+        var wMS = widthMeasureSpec
+        var hMS = heightMeasureSpec
+        if (widthMode == MeasureSpec.AT_MOST || widthMode == MeasureSpec.UNSPECIFIED) {
+            wMS = MeasureSpec.makeMeasureSpec(width, MeasureSpec.EXACTLY)
         }
-        super.onMeasure(widthMeasureSpec, newHeightMS)
+        if (heightMode == MeasureSpec.AT_MOST || heightMode == MeasureSpec.UNSPECIFIED) {
+            hMS = MeasureSpec.makeMeasureSpec(height, MeasureSpec.EXACTLY)
+        }
+        for (i in 0 until childCount) {
+            val child = getChildAt(i)
+            val lp = child.layoutParams
+            val childWidthMS = getChildMeasureSpec(wMS, 0, lp.width)
+            val childHeightMS = getChildMeasureSpec(hMS, 0, lp.height)
+            child.measure(childWidthMS, childHeightMS)
+        }
+        super.onMeasure(wMS, hMS)
     }
 
     private var mLastMoveY = 0
@@ -104,6 +111,17 @@ class SlideUpLayout(
             }
         }
         return super.dispatchTouchEvent(ev)
+    }
+
+    override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
+        var child = getChildAt(0)
+        child.layout(0, 0, child.measuredWidth, child.measuredHeight)
+        var height = if (getChildAt(1).top == 0) child.measuredHeight else getChildAt(1).top
+        for (i in 1 until childCount) {
+            child = getChildAt(i)
+            child.layout(0, height, child.measuredWidth, height + child.measuredHeight)
+            height += child.measuredHeight
+        }
     }
 
     private var mIsOpenNonTouch = false // 是否开启了惯性滑动
