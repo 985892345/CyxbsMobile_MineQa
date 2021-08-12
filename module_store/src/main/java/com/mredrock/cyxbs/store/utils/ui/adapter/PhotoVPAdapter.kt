@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.github.chrisbanes.photoview.PhotoView
 import com.mredrock.cyxbs.common.utils.extensions.setImageFromUrl
 import com.mredrock.cyxbs.store.R
-import com.mredrock.cyxbs.store.utils.ui.activity.PhotoActivity
 
 /**
  *    author : zz
@@ -17,7 +16,7 @@ import com.mredrock.cyxbs.store.utils.ui.activity.PhotoActivity
  *    date   : 2021/8/9 15:05
  */
 
-class PhotoVPAdapter(private val productImageUrlList: ArrayList<String>?, val photoActivity: PhotoActivity, val savePicClick: ((Bitmap, String) -> Unit)? = null,
+class PhotoVPAdapter(private val productImageUrlList: ArrayList<String>?, val savePicClick: ((Bitmap, String) -> Unit)? = null,
                      val photoTapClick: (() -> Unit)? = null) : RecyclerView.Adapter<PhotoVPAdapter.ImageHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImageHolder {
         return ImageHolder(LayoutInflater.from(parent.context).inflate(R.layout.store_item_photo, parent, false))
@@ -27,19 +26,6 @@ class PhotoVPAdapter(private val productImageUrlList: ArrayList<String>?, val ph
         //对图片保存的处理照搬邮问 HackyViewPagerAdapter
         if (productImageUrlList != null) {
             holder.productImage.setImageFromUrl(productImageUrlList[position])
-//            Glide.with(photoActivity)
-//                    .load(productImageUrlList[position])
-//                    .listener(object : RequestListener<Drawable> {
-//                        override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Drawable>?, isFirstResource: Boolean): Boolean {
-//                            return false
-//                        }
-//
-//                        override fun onResourceReady(resource: Drawable?, model: Any?, target: Target<Drawable>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
-//                            photoActivity.supportStartPostponedEnterTransition()
-//                            return false
-//                        }
-//                    })
-//                    .into(holder.productImage)
         }
         holder.productImage.setOnLongClickListener {
             val drawable = holder.productImage.drawable

@@ -12,8 +12,7 @@ import com.mredrock.cyxbs.common.ui.BaseActivity
 import com.mredrock.cyxbs.store.R
 import com.mredrock.cyxbs.store.page.record.ui.adapter.StampDetailVPAdapter
 import com.mredrock.cyxbs.store.page.record.ui.fragment.EventRecordFragment
-import com.mredrock.cyxbs.store.utils.widget.ZoomOutPageTransformer
-import kotlinx.android.synthetic.main.store_activity_product_exchenge.*
+import kotlinx.android.synthetic.main.store_activity_product_exchange.*
 import kotlinx.android.synthetic.main.store_activity_stamp_detail.*
 import kotlinx.android.synthetic.main.store_common_toolbar.*
 

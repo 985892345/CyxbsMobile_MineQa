@@ -9,13 +9,13 @@ import androidx.viewpager2.widget.ViewPager2
 import com.mredrock.cyxbs.common.ui.BaseViewModelActivity
 import com.mredrock.cyxbs.store.R
 import com.mredrock.cyxbs.store.base.SimpleRVAdapter
-import com.mredrock.cyxbs.store.databinding.StoreActivityProductExchengeBinding
+import com.mredrock.cyxbs.store.databinding.StoreActivityProductExchangeBinding
 import com.mredrock.cyxbs.store.page.exchange.ui.item.ProductImageItem
 import com.mredrock.cyxbs.store.page.exchange.viewmodel.ProductExchangeViewModel
 import com.mredrock.cyxbs.store.utils.ui.activity.PhotoActivity
 import com.mredrock.cyxbs.store.utils.ui.fragment.ProductExchangeDialogFragment
 import com.mredrock.cyxbs.store.utils.widget.ZoomOutPageTransformer
-import kotlinx.android.synthetic.main.store_activity_product_exchenge.*
+import kotlinx.android.synthetic.main.store_activity_product_exchange.*
 import kotlinx.android.synthetic.main.store_common_toolbar.*
 
 /**
@@ -26,7 +26,7 @@ import kotlinx.android.synthetic.main.store_common_toolbar.*
 class ProductExchangeActivity : BaseViewModelActivity<ProductExchangeViewModel>() {
 
     private var mImageViewPagerAdapter: SimpleRVAdapter? = null
-    private lateinit var dataBinding: StoreActivityProductExchengeBinding
+    private lateinit var dataBinding: StoreActivityProductExchangeBinding
     private var mImageList = ArrayList<String>()
     private var mPosition = 0 //当前VP显示的item的位置
     private val mLauncher = registerForActivityResult(ResultContract()) { result ->
@@ -37,7 +37,7 @@ class ProductExchangeActivity : BaseViewModelActivity<ProductExchangeViewModel>(
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         //创建binding
-        dataBinding = StoreActivityProductExchengeBinding.inflate(layoutInflater)
+        dataBinding = StoreActivityProductExchangeBinding.inflate(layoutInflater)
         setContentView(dataBinding.root)
         initAdapter()
         initView()

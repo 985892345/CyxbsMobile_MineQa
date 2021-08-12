@@ -11,7 +11,7 @@ import com.mredrock.cyxbs.common.utils.extensions.setImageFromUrl
 import com.mredrock.cyxbs.store.R
 import com.mredrock.cyxbs.store.base.SimpleRVAdapter
 import com.mredrock.cyxbs.store.page.exchange.ui.activity.ProductExchangeActivity
-import kotlinx.android.synthetic.main.store_activity_product_exchenge.*
+import kotlinx.android.synthetic.main.store_activity_product_exchange.*
 
 /**
  *    author : zz
@@ -37,13 +37,11 @@ class ProductImageItem(private val productImageUrlList: ArrayList<String>, priva
         holder.productImage.scaleType = ImageView.ScaleType.FIT_CENTER
         holder.productImage.onClick {
             val options = ActivityOptionsCompat.makeSceneTransitionAnimation(productExchangeActivity, Pair<View, String>(productExchangeActivity.store_vp_product_image, "productImage"))
-
             launcher.launch(true, options)
         }
     }
 
     override fun refactor(holder: ProductImageVH, position: Int) {
         holder.productImage.setImageFromUrl(productImageUrlList[position])
-
     }
 }

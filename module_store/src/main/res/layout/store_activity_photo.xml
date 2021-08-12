@@ -6,7 +6,7 @@
     android:orientation="vertical">
 
     <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/store_vp_product_image"
+        android:id="@+id/store_vp_product_photo"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

@@ -45,7 +45,7 @@ class PhotoActivity : AppCompatActivity() {
 
     private fun initAdapter() {
         //对图片保存的处理是照搬 邮问 ViewImageActivity
-        mPhotoVPAdapter = PhotoVPAdapter(mImgUrls, this,
+        mPhotoVPAdapter = PhotoVPAdapter(mImgUrls,
                 photoTapClick = { finish() },
                 savePicClick = { bitmap, url ->
                     doPermissionAction(Manifest.permission.WRITE_EXTERNAL_STORAGE) {
@@ -82,7 +82,7 @@ class PhotoActivity : AppCompatActivity() {
 
     @SuppressLint("SetTextI18n")
     private fun initView() {
-        store_vp_product_image.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+        store_vp_product_photo.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 //设置图片进度(1/X)
                 store_tv_position.text = "${position + 1}/${mImgUrls?.size?.minus(2)}"
@@ -93,8 +93,8 @@ class PhotoActivity : AppCompatActivity() {
                 setResult(Activity.RESULT_OK, intent)
             }
         })
-        store_vp_product_image.adapter = mPhotoVPAdapter
+        store_vp_product_photo.adapter = mPhotoVPAdapter
         store_tv_position.text = "1/${mImgUrls?.size}"
-        store_vp_product_image.setCurrentItem(mPosition, false)
+        store_vp_product_photo.setCurrentItem(mPosition, false)
     }
 }
