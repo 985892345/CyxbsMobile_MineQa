@@ -11,6 +11,7 @@ import com.mredrock.cyxbs.common.utils.extensions.setImageFromUrl
 import com.mredrock.cyxbs.store.R
 import com.mredrock.cyxbs.store.base.SimpleRVAdapter
 import com.mredrock.cyxbs.store.page.exchange.ui.activity.ProductExchangeActivity
+import kotlinx.android.synthetic.main.store_activity_product_exchenge.*
 
 /**
  *    author : zz
@@ -22,7 +23,6 @@ class ProductImageItem(private val productImageUrlList: ArrayList<String>, priva
 ) {
     class ProductImageVH(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var productImage: ImageView = itemView.findViewById(R.id.store_iv_product_image)
-
     }
 
     override fun isInHere(position: Int): Boolean {
@@ -35,14 +35,8 @@ class ProductImageItem(private val productImageUrlList: ArrayList<String>, priva
 
     override fun create(holder: ProductImageVH) {
         holder.productImage.scaleType = ImageView.ScaleType.FIT_CENTER
-        //设置元素共享所需要的 transitionName
-        holder.productImage.transitionName = "productImage"
         holder.productImage.onClick {
-//            ImageActivity.activityStart(holder.itemView.context, arrayOf("http://hakaimg.com/i/2021/08/09/nr64i7.jpg","https://fanyi-cdn.cdn.bcebos.com/static/translation/img/header/logo_e835568.png","https://fanyi-cdn.cdn.bcebos.com/static/translation/img/header/logo_e835568.png"), position-1)
-//            showPhotos(holder.itemView.context, arrayListOf("https://fanyi-cdn.cdn.bcebos.com/static/translation/img/header/logo_e835568.png"))
-//            productExchangeActivity.startActivityForResult<>(productExchangeActivity, arrayOf("http://hakaimg.com/i/2021/08/09/nr64i7.jpg", "http://hakaimg.com/i/2021/08/09/nr64i7.jpg", "http://hakaimg.com/i/2021/08/09/nr64i7.jpg"), position - 1)
-//
-            val options = ActivityOptionsCompat.makeSceneTransitionAnimation(productExchangeActivity, Pair<View, String>(holder.productImage, "productImage"))
+            val options = ActivityOptionsCompat.makeSceneTransitionAnimation(productExchangeActivity, Pair<View, String>(productExchangeActivity.store_vp_product_image, "productImage"))
 
             launcher.launch(true, options)
         }
@@ -51,9 +45,5 @@ class ProductImageItem(private val productImageUrlList: ArrayList<String>, priva
     override fun refactor(holder: ProductImageVH, position: Int) {
         holder.productImage.setImageFromUrl(productImageUrlList[position])
 
-    }
-
-    override fun refresh(holder: ProductImageVH, position: Int) {
-        super.refresh(holder, position)
     }
 }

@@ -10,10 +10,10 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:transitionName="productDetail"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/store_product_exchange_bg">
+        android:background="@color/store_product_exchange_bg"
+        android:transitionName="productDetail">
 
         <include
             android:id="@+id/store_toolbar_store_product_detail"
@@ -42,6 +42,7 @@
             android:layout_marginLeft="16dp"
             android:layout_marginTop="104dp"
             android:layout_marginRight="16dp"
+            android:transitionName="productImage"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -64,9 +65,9 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="310dp"
             android:text="小米充电宝"
-            android:transitionName="productName"
             android:textColor="@color/store_common_title"
             android:textSize="18sp"
+            android:transitionName="productName"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -88,9 +89,9 @@
             android:layout_marginTop="313dp"
             android:layout_marginEnd="15dp"
             android:text="999"
-            android:transitionName="productStock"
             android:textColor="@color/store_product_stock"
             android:textSize="13sp"
+            android:transitionName="productStock"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -150,9 +151,9 @@
             android:layout_marginLeft="15dp"
             android:layout_marginTop="489dp"
             android:layout_marginRight="15dp"
+            android:text="1、每个实物商品每人限兑换一次，已经兑换的商品不能退货换货也不予折现。\n2、在法律允许的范围内，本活动的最终解释权归红岩网校工作站所有。"
             android:textColor="@color/store_equity_description"
             android:textSize="14sp"
-            android:text="1、每个实物商品每人限兑换一次，已经兑换的商品不能退货换货也不予折现。\n2、在法律允许的范围内，本活动的最终解释权归红岩网校工作站所有。"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -219,13 +220,13 @@
             android:layout_height="42dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="17dp"
-            android:transitionName="exchange"
             android:background="@drawable/store_btn_exchange"
             android:onClick="@{eventHandle::onItemSingleClick}"
             android:text="@string/store_exchange"
             android:textColor="@color/common_white_font_color"
             android:textSize="16sp"
             android:textStyle="bold"
+            android:transitionName="exchange"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toRightOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>

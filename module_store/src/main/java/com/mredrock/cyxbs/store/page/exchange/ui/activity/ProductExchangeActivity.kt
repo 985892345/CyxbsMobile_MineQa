@@ -91,7 +91,6 @@ class ProductExchangeActivity : BaseViewModelActivity<ProductExchangeViewModel>(
         mImageList.add("http://hakaimg.com/i/2021/08/09/nr64i7.jpg")
         mImageList.add("http://hakaimg.com/i/2021/08/09/nr64i7.jpg")
 
-//        mImageViewPagerAdapter = ProductImageVPAdapter(mImageList, mLauncher,this)
         mImageViewPagerAdapter = SimpleRVAdapter(5)
                 .addItem(ProductImageItem(mImageList, mLauncher, this))
 

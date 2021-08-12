@@ -27,11 +27,11 @@ class PhotoActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        //降低进入activity后的白闪情况
+        window.setBackgroundDrawableResource(R.color.store_transparent)
         setContentView(R.layout.store_activity_photo)
         setTheme(R.style.Theme_MaterialComponents)
         setFullScreen()
-        //降低进入activity后的白闪情况
-        window.setBackgroundDrawableResource(R.color.store_transparent)
 
         initData()
         initAdapter()
@@ -58,8 +58,8 @@ class PhotoActivity : AppCompatActivity() {
                                         io.reactivex.schedulers.Schedulers.io().scheduleDirect {
                                             this@PhotoActivity.saveImage(bitmap, name)
                                             android.media.MediaScannerConnection.scanFile(this@PhotoActivity,
-                                                    kotlin.arrayOf(android.os.Environment.getExternalStorageDirectory().toString() + com.mredrock.cyxbs.common.config.DIR_PHOTO),
-                                                    kotlin.arrayOf("image/jpeg"),
+                                                    arrayOf(android.os.Environment.getExternalStorageDirectory().toString() + com.mredrock.cyxbs.common.config.DIR_PHOTO),
+                                                    arrayOf("image/jpeg"),
                                                     null)
 
                                             runOnUiThread {
