@@ -1,14 +1,19 @@
 package com.mredrock.cyxbs.store.page.record.ui.activity
 
+import android.animation.ValueAnimator
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.mredrock.cyxbs.common.ui.BaseActivity
 import com.mredrock.cyxbs.store.R
 import com.mredrock.cyxbs.store.page.record.ui.adapter.StampDetailVPAdapter
 import com.mredrock.cyxbs.store.page.record.ui.fragment.EventRecordFragment
+import com.mredrock.cyxbs.store.utils.widget.ZoomOutPageTransformer
+import kotlinx.android.synthetic.main.store_activity_product_exchenge.*
 import kotlinx.android.synthetic.main.store_activity_stamp_detail.*
 import kotlinx.android.synthetic.main.store_common_toolbar.*
 
@@ -22,6 +27,7 @@ class StampDetailActivity : BaseActivity() {
     private var mEventViewPagerAdapter: StampDetailVPAdapter<EventRecordFragment>? = null
     private var mEventRecordFragmentList = arrayListOf<EventRecordFragment>()
     private var mTabText = arrayOf("兑换记录", "获取记录")
+    private var animDuration:Long=400 //TabLayout文字缩放动画时间
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.store_activity_stamp_detail)
@@ -46,16 +52,12 @@ class StampDetailActivity : BaseActivity() {
         store_tab_stamp_record.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 //当tab被选中时 用size更大的TextView来代替原TextView
-                if (tab != null) {
-                    val textView: TextView = LayoutInflater.from(this@StampDetailActivity).inflate(R.layout.store_item_tab_text, null) as TextView
-                    textView.text = tab.text
-                    tab.customView = textView
-                }
+                initSelectedText(tab)
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab?) {
-                //当tab从选中状态到不被选中状态 还原
-                tab?.customView = null
+                //当tab从选中状态到不被选中状态 还原大小与颜色
+                initUnselectedText(tab)
             }
 
             override fun onTabReselected(tab: TabLayout.Tab?) {
@@ -66,6 +68,41 @@ class StampDetailActivity : BaseActivity() {
         TabLayoutMediator(store_tab_stamp_record, store_vp_stamp_detail) { tab, position ->
             tab.text = mTabText[position]
         }.attach()
+    }
+
+    //设置TabLayout中未被选择时的文字属性
+    @SuppressLint("InflateParams")
+    private fun initUnselectedText(tab: TabLayout.Tab?) {
+        if (tab != null) {
+            tab.customView = null
+            val textView: TextView = LayoutInflater.from(this@StampDetailActivity).inflate(R.layout.store_item_tab_text, null) as TextView
+            textView.text = tab.text
+            textView.setTextColor(ContextCompat.getColor(this@StampDetailActivity, R.color.store_stamp_unselected_title))
+            val anim = ValueAnimator.ofFloat(16f, 14f)
+            anim.duration = animDuration
+            anim.addUpdateListener {
+                textView.textSize = (it.animatedValue) as Float
+            }
+            anim.start()
+            tab.customView = textView
+        }
+    }
+
+    //设置TabLayout中当前被选择时的文字属性
+    @SuppressLint("InflateParams")
+    private fun initSelectedText(tab: TabLayout.Tab?) {
+        if (tab != null) {
+            tab.customView = null
+            val textView: TextView = LayoutInflater.from(this@StampDetailActivity).inflate(R.layout.store_item_tab_text, null) as TextView
+            textView.text = tab.text
+            val anim = ValueAnimator.ofFloat(14f, 16f)
+            anim.duration = animDuration
+            anim.addUpdateListener {
+                textView.textSize = (it.animatedValue) as Float
+            }
+            anim.start()
+            tab.customView = textView
+        }
     }
 
     /**

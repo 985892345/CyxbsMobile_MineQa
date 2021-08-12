@@ -33,6 +33,8 @@ class ExchangeRecordItem : SimpleRVAdapter.DBItem<StoreRecyclerItemExchangeRecor
             val intent = Intent(context, ExchangeDetailActivity::class.java)
             context.startActivity(intent)
         }
+        //设置待领取提示的出场动画
+        anim.duration = 600
     }
 
     override fun refactor(
@@ -40,8 +42,7 @@ class ExchangeRecordItem : SimpleRVAdapter.DBItem<StoreRecyclerItemExchangeRecor
         holder: SimpleRVAdapter.BindingVH,
         position: Int
     ) {
-        //设置待领取提示的出场动画
-        anim.duration = 600
+        //启动动画
         binding.storeBtnProductReceiveTips.startAnimation(anim)
     }
 }

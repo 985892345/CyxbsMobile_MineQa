@@ -22,10 +22,9 @@ import kotlinx.android.synthetic.main.store_fragment_event_record.*
  */
 
 class EventRecordFragment : BaseViewModelFragment<EventRecordViewModel>() {
-    //    private lateinit var mEventRVAdapter: BaseSimplifyRecyclerAdapter2<Any>
     private lateinit var mEventRVAdapter: SimpleRVAdapter
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, 
                               savedInstanceState: Bundle?): View? {
 
         return inflater.inflate(R.layout.store_fragment_event_record, container, false)
@@ -63,25 +62,11 @@ class EventRecordFragment : BaseViewModelFragment<EventRecordViewModel>() {
      */
     private fun initAdapter() {
 
-
         when (arguments?.getString("event")) {
             "exchange" -> {
                 //观察 在观察中配置adapter
                 //若adapter未设置 则进行设置
                 if (store_fragment_rv_event_record.adapter == null) {
-//                    mEventRVAdapter = BaseSimplifyRecyclerAdapter2(arrayListOf("1", "2", "3"), arrayListOf(1, 2))
-//                            .onBindView(BaseSimplifyRecyclerAdapter2.BindingCallBack<StoreRecyclerItemExchangeRecordBinding>(
-//                                    R.layout.store_recycler_item_exchange_record,
-//                                    isItemPosition = { position -> position in 0 until 5 },
-//                                    onBindView = { binding, holder, position ->
-//                                        Log.d("zzzz", "(EventRecordFragment.kt:70)-->> onBindView")
-//                                        binding.eventHandle = EventHandle()
-//                                        //设置待领取提示的出场动画
-//                                        val anim = AlphaAnimation(0f, 1f)
-//                                        anim.duration = 1000
-//                                        binding.storeBtnProductReceiveTips.startAnimation(anim)
-//                                    }
-//                            ))
                     mEventRVAdapter = SimpleRVAdapter(5)
                             .addItem(ExchangeRecordItem())
                 }
@@ -90,12 +75,6 @@ class EventRecordFragment : BaseViewModelFragment<EventRecordViewModel>() {
             "getStamp" -> {
                 //若adapter未设置 则进行设置
                 if (store_fragment_rv_event_record.adapter == null) {
-//                    mEventRVAdapter = BaseSimplifyRecyclerAdapter2(arrayListOf("1", "2", "3"), arrayListOf(1, 2))
-//                            .onBindView(BaseSimplifyRecyclerAdapter2.BindingCallBack<StoreRecyclerItemStampGetRecordBinding>(
-//                                    R.layout.store_recycler_item_stamp_get_record,
-//                                    isItemPosition = { position -> position in 0 until 5 },
-//                                    onBindView = { binding, holder, position -> Log.d("zzzz", "(EventRecordFragment.kt:70)-->> onBindView") }
-//                            ))
                     mEventRVAdapter = SimpleRVAdapter(5)
                             .addItem(StampGetRecordItem())
                 }

@@ -6,7 +6,6 @@ import android.graphics.Paint
 import android.graphics.Path
 import android.util.AttributeSet
 import android.view.View
-import androidx.core.content.ContextCompat
 import com.mredrock.cyxbs.common.utils.extensions.dp2px
 import com.mredrock.cyxbs.store.R
 
@@ -15,13 +14,13 @@ import com.mredrock.cyxbs.store.R
  *    e-mail : 1140143252@qq.com
  *    date   : 2021/8/4 10:22
  *
- *    用圆点来展示图片显示进度
+ *    用圆点来展示图片显示进度 带圆点移动动画
  *    根据View宽度、圆点个数与半径自动均分圆点间隔
  */
 class ProgressDotView : View {
 
     /**
-     *
+     *普通的更新位置 不带圆点移动动画
      */
     fun updatePosition(position: Int) {
         mPosition = position
@@ -29,7 +28,7 @@ class ProgressDotView : View {
     }
 
     /**
-     *
+     *带圆点移动动画的更新 需要监听VP的 position progress 然后传入
      */
     fun updatePosition(position: Int, progress: Float) {
         mPosition = position
@@ -48,8 +47,8 @@ class ProgressDotView : View {
     private var mPathPaint = Paint() //移动路径画笔
     private var mPath = Path() //移动路径
     private var mPosition = 0 //当前选中的位置 从0开始
-
     private var mProgress = 0f //页面由一个到另一个的进度
+
     constructor(context: Context) : this(context, null)
     constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
 
@@ -67,19 +66,19 @@ class ProgressDotView : View {
 
     private fun initPaint() {
         mUnselectedDotPaint.apply {
-            color = 0xFFC4C4C4.toInt()
+            color = mUnselectedColor
             style = Paint.Style.FILL
             isAntiAlias = true
 
         }
         mSelectedDotPaint.apply {
-            color = 0xFFFFFFFF.toInt()
+            color = mSelectedColor
             style = Paint.Style.FILL
             isAntiAlias = true
         }
 
         mPathPaint.apply {
-            color = 0xFFFFFFFF.toInt()
+            color = mSelectedColor
             style = Paint.Style.FILL_AND_STROKE
             isAntiAlias = true
         }
@@ -92,9 +91,9 @@ class ProgressDotView : View {
         mDotCount = a.getInt(R.styleable.ProgressDotView_dotCount, mDotCount)
         mUnselectedColor = a.getColor(R.styleable.ProgressDotView_unSelectedColor, mUnselectedColor)
         mSelectedColor = a.getColor(R.styleable.ProgressDotView_selectedColor, mSelectedColor)
-        mZoom = a.getFloat(R.styleable.ProgressDotView_circleZoom, 0.4f)
+        mZoom = a.getFloat(R.styleable.ProgressDotView_circleZoom, mZoom)
         mLeftCircleCanMovePosition = a.getFloat(R.styleable.ProgressDotView_leftCircleCanMovePosition,
-            mLeftCircleCanMovePosition)
+                mLeftCircleCanMovePosition)
         a.recycle()
     }
 
@@ -108,6 +107,7 @@ class ProgressDotView : View {
             drawPath(canvas)
         }
     }
+
     private var mStartX = 0f //移动前起始圆点圆心X坐标
     private var mEndX = 0f //移动后最终点圆心X坐标
     private var mLeftX = 0f //移动时左圆的X坐标值
@@ -117,7 +117,6 @@ class ProgressDotView : View {
     private var mRightCircleRadius = 0f //右圆的实时半径
     private var mZoom = 0.4f //左圆缩放mZoom后开始移动 右圆放大到(1-mZoom)后刚好移动到mEnd
     private var mLeftCircleCanMovePosition = 0.5f //当mProgress大于该值时 左圆缩放mZoom完毕 开始移动
-
     private var mIsEnd = false //是否达到最后一页
 
     private fun drawDot(canvas: Canvas) {

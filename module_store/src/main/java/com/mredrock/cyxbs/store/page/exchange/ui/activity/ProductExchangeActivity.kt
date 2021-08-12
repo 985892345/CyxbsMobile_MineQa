@@ -14,6 +14,7 @@ import com.mredrock.cyxbs.store.page.exchange.ui.item.ProductImageItem
 import com.mredrock.cyxbs.store.page.exchange.viewmodel.ProductExchangeViewModel
 import com.mredrock.cyxbs.store.utils.ui.activity.PhotoActivity
 import com.mredrock.cyxbs.store.utils.ui.fragment.ProductExchangeDialogFragment
+import com.mredrock.cyxbs.store.utils.widget.ZoomOutPageTransformer
 import kotlinx.android.synthetic.main.store_activity_product_exchenge.*
 import kotlinx.android.synthetic.main.store_common_toolbar.*
 
@@ -51,12 +52,14 @@ class ProductExchangeActivity : BaseViewModelActivity<ProductExchangeViewModel>(
         }
 
         //初始化可循环滑动的VP
-        initViewPager()
+        initViewPager2()
 
         dataBinding.eventHandle = EventHandle()
     }
 
-    private fun initViewPager() {
+    private fun initViewPager2() {
+        //设置切换动画
+        store_vp_product_image.setPageTransformer(ZoomOutPageTransformer())
         //设置起始页 通过 page：2 0 1 2 0 来实现 0 1 2 界面的循环滑动
         store_vp_product_image.setCurrentItem(1, false)
         //添加VP的页面选中监听 来控制圆点重绘
