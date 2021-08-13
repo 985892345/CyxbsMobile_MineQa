@@ -1,4 +1,4 @@
-package com.mredrock.cyxbs.store.utils.ui.activity
+package com.mredrock.cyxbs.store.ui.activity
 
 import android.Manifest
 import android.annotation.SuppressLint
@@ -7,7 +7,7 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
-import android.util.Log
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.widget.ViewPager2
@@ -15,7 +15,6 @@ import com.github.chrisbanes.photoview.PhotoView
 import com.mredrock.cyxbs.common.utils.extensions.*
 import com.mredrock.cyxbs.store.R
 import com.mredrock.cyxbs.store.utils.widget.slideshow.SlideShow
-import com.mredrock.cyxbs.store.utils.widget.slideshow.viewpager2.transformer.ScaleInTransformer
 import kotlinx.android.synthetic.main.store_activity_photo.*
 
 /**
@@ -70,6 +69,7 @@ class PhotoActivity : AppCompatActivity() {
                 getNewView = { context -> PhotoView(context) },
                 getItemCount = { mImgUrls.size },
                 create = { holder ->
+                    holder.view.scaleType= ImageView.ScaleType.CENTER_INSIDE
                     holder.view.setOnPhotoTapListener { _, _, _ ->
                         finish()
                     }

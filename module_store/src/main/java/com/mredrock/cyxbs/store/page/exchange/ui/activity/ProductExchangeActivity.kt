@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.ImageView
 import androidx.activity.result.contract.ActivityResultContract
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.util.Pair
@@ -12,9 +13,8 @@ import com.mredrock.cyxbs.common.utils.extensions.setImageFromUrl
 import com.mredrock.cyxbs.store.R
 import com.mredrock.cyxbs.store.databinding.StoreActivityProductExchangeBinding
 import com.mredrock.cyxbs.store.page.exchange.viewmodel.ProductExchangeViewModel
-import com.mredrock.cyxbs.store.utils.ui.activity.PhotoActivity
-import com.mredrock.cyxbs.store.utils.ui.fragment.ProductExchangeDialogFragment
-import com.mredrock.cyxbs.store.utils.widget.slideshow.viewpager2.pagecallback.BasePageChangeCallBack
+import com.mredrock.cyxbs.store.ui.activity.PhotoActivity
+import com.mredrock.cyxbs.store.ui.fragment.ProductExchangeDialogFragment
 import com.mredrock.cyxbs.store.utils.widget.slideshow.viewpager2.transformer.ScaleInTransformer
 import kotlinx.android.synthetic.main.store_common_toolbar.*
 
@@ -57,9 +57,7 @@ class ProductExchangeActivity : BaseViewModelActivity<ProductExchangeViewModel>(
     }
 
     private fun initSlideShow() {
-        mImageList.add("http://hakaimg.com/i/2021/08/09/nr64i7.jpg")
-        mImageList.add("http://hakaimg.com/i/2021/08/09/nr64i7.jpg")
-        mImageList.add("http://hakaimg.com/i/2021/08/09/nr64i7.jpg")
+        mImageList.add("https://s3-alpha-sig.figma.com/img/2716/1ae8/a90e8b280c050f738d05547af9153217?Expires=1629676800&Signature=YVNkTPufMAVsMB9DEJpITFO9BPAUCXE~VIO0PVrSgQhsaCSetbXOr3Ioph-obX3y59VVpW7eWs-xmJINPuDsGTV-wGMfL-lIUnfPChLkKG96~~9fGvAtT~sQk43eEbmwO50GIeqN8Gf1S31b~OREa0KucuLEE7ZpQso8XLvxU9WBjVSW4n3qjwTnPwqPeMxJrGY4cv3a9342Gagi29bYTy-9i7i4O5XDT9gkDmzZIedVjr9r46ukds-ldUXtlntqZKGfMX1FUY9-xmlUB6qmVWrBEI95AEK~o2XQFBdii3dfi2KNLgxNqmVX5ejFy3PA~WSwujD87bm34pPv0nfpXw__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA")
         mImageList.add("http://hakaimg.com/i/2021/08/09/nr64i7.jpg")
         mImageList.add("http://hakaimg.com/i/2021/08/09/nr64i7.jpg")
         dataBinding.storeSlideShowExchangeProductImage
@@ -75,7 +73,6 @@ class ProductExchangeActivity : BaseViewModelActivity<ProductExchangeViewModel>(
                                     "productImage"
                                 )
                             )
-                        // 因为开启了循环, 所以内部 item 的位置不再是你想的那个位置
                         mPosition =
                             dataBinding.storeSlideShowExchangeProductImage
                                 .getRealPosition(holder.layoutPosition)
