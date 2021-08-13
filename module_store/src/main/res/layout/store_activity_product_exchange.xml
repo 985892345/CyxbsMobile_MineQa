@@ -40,6 +40,7 @@
         <com.mredrock.cyxbs.store.utils.widget.slideshow.SlideShow
             android:id="@+id/store_slideShow_exchange_product_image"
             android:transitionName="productImage"
+            android:background="@drawable/store_shape_stamp_center_product"
             android:layout_width="match_parent"
             android:layout_height="180dp"
             android:layout_marginLeft="16dp"

@@ -25,7 +25,7 @@ class SlideShowAttrs private constructor(){
         internal set
     var viewHeight = ViewGroup.LayoutParams.MATCH_PARENT
         internal set
-    var imgDefaultColor = 0xFFFAFAFA.toInt()
+    var imgDefaultColor = 0x00000000
         internal set
 
     private var viewMargin = 0
