@@ -5,17 +5,17 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContract
-import androidx.viewpager2.widget.ViewPager2
+import androidx.core.app.ActivityOptionsCompat
+import androidx.core.util.Pair
 import com.mredrock.cyxbs.common.ui.BaseViewModelActivity
+import com.mredrock.cyxbs.common.utils.extensions.setImageFromUrl
 import com.mredrock.cyxbs.store.R
-import com.mredrock.cyxbs.store.base.SimpleRVAdapter
 import com.mredrock.cyxbs.store.databinding.StoreActivityProductExchangeBinding
-import com.mredrock.cyxbs.store.page.exchange.ui.item.ProductImageItem
 import com.mredrock.cyxbs.store.page.exchange.viewmodel.ProductExchangeViewModel
 import com.mredrock.cyxbs.store.utils.ui.activity.PhotoActivity
 import com.mredrock.cyxbs.store.utils.ui.fragment.ProductExchangeDialogFragment
-import com.mredrock.cyxbs.store.utils.widget.ZoomOutPageTransformer
-import kotlinx.android.synthetic.main.store_activity_product_exchange.*
+import com.mredrock.cyxbs.store.utils.widget.slideshow.viewpager2.pagecallback.BasePageChangeCallBack
+import com.mredrock.cyxbs.store.utils.widget.slideshow.viewpager2.transformer.ScaleInTransformer
 import kotlinx.android.synthetic.main.store_common_toolbar.*
 
 /**
@@ -25,23 +25,22 @@ import kotlinx.android.synthetic.main.store_common_toolbar.*
  */
 class ProductExchangeActivity : BaseViewModelActivity<ProductExchangeViewModel>() {
 
-    private var mImageViewPagerAdapter: SimpleRVAdapter? = null
     private lateinit var dataBinding: StoreActivityProductExchangeBinding
     private var mImageList = ArrayList<String>()
     private var mPosition = 0 //当前VP显示的item的位置
     private val mLauncher = registerForActivityResult(ResultContract()) { result ->
         //从PhotoActivity回到该Activity时 将VP中图片位置移动到退出时PhotoActivity时图片的位置
-        store_vp_product_image.setCurrentItem(result, false)
+        dataBinding.storeSlideShowExchangeProductImage.setCurrentItem(result, false)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        //降低进入activity后的白闪情况
+        window.setBackgroundDrawableResource(R.color.store_transparent)
         //创建binding
         dataBinding = StoreActivityProductExchangeBinding.inflate(layoutInflater)
         setContentView(dataBinding.root)
-        initAdapter()
         initView()
-        initData()
     }
 
     private fun initView() {
@@ -51,54 +50,41 @@ class ProductExchangeActivity : BaseViewModelActivity<ProductExchangeViewModel>(
             finish()
         }
 
-        //初始化可循环滑动的VP
-        initViewPager2()
+        //初始化轮播图
+        initSlideShow()
 
         dataBinding.eventHandle = EventHandle()
     }
 
-    private fun initViewPager2() {
-        //设置切换动画
-        store_vp_product_image.setPageTransformer(ZoomOutPageTransformer())
-        //设置起始页 通过 page：2 0 1 2 0 来实现 0 1 2 界面的循环滑动
-        store_vp_product_image.setCurrentItem(1, false)
-        //添加VP的页面选中监听 来控制圆点重绘
-        store_vp_product_image.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
-            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
-                super.onPageScrolled(position, positionOffset, positionOffsetPixels)
-                //更新圆点
-                store_progress_dot.updatePosition(position - 1, positionOffset)
-                //进行界面跳转 实现循环
-                if (position == mImageList.size - 1) {
-                    store_vp_product_image.setCurrentItem(1, false)
-                }
-                if (position == 0) {
-                    store_vp_product_image.setCurrentItem(mImageList.size - 1, false)
-                }
-            }
-
-            override fun onPageSelected(position: Int) {
-                super.onPageSelected(position)
-                mPosition = position - 1
-            }
-        })
-    }
-
-    private fun initAdapter() {
+    private fun initSlideShow() {
         mImageList.add("http://hakaimg.com/i/2021/08/09/nr64i7.jpg")
         mImageList.add("http://hakaimg.com/i/2021/08/09/nr64i7.jpg")
         mImageList.add("http://hakaimg.com/i/2021/08/09/nr64i7.jpg")
         mImageList.add("http://hakaimg.com/i/2021/08/09/nr64i7.jpg")
         mImageList.add("http://hakaimg.com/i/2021/08/09/nr64i7.jpg")
-
-        mImageViewPagerAdapter = SimpleRVAdapter(5)
-                .addItem(ProductImageItem(mImageList, mLauncher, this))
-
-        store_vp_product_image.adapter = mImageViewPagerAdapter
-    }
-
-    private fun initData() {
-
+        dataBinding.storeSlideShowExchangeProductImage
+            .addTransformer(ScaleInTransformer())
+            .openCirculateEnabled()
+            .setImgAdapter(mImageList,
+                create = { holder ->
+                    holder.view.setOnClickListener {
+                        val options =
+                            ActivityOptionsCompat.makeSceneTransitionAnimation(
+                                this, Pair<View, String>(
+                                    dataBinding.storeSlideShowExchangeProductImage,
+                                    "productImage"
+                                )
+                            )
+                        // 因为开启了循环, 所以内部 item 的位置不再是你想的那个位置
+                        mPosition =
+                            dataBinding.storeSlideShowExchangeProductImage
+                                .getRealPosition(holder.layoutPosition)
+                        mLauncher.launch(true, options)
+                    }
+                },
+                refactor = { data, imageView, _, _ ->
+                    imageView.setImageFromUrl(data)
+                })
     }
 
     /**
@@ -115,9 +101,9 @@ class ProductExchangeActivity : BaseViewModelActivity<ProductExchangeViewModel>(
                     if (true) {
                         ProductExchangeDialogFragment().apply {
                             initView(
-                                    dialogRes = R.layout.store_dialog_exchange_product,
-                                    onPositiveClick = { dismiss() },
-                                    onNegativeClick = { dismiss() }
+                                dialogRes = R.layout.store_dialog_exchange_product,
+                                onPositiveClick = { dismiss() },
+                                onNegativeClick = { dismiss() }
                             )
                         }.show(supportFragmentManager, "zz")
                     }
@@ -128,7 +114,7 @@ class ProductExchangeActivity : BaseViewModelActivity<ProductExchangeViewModel>(
 
     inner class ResultContract : ActivityResultContract<Boolean, Int>() {
 
-        override fun createIntent(context: Context, input: Boolean?): Intent {
+        override fun createIntent(context: Context, input: Boolean): Intent {
             return Intent(context, PhotoActivity::class.java).apply {
                 putExtra("position", mPosition)
                 putStringArrayListExtra("imageUrlList", mImageList)

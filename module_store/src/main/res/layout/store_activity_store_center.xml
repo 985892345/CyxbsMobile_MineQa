@@ -108,6 +108,7 @@
                 android:text="@string/store_stamp_center_detail"
                 android:textSize="10dp"
                 android:textColor="@color/store_stamp_center_detail"
+                android:alpha="0.8"
                 app:layout_constraintBottom_toBottomOf="@+id/store_textview"
                 app:layout_constraintStart_toEndOf="@+id/store_textview"
                 app:layout_constraintTop_toTopOf="@+id/store_textview"
@@ -133,7 +134,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:alpha="0.9"
+                android:alpha="0.7"
                 android:fontFamily="@font/store_my_stamp_number"
                 android:text="@string/store_stamp_center_get_remind"
                 android:textColor="@color/store_stamp_center_get_remind"
@@ -155,8 +156,9 @@
                 android:id="@+id/store_tl_stamp_center"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
+                android:layout_marginTop="12dp"
                 android:backgroundTint="@android:color/transparent"
-                android:theme="@style/Theme.MaterialComponents.DayNight"
+                android:theme="@style/Theme.MaterialComponents"
                 app:tabGravity="fill"
                 app:tabIndicator="@drawable/store_ic_tab_indicator"
                 app:tabIndicatorColor="@color/common_mine_tab_layout_indicator_color"
@@ -175,8 +177,10 @@
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:backgroundTint="@color/store_stamp_center_cardView_background"
+                app:cardBackgroundColor="@color/store_stamp_center_cardView_background"
                 app:cardCornerRadius="16dp"
+                app:cardElevation="4dp"
+                app:cardMaxElevation="6dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@+id/store_tl_stamp_center"
                 app:layout_constraintStart_toStartOf="@+id/store_tl_stamp_center"
@@ -186,7 +190,7 @@
                     android:id="@+id/store_vp_stamp_center"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_margin="16dp" />
+                    android:layout_margin="12dp" />
 
             </androidx.cardview.widget.CardView>
 

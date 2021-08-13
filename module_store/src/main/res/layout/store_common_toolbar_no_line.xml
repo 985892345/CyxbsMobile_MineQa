@@ -7,16 +7,15 @@
 
     <ImageButton
         android:id="@+id/store_iv_toolbar_no_line_arrow_left"
-        android:layout_width="16dp"
+        android:layout_width="30dp"
         android:layout_height="18dp"
+        android:layout_marginStart="6dp"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:scaleType="centerInside"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintHorizontal_bias="0.04533"
-        app:layout_constraintVertical_bias="0.075"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.075"
         app:srcCompat="@drawable/store_ic_arrow_left"
         tools:ignore="ContentDescription" />
 

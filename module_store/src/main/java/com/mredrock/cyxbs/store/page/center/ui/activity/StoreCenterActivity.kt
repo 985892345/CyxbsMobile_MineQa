@@ -9,6 +9,7 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.mredrock.cyxbs.common.config.STORE_CENTER
 import com.mredrock.cyxbs.common.ui.BaseViewModelActivity
+import com.mredrock.cyxbs.common.utils.extensions.dp2px
 import com.mredrock.cyxbs.store.R
 import com.mredrock.cyxbs.store.base.SimpleRVAdapter
 import com.mredrock.cyxbs.store.page.center.ui.item.SmallShopItem
@@ -63,6 +64,16 @@ class StoreCenterActivity : BaseViewModelActivity<StoreCenterViewModel>() {
         if (tab != null) {
             val badge = tab.orCreateBadge
             badge.backgroundColor = 0xFF6D68FF.toInt()
+            try {
+                // 视觉说这个小圆点大了, 艹, 妈的官方也不提供方法修改, 只好靠反射拿了 :)
+                // 官方中 badgeRadius 是 final 常量, 但反射却能修改, 原因在于它在构造器中
+                // 被初始化, 不会被内联优化, 所以是可以改的
+                val field = badge.javaClass.getDeclaredField("badgeRadius")
+                field.isAccessible = true
+                field.set(badge, dp2px(3.5F))
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
         }
     }
 

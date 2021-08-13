@@ -7,97 +7,105 @@
 
     </data>
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/store_cv_stamp_small_shop"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="6dp"
-        app:cardCornerRadius="8dp"
-        app:cardElevation="2px"
-        tools:ignore="PxUsage">
+        android:background="@drawable/store_shape_stamp_center_product">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <androidx.cardview.widget.CardView
+            android:id="@+id/store_cv_stamp_small_shop"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_margin="6dp"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="0dp"
+            tools:ignore="PxUsage">
 
-            <ImageView
-                android:id="@+id/store_iv_small_shop_product"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:scaleType="centerCrop"
-                android:transitionName="productImage"
-                app:layout_constraintDimensionRatio="12:10"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:ignore="ContentDescription" />
+                android:layout_height="wrap_content">
 
-            <TextView
-                android:id="@+id/store_tv_small_shop_product_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginStart="12dp"
-                android:text="小米充电宝"
-                android:textColor="@color/store_small_shop_product_name"
-                android:textSize="14sp"
-                android:transitionName="productName"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/store_iv_small_shop_product"
-                tools:ignore="HardcodedText" />
+                <ImageView
+                    android:id="@+id/store_iv_small_shop_product"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:scaleType="centerCrop"
+                    android:transitionName="productImage"
+                    app:layout_constraintDimensionRatio="12:10"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="ContentDescription" />
 
-            <TextView
-                android:id="@+id/store_tv_small_shop_product_stock"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="12dp"
-                android:layout_marginTop="2dp"
-                android:alpha="0.4"
-                android:transitionName="productStock"
-                android:text="库存：999"
-                android:textColor="@color/store_small_shop_product_stock"
-                android:textSize="12sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/store_tv_small_shop_product_name"
-                tools:ignore="HardcodedText" />
+                <TextView
+                    android:id="@+id/store_tv_small_shop_product_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginStart="12dp"
+                    android:text="小米充电宝"
+                    android:textColor="@color/store_small_shop_product_name"
+                    android:textSize="14sp"
+                    android:transitionName="productName"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/store_iv_small_shop_product"
+                    tools:ignore="HardcodedText" />
+
+                <TextView
+                    android:id="@+id/store_tv_small_shop_product_stock"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginTop="2dp"
+                    android:alpha="0.4"
+                    android:transitionName="productStock"
+                    android:text="库存：999"
+                    android:textColor="@color/store_small_shop_product_stock"
+                    android:textSize="12sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/store_tv_small_shop_product_name"
+                    tools:ignore="HardcodedText" />
 
 
-            <TextView
-                android:id="@+id/store_tv_small_shop_price"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="12dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="16dp"
-                android:gravity="bottom"
-                android:text="999"
-                android:textColor="@color/store_small_shop_price"
-                android:textSize="14sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/store_tv_small_shop_product_stock"
-                app:layout_constraintVertical_bias="1.0"
-                app:drawableStartCompat="@drawable/store_ic_stamp"
-                tools:ignore="HardcodedText"/>
+                <TextView
+                    android:id="@+id/store_tv_small_shop_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="16dp"
+                    android:gravity="bottom"
+                    android:text="999"
+                    android:textColor="@color/store_small_shop_price"
+                    android:textSize="14sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/store_tv_small_shop_product_stock"
+                    app:layout_constraintVertical_bias="1.0"
+                    app:drawableStartCompat="@drawable/store_ic_stamp"
+                    tools:ignore="HardcodedText"/>
 
-            <!--设置了整个 CardView 的点击事件, 所以这里设置成 TextView 更好-->
-            <TextView
-                android:id="@+id/store_btn_small_shop_product_exchange"
-                android:layout_width="48dp"
-                android:layout_height="26dp"
-                android:layout_marginEnd="12dp"
-                android:layout_marginBottom="12dp"
-                android:background="@drawable/store_btn_exchange"
-                android:gravity="center"
-                android:text="兑换"
-                android:transitionName="exchange"
-                android:textColor="@color/store_small_shop_product_exchange"
-                android:textSize="14dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                tools:ignore="HardcodedText,SpUsage" />
+                <!--设置了整个 CardView 的点击事件, 所以这里设置成 TextView 更好-->
+                <TextView
+                    android:id="@+id/store_tv_small_shop_product_exchange"
+                    android:transitionName="exchange"
+                    android:layout_width="48dp"
+                    android:layout_height="26dp"
+                    android:layout_marginEnd="12dp"
+                    android:layout_marginBottom="12dp"
+                    android:background="@drawable/store_btn_exchange"
+                    android:gravity="center"
+                    android:text="兑换"
+                    android:textColor="@color/store_small_shop_product_exchange"
+                    android:textSize="14dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    tools:ignore="HardcodedText,SpUsage" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </androidx.cardview.widget.CardView>
+        </androidx.cardview.widget.CardView>
+
+    </FrameLayout>
+
 </layout>

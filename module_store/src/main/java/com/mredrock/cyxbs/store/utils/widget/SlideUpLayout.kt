@@ -4,6 +4,7 @@ import android.animation.ValueAnimator
 import android.content.Context
 import android.graphics.Rect
 import android.util.AttributeSet
+import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
@@ -56,7 +57,7 @@ class SlideUpLayout(
     }
     private val mCanMoveHeight by lazy { // 能够滑动的距离
         val lp = getChildAt(0).layoutParams
-        (lp.height * 0.8).toInt()
+        lp.height
     }
     // 能够移动的上限值
     private val mUpperHeight by lazy { mOriginalFirstChildRect.bottom - mCanMoveHeight }
@@ -119,9 +120,9 @@ class SlideUpLayout(
     }
 
     override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
-        var child = getChildAt(0)
+        var child = mFirstChild
         child.layout(0, 0, child.measuredWidth, child.measuredHeight)
-        var height = if (getChildAt(1).top == 0) child.measuredHeight else getChildAt(1).top
+        var height = if (mSecondChild.height == 0) child.measuredHeight else mSecondChild.top
         for (i in 1 until childCount) {
             child = getChildAt(i)
             child.layout(0, height, child.measuredWidth, height + child.measuredHeight)
