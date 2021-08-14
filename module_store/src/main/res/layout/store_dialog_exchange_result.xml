@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="300dp"
-    android:layout_height="200dp"
+    android:layout_height="178dp"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <ImageView
         android:id="@+id/store_iv_dialog_background"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="178dp"
         android:orientation="vertical"
         android:src="@drawable/common_shape_round_corner_dialog"
         app:layout_constraintTop_toTopOf="parent"

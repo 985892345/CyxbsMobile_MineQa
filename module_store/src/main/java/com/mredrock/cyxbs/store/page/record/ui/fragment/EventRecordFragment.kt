@@ -1,18 +1,25 @@
 package com.mredrock.cyxbs.store.page.record.ui.fragment
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AlphaAnimation
 import android.view.animation.AnimationUtils
 import android.view.animation.LayoutAnimationController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mredrock.cyxbs.common.ui.BaseViewModelFragment
+import com.mredrock.cyxbs.common.utils.extensions.gone
+import com.mredrock.cyxbs.common.utils.extensions.onClick
 import com.mredrock.cyxbs.store.R
 import com.mredrock.cyxbs.store.base.SimpleRVAdapter
-import com.mredrock.cyxbs.store.page.record.ui.item.ExchangeRecordItem
-import com.mredrock.cyxbs.store.page.record.ui.item.StampGetRecordItem
+import com.mredrock.cyxbs.store.bean.StampGetRecord
+import com.mredrock.cyxbs.store.databinding.StoreRecyclerItemExchangeRecordBinding
+import com.mredrock.cyxbs.store.databinding.StoreRecyclerItemStampGetRecordBinding
+import com.mredrock.cyxbs.store.page.record.ui.activity.ExchangeDetailActivity
 import com.mredrock.cyxbs.store.page.record.viewmodel.EventRecordViewModel
+import com.mredrock.cyxbs.store.utils.Date
 import kotlinx.android.synthetic.main.store_fragment_event_record.*
 
 /**
@@ -23,8 +30,9 @@ import kotlinx.android.synthetic.main.store_fragment_event_record.*
 
 class EventRecordFragment : BaseViewModelFragment<EventRecordViewModel>() {
     private lateinit var mEventRVAdapter: SimpleRVAdapter
+    private val anim = AlphaAnimation(0f, 1f) //待领取的提示显示动画
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, 
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
 
         return inflater.inflate(R.layout.store_fragment_event_record, container, false)
@@ -44,10 +52,10 @@ class EventRecordFragment : BaseViewModelFragment<EventRecordViewModel>() {
     private fun initData() {
         when (arguments?.getString("event")) {
             "exchange" -> {
-//             viewModel.getExchangeRecord()
+                viewModel.getExchangeRecord()
             }
             "getStamp" -> {
-//             viewModel.getStampRecord()
+                viewModel.getStampRecord()
             }
         }
     }
@@ -61,28 +69,65 @@ class EventRecordFragment : BaseViewModelFragment<EventRecordViewModel>() {
      * 根据event的不同 为RecyclerView赋予不同的item和数据
      */
     private fun initAdapter() {
-
         when (arguments?.getString("event")) {
             "exchange" -> {
-                //观察 在观察中配置adapter
-                //若adapter未设置 则进行设置
-                if (store_fragment_rv_event_record.adapter == null) {
-                    mEventRVAdapter = SimpleRVAdapter(5)
-                            .addItem(ExchangeRecordItem())
+                viewModel.mExchangeRecord.observeNotNull {
+                    //若adapter未设置 则进行设置
+                    if (store_fragment_rv_event_record.adapter == null) {
+                        mEventRVAdapter = SimpleRVAdapter(it.size)
+                                .addItem(
+                                        layoutId = R.layout.store_recycler_item_exchange_record,
+                                        isInHere = { true },
+                                        create = { binding: StoreRecyclerItemExchangeRecordBinding, holder: SimpleRVAdapter.BindingVH ->
+                                            //设置点击事件
+                                            binding.storeLayoutExchangeRecord.onClick { _ ->
+                                                val intent = Intent(activity, ExchangeDetailActivity::class.java)
+                                                intent.putExtra("data", it[holder.layoutPosition])
+                                                activity?.startActivity(intent)
+                                            }
+                                            //设置待领取提示的出场动画
+                                            anim.duration = 600
+                                        },
+                                        refactor = { binding: StoreRecyclerItemExchangeRecordBinding, holder: SimpleRVAdapter.BindingVH, position: Int ->
+                                            //绑定数据
+                                            binding.data = it[position]
+                                            //单独处理时间
+                                            binding.storeItemExchangeRecordTvDate.text = Date.getTime(it[position].date)
+                                            //如果已领取就gone 否则启动动画
+                                            if (it[position].isReceived) {
+                                                binding.storeBtnProductReceiveTips.gone()
+                                            } else {
+                                                binding.storeBtnProductReceiveTips.startAnimation(anim)
+                                            }
+                                        }
+                                )
+                        store_fragment_rv_event_record.adapter = mEventRVAdapter
+                    }
                 }
-
             }
             "getStamp" -> {
-                //若adapter未设置 则进行设置
-                if (store_fragment_rv_event_record.adapter == null) {
-                    mEventRVAdapter = SimpleRVAdapter(5)
-                            .addItem(StampGetRecordItem())
+                viewModel.mStampGetRecord.observeNotNull {
+                    //若adapter未设置 则进行设置
+                    if (store_fragment_rv_event_record.adapter == null) {
+                        mEventRVAdapter = SimpleRVAdapter(it.size)
+                                .addItem(
+                                        layoutId = R.layout.store_recycler_item_stamp_get_record,
+                                        isInHere = { true },
+                                        create = { binding: StoreRecyclerItemStampGetRecordBinding, holder: SimpleRVAdapter.BindingVH ->
+
+                                        },
+                                        refactor = { binding: StoreRecyclerItemStampGetRecordBinding, holder: SimpleRVAdapter.BindingVH, position: Int ->
+                                            binding.data = it[position] as StampGetRecord.Data
+                                            //单独处理时间
+                                            binding.storeItemGetRecordTvDate.text = Date.getTime(it[position].date)
+                                        }
+                                )
+                        store_fragment_rv_event_record.adapter = mEventRVAdapter
+                    }
                 }
+
 
             }
         }
-
-        store_fragment_rv_event_record.adapter = mEventRVAdapter
-
     }
 }

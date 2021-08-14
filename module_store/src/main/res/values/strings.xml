@@ -22,5 +22,8 @@
     <string name="store_equity_description">权益说明</string>
     <string name="store_pic_save_alert_dialog_title">是否保存</string>
     <string name="store_pic_save_alert_dialog_message">这张图片将保存到手机</string>
-
+    <string name="store_product_detail_failure">获取商品详细失败</string>
+    <string name="store_exchange_product_failure">兑换请求异常</string>
+    <string name="store_exchange_detail_failure">获取兑换记录失败</string>
+    <string name="store_stamp_record_failure">获取邮票记录失败</string>
 </resources>

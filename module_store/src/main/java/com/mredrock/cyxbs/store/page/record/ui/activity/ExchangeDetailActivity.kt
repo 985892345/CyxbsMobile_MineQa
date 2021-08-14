@@ -2,6 +2,8 @@ package com.mredrock.cyxbs.store.page.record.ui.activity
 
 import android.os.Bundle
 import com.mredrock.cyxbs.common.ui.BaseActivity
+import com.mredrock.cyxbs.store.R
+import com.mredrock.cyxbs.store.bean.ExchangeRecord
 import com.mredrock.cyxbs.store.databinding.StoreActivityExchangeDetailBinding
 import kotlinx.android.synthetic.main.store_common_toolbar_no_line.*
 
@@ -12,19 +14,34 @@ import kotlinx.android.synthetic.main.store_common_toolbar_no_line.*
  */
 class ExchangeDetailActivity : BaseActivity() {
     private lateinit var dataBinding: StoreActivityExchangeDetailBinding
+    private lateinit var data: ExchangeRecord.Data
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         dataBinding = StoreActivityExchangeDetailBinding.inflate(layoutInflater)
+        dataBinding.lifecycleOwner = this
         setContentView(dataBinding.root)
-
+        initData()
         initView()
+    }
+
+    private fun initData() {
+        data = intent.getStringExtra("data") as ExchangeRecord.Data
     }
 
     private fun initView() {
         //绑定数据
-        //...
-        //判断类型 动态改变IV
-//        store_iv_exchange_order_bg.setImageDrawable()
+        dataBinding.data = data
+        //判断是否领取 动态改变IV TV
+        if (data.isReceived) {
+            dataBinding.storeIvExchangeOrderBg.setImageResource(R.drawable.store_bg_claimed_exchange_order)
+            dataBinding.storeExchangeDetailState.text = "已领取"
+        } else {
+            dataBinding.storeIvExchangeOrderBg.setImageResource(R.drawable.store_bg_unclaimed_exchange_order)
+            dataBinding.storeExchangeDetailState.text = "待领取"
+        }
+        //设置时间
+//        dataBinding.storeExchangeDetailTime
+
         //设置左上角返回点击事件
         store_iv_toolbar_no_line_arrow_left.setOnClickListener {
             finish()

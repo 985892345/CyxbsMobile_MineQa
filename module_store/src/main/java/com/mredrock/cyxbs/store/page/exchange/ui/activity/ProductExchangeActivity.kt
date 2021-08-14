@@ -1,16 +1,18 @@
 package com.mredrock.cyxbs.store.page.exchange.ui.activity
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
-import android.widget.ImageView
 import androidx.activity.result.contract.ActivityResultContract
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.util.Pair
 import com.mredrock.cyxbs.common.ui.BaseViewModelActivity
 import com.mredrock.cyxbs.common.utils.extensions.setImageFromUrl
 import com.mredrock.cyxbs.store.R
+import com.mredrock.cyxbs.store.bean.ProductDetail
 import com.mredrock.cyxbs.store.databinding.StoreActivityProductExchangeBinding
 import com.mredrock.cyxbs.store.page.exchange.viewmodel.ProductExchangeViewModel
 import com.mredrock.cyxbs.store.ui.activity.PhotoActivity
@@ -28,6 +30,9 @@ class ProductExchangeActivity : BaseViewModelActivity<ProductExchangeViewModel>(
     private lateinit var dataBinding: StoreActivityProductExchangeBinding
     private var mImageList = ArrayList<String>()
     private var mPosition = 0 //当前VP显示的item的位置
+    private var mStampCount = 0 //我的余额
+    private var mId = "" //商品ID
+    private lateinit var mData: ProductDetail.Data
     private val mLauncher = registerForActivityResult(ResultContract()) { result ->
         //从PhotoActivity回到该Activity时 将VP中图片位置移动到退出时PhotoActivity时图片的位置
         dataBinding.storeSlideShowExchangeProductImage.setCurrentItem(result, false)
@@ -40,7 +45,100 @@ class ProductExchangeActivity : BaseViewModelActivity<ProductExchangeViewModel>(
         //创建binding
         dataBinding = StoreActivityProductExchangeBinding.inflate(layoutInflater)
         setContentView(dataBinding.root)
+        dataBinding.lifecycleOwner = this
         initView()
+        initObserve()
+        initData()
+        dataBinding.eventHandle = EventHandle()
+    }
+
+
+    private fun initData() {
+        //得到商品详细
+        viewModel.getProductDetail("1")
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun initObserve() {
+        viewModel.productDetail.observe {
+            if (it != null) {
+                Log.d("zzzz","(ProductExchangeActivity.kt:64)-->> $it")
+                dataBinding.data = it
+                //处理权益说明
+                when (it.type) {
+                    1 -> {
+                        dataBinding.storeTvEquityDescription.text = "1、每个实物商品每人限兑换一次，已经兑换的商品不能退货换货也不予折现。\n2、在法律允许的范围内，本活动的最终解释权归红岩网校工作站所有。"
+                    }
+                    0 -> {
+                        dataBinding.storeTvEquityDescription.text = "1、虚拟商品版权归红岩网校工作站所有。\n2、在法律允许的范围内，本活动的最终解释权归红岩网校工作站所有。"
+                    }
+                }
+                //设置轮播图UrlList
+//          mImageList.add("https://s3-alpha-sig.figma.com/img/2716/1ae8/a90e8b280c050f738d05547af9153217?Expires=1629676800&Signature=YVNkTPufMAVsMB9DEJpITFO9BPAUCXE~VIO0PVrSgQhsaCSetbXOr3Ioph-obX3y59VVpW7eWs-xmJINPuDsGTV-wGMfL-lIUnfPChLkKG96~~9fGvAtT~sQk43eEbmwO50GIeqN8Gf1S31b~OREa0KucuLEE7ZpQso8XLvxU9WBjVSW4n3qjwTnPwqPeMxJrGY4cv3a9342Gagi29bYTy-9i7i4O5XDT9gkDmzZIedVjr9r46ukds-ldUXtlntqZKGfMX1FUY9-xmlUB6qmVWrBEI95AEK~o2XQFBdii3dfi2KNLgxNqmVX5ejFy3PA~WSwujD87bm34pPv0nfpXw__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA")
+//          mImageList.add("http://hakaimg.com/i/2021/08/09/nr64i7.jpg")
+//          mImageList.add("http://hakaimg.com/i/2021/08/09/nr64i7.jpg")
+
+                mImageList = it.urls as ArrayList<String>
+                //初始化轮播图
+                initSlideShow()
+                //保存
+                mData = it
+            }
+        }
+        viewModel.exchangeResult.observe {
+            if (it != null) {
+                when (it) {
+                    "reduce goods error" -> {
+                        ProductExchangeDialogFragment().apply {
+                            initView(
+                                    dialogRes = R.layout.store_dialog_exchange_result,
+                                    onPositiveClick = { dismiss() },
+                                    exchangeTips = "啊欧，手慢了！下次再来吧=.="
+                            )
+                        }.show(supportFragmentManager, "zz")
+                    }
+                    "Integral not enough" -> {
+                        ProductExchangeDialogFragment().apply {
+                            initView(
+                                    dialogRes = R.layout.store_dialog_exchange_result,
+                                    onPositiveClick = { dismiss() },
+                                    exchangeTips = "诶......邮票不够啊......穷日子真不好过呀QAQ"
+                            )
+                        }.show(supportFragmentManager, "zz")
+                    }
+                    "success" -> {
+                        //根据不同商品类型弹出不同dialog
+                        if (::mData.isInitialized) {
+                            when (mData.type) {
+                                0 -> {
+                                    ProductExchangeDialogFragment().apply {
+                                        initView(
+                                                dialogRes = R.layout.store_dialog_exchange_product,
+                                                onPositiveClick = { dismiss() },
+                                                onNegativeClick = { dismiss() },
+                                                exchangeTips = "兑换成功！现在就换掉原来的名片吧！",
+                                                positiveString = "好的",
+                                                negativeString = "再想想"
+                                        )
+                                    }.show(supportFragmentManager, "zz")
+                                }
+                                1 -> {
+                                    ProductExchangeDialogFragment().apply {
+                                        initView(
+                                                dialogRes = R.layout.store_dialog_exchange_result,
+                                                onPositiveClick = { dismiss() },
+                                                exchangeTips = "兑换成功！请在30天内到红岩网校领取哦"
+                                        )
+                                    }.show(supportFragmentManager, "zz")
+                                }
+                            }
+                        }
+
+                    }
+
+                }
+            }
+        }
     }
 
     private fun initView() {
@@ -49,39 +147,32 @@ class ProductExchangeActivity : BaseViewModelActivity<ProductExchangeViewModel>(
         store_iv_toolbar_arrow_left.setOnClickListener {
             finish()
         }
-
-        //初始化轮播图
-        initSlideShow()
-
-        dataBinding.eventHandle = EventHandle()
     }
 
     private fun initSlideShow() {
-        mImageList.add("https://s3-alpha-sig.figma.com/img/2716/1ae8/a90e8b280c050f738d05547af9153217?Expires=1629676800&Signature=YVNkTPufMAVsMB9DEJpITFO9BPAUCXE~VIO0PVrSgQhsaCSetbXOr3Ioph-obX3y59VVpW7eWs-xmJINPuDsGTV-wGMfL-lIUnfPChLkKG96~~9fGvAtT~sQk43eEbmwO50GIeqN8Gf1S31b~OREa0KucuLEE7ZpQso8XLvxU9WBjVSW4n3qjwTnPwqPeMxJrGY4cv3a9342Gagi29bYTy-9i7i4O5XDT9gkDmzZIedVjr9r46ukds-ldUXtlntqZKGfMX1FUY9-xmlUB6qmVWrBEI95AEK~o2XQFBdii3dfi2KNLgxNqmVX5ejFy3PA~WSwujD87bm34pPv0nfpXw__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA")
-        mImageList.add("http://hakaimg.com/i/2021/08/09/nr64i7.jpg")
-        mImageList.add("http://hakaimg.com/i/2021/08/09/nr64i7.jpg")
+
         dataBinding.storeSlideShowExchangeProductImage
-            .addTransformer(ScaleInTransformer())
-            .openCirculateEnabled()
-            .setImgAdapter(mImageList,
-                create = { holder ->
-                    holder.view.setOnClickListener {
-                        val options =
-                            ActivityOptionsCompat.makeSceneTransitionAnimation(
-                                this, Pair<View, String>(
-                                    dataBinding.storeSlideShowExchangeProductImage,
-                                    "productImage"
-                                )
-                            )
-                        mPosition =
-                            dataBinding.storeSlideShowExchangeProductImage
-                                .getRealPosition(holder.layoutPosition)
-                        mLauncher.launch(true, options)
-                    }
-                },
-                refactor = { data, imageView, _, _ ->
-                    imageView.setImageFromUrl(data)
-                })
+                .addTransformer(ScaleInTransformer())
+                .openCirculateEnabled()
+                .setImgAdapter(mImageList,
+                        create = { holder ->
+                            holder.view.setOnClickListener {
+                                val options =
+                                        ActivityOptionsCompat.makeSceneTransitionAnimation(
+                                                this, Pair<View, String>(
+                                                dataBinding.storeSlideShowExchangeProductImage,
+                                                "productImage"
+                                        )
+                                        )
+                                mPosition =
+                                        dataBinding.storeSlideShowExchangeProductImage
+                                                .getRealPosition(holder.layoutPosition)
+                                mLauncher.launch(true, options)
+                            }
+                        },
+                        refactor = { data, imageView, _, _ ->
+                            imageView.setImageFromUrl(data)
+                        })
     }
 
     /**
@@ -94,16 +185,20 @@ class ProductExchangeActivity : BaseViewModelActivity<ProductExchangeViewModel>(
 
             when (view.id) {
                 R.id.store_btn_exchange -> {
-                    //进行判断
-                    if (true) {
-                        ProductExchangeDialogFragment().apply {
-                            initView(
+
+                    ProductExchangeDialogFragment().apply {
+                        initView(
                                 dialogRes = R.layout.store_dialog_exchange_product,
-                                onPositiveClick = { dismiss() },
-                                onNegativeClick = { dismiss() }
-                            )
-                        }.show(supportFragmentManager, "zz")
-                    }
+                                onPositiveClick = {
+                                    //请求获取用户是否能购买
+                                    viewModel.exchangeProduct(mId)
+                                    dismiss()
+                                },
+
+                                onNegativeClick = { dismiss() },
+                                exchangeTips = "确认要用${dataBinding.storeTvExchangeDetailPrice.text}邮票兑换${dataBinding.storeTvProductName.text}吗？"
+                        )
+                    }.show(supportFragmentManager, "zz")
                 }
             }
         }

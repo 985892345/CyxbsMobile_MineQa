@@ -3,7 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
+<variable
+    name="data"
+    type="com.mredrock.cyxbs.store.bean.StampGetRecord.Data" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -11,32 +13,32 @@
         android:layout_height="73dp">
 
         <TextView
-            android:id="@+id/store_item_exchange_record_tv_event"
+            android:id="@+id/store_item_get_record_tv_event"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="15dp"
             android:layout_marginTop="15dp"
-            android:text="XX任务"
+            android:text="@{data.taskName}"
             android:textColor="@color/store_stamp_detail_common_text"
             android:textSize="16sp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/store_item_exchange_record_tv_count"
+            android:id="@+id/store_item_get_record_tv_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="28dp"
             android:layout_marginEnd="31dp"
             android:fontFamily="@font/store_din_medium"
-            android:text="+666"
+            android:text='@{"+"+String.valueOf(data.taskIncome)}'
             android:textColor="@color/store_stamp_detail_increase_count"
             android:textSize="16sp"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/store_item_exchange_record_tv_date"
+            android:id="@+id/store_item_get_record_tv_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -49,7 +51,7 @@
 
 
         <View
-            android:id="@+id/store_item_exchange_record_line"
+            android:id="@+id/store_item_get_record_line"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginTop="73dp"

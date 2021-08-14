@@ -4,7 +4,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
+        <variable
+            name="data"
+            type="com.mredrock.cyxbs.store.bean.ProductDetail.Data" />
         <variable
             name="eventHandle"
             type="com.mredrock.cyxbs.store.page.exchange.ui.activity.ProductExchangeActivity.EventHandle" />
@@ -60,7 +62,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="310dp"
-            android:text="小米充电宝"
+            android:text="@{data.title}"
             android:textColor="@color/store_common_title"
             android:textSize="18sp"
             android:transitionName="productName"
@@ -85,7 +87,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="313dp"
             android:layout_marginEnd="15dp"
-            android:text="999"
+            android:text="@{String.valueOf(data.amount)}"
             android:textColor="@color/store_product_stock"
             android:textSize="13sp"
             android:transitionName="productStock"
@@ -100,7 +102,7 @@
             android:layout_marginStart="15dp"
             android:layout_marginTop="351dp"
             android:layout_marginEnd="15dp"
-            android:text="带上这个名片，你就是这条街最亮的仔带上这个名片，你就是这条街最亮的仔"
+            android:text="@{data.description}"
             android:textColor="@color/store_product_describe"
             android:textSize="16sp"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -126,7 +128,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="403dp"
-            android:text="15天"
+            android:text='@{String.valueOf(data.life)+"天"}'
             android:textColor="@color/store_product_prescription"
             android:textSize="13sp"
             app:layout_constraintLeft_toRightOf="@id/store_tv_product_prescription_title"
@@ -185,7 +187,7 @@
             android:layout_marginStart="41dp"
             android:layout_marginBottom="35dp"
             android:fontFamily="@font/store_din_medium"
-            android:text="121"
+            android:text="@{String.valueOf(data.price)}"
             android:textColor="@color/store_product_exchange_price"
             android:textSize="18sp"
             android:transitionName="productPrice"
