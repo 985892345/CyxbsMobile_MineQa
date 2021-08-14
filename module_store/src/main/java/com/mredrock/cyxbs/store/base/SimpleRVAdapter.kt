@@ -1,5 +1,6 @@
 package com.mredrock.cyxbs.store.base
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -59,9 +60,7 @@ import java.lang.RuntimeException
  * @data 2021/5/31 (在开发邮票商城项目前在自己的项目中开发的, 后续进行了许多优化和修改)
  * 开发邮票商城项目时间: 2021-8
  */
-class SimpleRVAdapter(
-    private var itemCount: Int
-) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class SimpleRVAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     /**
      * 点击传入的类查看注解
@@ -69,6 +68,7 @@ class SimpleRVAdapter(
     fun <DB: ViewDataBinding> addItem(
         dataBindingItem: DBItem<DB>
     ): SimpleRVAdapter {
+        dataBindingItem.adapter = this
         val call = BindingCallBack(dataBindingItem)
         // 一个 for 循环用于遍历全部 item 数量调用 isInHere 回调，添加进 mPositionsWithCallback 数组
         // 向上转型存进数组(能够解决泛型擦除的主要原因并不在这里,主要原因在于接口回调的强转写法)
@@ -82,6 +82,7 @@ class SimpleRVAdapter(
     fun <VH: RecyclerView.ViewHolder> addItem(
         viewHolderItem: VHItem<VH>
     ): SimpleRVAdapter {
+        viewHolderItem.adapter = this
         val call = ViewHolderCallBack(viewHolderItem)
         // 一个 for 循环用于遍历全部 item 数量调用 isInHere 回调，添加进 mPositionsWithCallback 数组
         // 向上转型存进数组(能够解决泛型擦除的主要原因并不在这里,主要原因在于接口回调的强转写法)
@@ -115,12 +116,14 @@ class SimpleRVAdapter(
      */
     fun <DB: ViewDataBinding> addItem(
         @LayoutRes layoutId: Int,
+        getItemCount: () -> Int,
         isInHere: (position: Int) -> Boolean,
         create: (binding: DB, holder: BindingVH) -> Unit,
         refactor: (binding: DB, holder: BindingVH, position: Int) -> Unit,
         refresh: ((binding: DB, holder: BindingVH, position: Int) -> Unit)? = null
     ): SimpleRVAdapter {
         val item = object : DBItem<DB>(layoutId) {
+            override fun getItemCount(): Int = getItemCount()
             override fun isInHere(position: Int): Boolean = isInHere(position)
             override fun create(binding: DB, holder: BindingVH) = create(binding, holder)
             override fun refactor(binding: DB, holder: BindingVH, position: Int) = refactor(binding, holder, position)
@@ -159,6 +162,7 @@ class SimpleRVAdapter(
         @LayoutRes layoutId: Int,
         isInHere: (position: Int) -> Boolean,
         getNewViewHolder: (itemView: View) -> VH,
+        getItemCount: () -> Int,
         create: (holder: VH) -> Unit,
         refactor: (holder: VH, position: Int) -> Unit,
         refresh: ((holder: VH, position: Int) -> Unit)? = null
@@ -166,11 +170,39 @@ class SimpleRVAdapter(
         val item = object : VHItem<VH>(layoutId) {
             override fun isInHere(position: Int): Boolean = isInHere(position)
             override fun getNewViewHolder(itemView: View): VH = getNewViewHolder(itemView)
+            override fun getItemCount(): Int = getItemCount()
             override fun create(holder: VH) = create(holder)
             override fun refactor(holder: VH, position: Int) = refactor(holder, position)
             override fun refresh(holder: VH, position: Int) { refresh?.invoke(holder, position) }
         }
         return addItem(item)
+    }
+
+    fun show(): SimpleRVAdapter {
+        mLayoutIdWithCallback.forEach{
+            itemCount += it.value.item.getItemCount()
+        }
+        notifyItemRangeInserted(0, itemCount)
+        return this
+    }
+
+    /**
+     * 返回所有的 item, 这个只能自己强转
+     */
+    fun getAllItem(): List<Item> {
+        val list = ArrayList<Item>()
+        mLayoutIdWithCallback.forEach {
+            list.add(it.value.item)
+        }
+        return list
+    }
+
+    /**
+     * 通过 layoutId 返回是否存在该 item
+     */
+    fun hasItem(layoutId: Int): Boolean {
+        val call = mLayoutIdWithCallback[layoutId]
+        return call != null
     }
 
     /**
@@ -181,17 +213,20 @@ class SimpleRVAdapter(
      * **WARNING:** 用前须知, **不能在 refactor() 中设置点击事件和回调**,
      * 原因在于: https://blog.csdn.net/weixin_28318011/article/details/112872952
      *
+     * @param isRefactor 是否回调 refresh 刷新, 而不是 refactor
      * @param detectMoves 如果你有移动了位置的 item, 请传入 true (**传入 true 后会增大计算量**, 因此没有移动时传入 false)
      * @param isItemTheSame 比较两个 item 拥有的唯一 id 是否相同, 应比较不会改变的数据, 比如: item 要显示的名字、编号等
      * ***(请注意不要在 refactor() 中设置点击事件)***
      * @param isContentsTheSame 比较两个 item 拥有的其他可变内容是否相同, 比如: item 要显示的介绍文字、图片等
      */
     fun refreshAuto(
+        isRefactor: Boolean,
         newItemCount: Int,
         detectMoves: Boolean,
         isItemTheSame: (oldItemPosition: Int, newItemPosition: Int) -> Boolean,
         isContentsTheSame: (oldItemPosition: Int, newItemPosition: Int) -> Boolean
     ) {
+        itemCount = newItemCount
         val diffResult = DiffUtil.calculateDiff(
             object : DiffUtil.Callback() {
                 override fun getOldListSize(): Int = itemCount
@@ -209,18 +244,27 @@ class SimpleRVAdapter(
                  * 下面这个方法返回值只要不为 null 就可以使用我封装好的在 [DBItem] 和 [VHItem] 中的
                  * refresh() 方法. 如果想知道原理, 请查看带有三个参数的 onBindViewHolder
                  */
-                override fun getChangePayload(oldItemPosition: Int, newItemPosition: Int): Any = ""
+                override fun getChangePayload(oldItemPosition: Int, newItemPosition: Int): Any? {
+                    return if (isRefactor) "" else null
+                }
             }, detectMoves)
         diffResult.dispatchUpdatesTo(this)
-        itemCount = newItemCount
     }
 
     /**
-     * 单个 item 刷新,  ***(调用该刷新后的回调必须实现 Item 中的 refresh() 方法)***
+     * 单个 item 刷新
+     *
+     * ***(如果 [isRefactor] 为 true 后, 调用该刷新后的回调必须实现 Item 中的 refresh() 方法)***
+     *
+     * @param isRefactor 是否回调 refresh 刷新, 而不是 refactor
      */
-    fun refreshItem(position: Int) {
-        // payload 传入不为 null 都可以
-        notifyItemChanged(position, "")
+    fun refreshItem(position: Int, isRefactor: Boolean) {
+        if (isRefactor) {
+            notifyItemChanged(position)
+        }else {
+            // payload 传入不为 null 都可以
+            notifyItemChanged(position, "")
+        }
     }
 
     private val mLayoutIdWithCallback = HashMap<Int, Callback>() // LayoutId 与 CallBack 的对应关系
@@ -233,7 +277,7 @@ class SimpleRVAdapter(
             return viewHolder
         }
         throw RuntimeException("找不到 $layoutIdOrPosition 位置的 Item, 请检查 Item 中的 isInHere() 方法!" +
-                "  相信我绝对不是我的问题, 是你的 Item 没有设置完!")
+                "或者你使用了 clearItem() 方法!")
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
@@ -264,6 +308,7 @@ class SimpleRVAdapter(
         }
     }
 
+    private var itemCount = 0
     override fun getItemCount(): Int {
         return itemCount
     }
@@ -362,10 +407,22 @@ class SimpleRVAdapter(
         val layoutId: Int
     ) {
 
+        internal lateinit var adapter: SimpleRVAdapter
+
+        abstract fun getItemCount(): Int
+
         /**
          * 会根据你的返回值判断是否是该 item 显示的位置
          */
         abstract fun isInHere(position: Int): Boolean
+
+        fun refreshMySelf(isRefactor: Boolean) {
+            for (i in 0 until adapter.itemCount) {
+                if (isInHere(i)) {
+                    adapter.refreshItem(i, isRefactor)
+                }
+            }
+        }
     }
 
     /**
@@ -417,6 +474,7 @@ class SimpleRVAdapter(
      * 用于添加 ViewHolder 的 item
      */
     abstract class VHItem<VH: RecyclerView.ViewHolder>(@LayoutRes layoutId: Int) : Item(layoutId) {
+
         /**
          * 返回一个新的 ViewHolder，**请不要返回相同的对象**
          */

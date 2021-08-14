@@ -75,9 +75,10 @@ class EventRecordFragment : BaseViewModelFragment<EventRecordViewModel>() {
                 viewModel.mExchangeRecord.observeNotNull {
                     //若adapter未设置 则进行设置
                     if (store_fragment_rv_event_record.adapter == null) {
-                        mEventRVAdapter = SimpleRVAdapter(it.size)
+                        mEventRVAdapter = SimpleRVAdapter()
                                 .addItem(
                                         layoutId = R.layout.store_recycler_item_exchange_record,
+                                        getItemCount = {it.size},
                                         isInHere = { true },
                                         create = { binding: StoreRecyclerItemExchangeRecordBinding, holder: SimpleRVAdapter.BindingVH ->
                                             //设置点击事件
@@ -101,7 +102,7 @@ class EventRecordFragment : BaseViewModelFragment<EventRecordViewModel>() {
                                                 binding.storeBtnProductReceiveTips.startAnimation(anim)
                                             }
                                         }
-                                )
+                                ).show()
                         store_fragment_rv_event_record.adapter = mEventRVAdapter
                     }
                 }
@@ -110,9 +111,10 @@ class EventRecordFragment : BaseViewModelFragment<EventRecordViewModel>() {
                 viewModel.mStampGetRecord.observeNotNull {
                     //若adapter未设置 则进行设置
                     if (store_fragment_rv_event_record.adapter == null) {
-                        mEventRVAdapter = SimpleRVAdapter(it.size)
+                        mEventRVAdapter = SimpleRVAdapter()
                                 .addItem(
                                         layoutId = R.layout.store_recycler_item_stamp_get_record,
+                                        getItemCount = { it.size },
                                         isInHere = { true },
                                         create = { binding: StoreRecyclerItemStampGetRecordBinding, holder: SimpleRVAdapter.BindingVH ->
 
@@ -122,7 +124,7 @@ class EventRecordFragment : BaseViewModelFragment<EventRecordViewModel>() {
                                             //单独处理时间
                                             binding.storeItemGetRecordTvDate.text = Date.getTime(it[position].date)
                                         }
-                                )
+                                ).show()
                         store_fragment_rv_event_record.adapter = mEventRVAdapter
                     }
                 }

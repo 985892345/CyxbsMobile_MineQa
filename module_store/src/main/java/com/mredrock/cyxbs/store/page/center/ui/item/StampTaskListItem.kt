@@ -1,7 +1,10 @@
 package com.mredrock.cyxbs.store.page.center.ui.item
 
+import android.annotation.SuppressLint
+import android.util.Log
 import com.mredrock.cyxbs.store.R
 import com.mredrock.cyxbs.store.base.SimpleRVAdapter
+import com.mredrock.cyxbs.store.bean.StampCenter
 import com.mredrock.cyxbs.store.databinding.StoreRecyclerItemStampTaskListBinding
 
 /**
@@ -10,27 +13,46 @@ import com.mredrock.cyxbs.store.databinding.StoreRecyclerItemStampTaskListBindin
  * @email 2767465918@qq.com
  * @data 2021/8/9
  */
-class StampTaskListItem : SimpleRVAdapter.DBItem<StoreRecyclerItemStampTaskListBinding>(
+class StampTaskListItem(
+    private var taskMap: Map<Int, StampCenter.Task>
+) : SimpleRVAdapter.DBItem<StoreRecyclerItemStampTaskListBinding>(
     R.layout.store_recycler_item_stamp_task_list
 ) {
+
+    fun resetData(taskMap: Map<Int, StampCenter.Task>) {
+        this.taskMap = taskMap
+    }
+
+    override fun getItemCount(): Int {
+        return taskMap.size
+    }
+
     override fun isInHere(position: Int): Boolean {
-        return position != 4
+        return taskMap.containsKey(position)
     }
 
     override fun create(
         binding: StoreRecyclerItemStampTaskListBinding,
         holder: SimpleRVAdapter.BindingVH
     ) {
-        val progressBar = binding.storeProgressBarStampTask
-        progressBar.post {
-            progressBar.setProgressCompat(progressBar.max, true)
+        binding.storeBtnStampTaskListGo.setOnClickListener {
+            // 点击事件的跳转
         }
     }
 
+    @SuppressLint("SetTextI18n")
     override fun refactor(
         binding: StoreRecyclerItemStampTaskListBinding,
         holder: SimpleRVAdapter.BindingVH,
         position: Int
     ) {
+        val task = taskMap[position]
+        if (task != null) {
+            binding.storeProgressBarStampTask.max = task.maxProgress
+            binding.storeProgressBarStampTask.setProgressCompat(task.currentProgress, true)
+            binding.storeTvStampTaskListName.text = task.title
+            binding.storeTvStampTaskListDescribe.text = task.description
+            binding.storeTvStampTaskListGainNumber.text = "+${task.gainStamp}"
+        }
     }
 }

@@ -41,6 +41,7 @@
         app:layout_constraintTop_toTopOf="@+id/store_tv_stamp_center_title">
 
         <TextView
+            android:id="@+id/store_tv_stamp_number_left_top"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="center"
@@ -116,7 +117,7 @@
                 app:drawableStartCompat="@drawable/store_ic_stamp_center_detail" />
 
             <TextView
-                android:id="@+id/store_textview2"
+                android:id="@+id/store_tv_stamp_number"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -127,10 +128,11 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/store_textview"
                 app:layout_constraintTop_toTopOf="@+id/store_textview"
-                app:layout_constraintVertical_bias="0.13999999"
+                app:layout_constraintVertical_bias="0.092"
                 tools:ignore="HardcodedText,SpUsage" />
 
             <TextView
+                android:id="@+id/store_tv_stamp_center_hint"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -141,7 +143,7 @@
                 android:textSize="12dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/store_imageview"
-                app:layout_constraintTop_toBottomOf="@+id/store_textview2"
+                app:layout_constraintTop_toBottomOf="@+id/store_tv_stamp_number"
                 app:layout_constraintVertical_bias="0.41000003"
                 tools:ignore="SpUsage" />
 
@@ -161,7 +163,7 @@
                 android:theme="@style/Theme.MaterialComponents"
                 app:tabGravity="fill"
                 app:tabIndicator="@drawable/store_ic_tab_indicator"
-                app:tabIndicatorColor="@color/common_mine_tab_layout_indicator_color"
+                app:tabIndicatorColor="@android:color/transparent"
                 app:tabIndicatorFullWidth="false"
                 app:tabIndicatorHeight="3dp"
                 app:tabMaxWidth="160dp"

@@ -1,6 +1,7 @@
 package com.mredrock.cyxbs.store.page.center.ui.activity
 
 import android.os.Bundle
+import android.view.View
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.viewpager2.widget.ViewPager2
@@ -27,7 +28,12 @@ import com.mredrock.cyxbs.store.utils.widget.SlideUpLayout
 @Route(path = STORE_CENTER)
 class StoreCenterActivity : BaseViewModelActivity<StoreCenterViewModel>() {
 
+    private lateinit var mTvStampNumber: TextView
+    private lateinit var mTvStampNumber2: TextView
+    private lateinit var mTvShopHint: TextView
     private lateinit var mViewPager2: ViewPager2
+    private lateinit var mSmallShopItem: SmallShopItem
+    private lateinit var mStampTaskItem: StampTaskItem
     private lateinit var mTabLayout: TabLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,18 +44,26 @@ class StoreCenterActivity : BaseViewModelActivity<StoreCenterViewModel>() {
         initTabLayout()
         initSlideUpLayoutWithLeftTopStamp()
         initJumpActivity()
+        initData()
+        viewModel.refresh()
     }
 
     private fun initView() {
+        mTvShopHint = findViewById(R.id.store_tv_stamp_center_hint)
+        mTvStampNumber = findViewById(R.id.store_tv_stamp_number)
+        mTvStampNumber2 = findViewById(R.id.store_tv_stamp_number_left_top)
         mViewPager2 = findViewById(R.id.store_vp_stamp_center)
     }
 
     private fun initViewPager2() {
-        mViewPager2.adapter = SimpleRVAdapter(2)
-            .addItem(SmallShopItem())
-            .addItem(StampTaskItem())
+        mSmallShopItem = SmallShopItem()
+        mStampTaskItem = StampTaskItem()
+        mViewPager2.adapter = SimpleRVAdapter()
+            .addItem(mSmallShopItem)
+            .addItem(mStampTaskItem)
+            .show()
     }
-    
+
     private fun initTabLayout() {
         mTabLayout = findViewById(R.id.store_tl_stamp_center)
         val tabs = listOf(
@@ -94,6 +108,22 @@ class StoreCenterActivity : BaseViewModelActivity<StoreCenterViewModel>() {
         val tvDetail: TextView = findViewById(R.id.store_tv_stamp_center_detail)
         tvDetail.setOnClickListener {
             startActivity<StampDetailActivity>()
+        }
+    }
+
+    private fun initData() {
+        viewModel.stampCenterData.observeNotNull{
+            val text = it.data.userAmount.toString()
+            mTvStampNumber.text = text // 正上方的大的显示
+            mTvStampNumber2.text = text // 右上方小的显示
+            if (it.data.unGotGood) {
+                // 显示"你还有待领取的商品，请尽快领取"
+                mTvShopHint.visibility = View.VISIBLE
+            }else {
+                mTvShopHint.visibility = View.INVISIBLE
+            }
+            mSmallShopItem.refreshData(it.data.shop)
+            mStampTaskItem.refreshData(it.data.task)
         }
     }
 }

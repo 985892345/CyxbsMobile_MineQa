@@ -4,6 +4,7 @@ import com.mredrock.cyxbs.common.bean.RedrockApiStatus
 import com.mredrock.cyxbs.common.bean.RedrockApiWrapper
 import com.mredrock.cyxbs.store.bean.ExchangeRecord
 import com.mredrock.cyxbs.store.bean.ProductDetail
+import com.mredrock.cyxbs.store.bean.StampCenter
 import com.mredrock.cyxbs.store.bean.StampGetRecord
 import io.reactivex.Observable
 import retrofit2.http.*
@@ -14,94 +15,8 @@ import retrofit2.http.*
  *    date   : 2021/8/12 8:59
  */
 interface ApiService {
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    @GET("/magipoke-intergral/User/info")
+    fun getStampCenter(): Observable<StampCenter>
 
     //获取兑换详细界面内容
     @GET("/magipoke-intergral/Integral/getItemInfo")

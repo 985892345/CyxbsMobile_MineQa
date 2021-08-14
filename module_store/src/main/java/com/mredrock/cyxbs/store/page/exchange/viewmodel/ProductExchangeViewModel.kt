@@ -1,9 +1,7 @@
 package com.mredrock.cyxbs.store.page.exchange.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.mredrock.cyxbs.common.network.ApiGenerator
-import com.mredrock.cyxbs.common.utils.extensions.mapOrThrowApiException
 import com.mredrock.cyxbs.common.utils.extensions.safeSubscribeBy
 import com.mredrock.cyxbs.common.utils.extensions.setSchedulers
 import com.mredrock.cyxbs.common.viewmodel.BaseViewModel
@@ -27,7 +25,9 @@ class ProductExchangeViewModel : BaseViewModel() {
     fun getProductDetail(id: String) {
 //        ApiGenerator.getApiService(ApiService::class.java)
 //        .getProductDetail(id)
-        TestRetrofit.testRetrofit.getProductDetail(id)
+        TestRetrofit
+            .testRetrofit
+            .getProductDetail(id)
 //                .mapOrThrowApiException()
                 .setSchedulers()
                 .safeSubscribeBy(
