@@ -41,8 +41,7 @@ class SmallShopProductItem(
     ) {
         //设置跳转到兑换界面
         binding.storeCvStampSmallShop.onClick {
-            val intent = Intent(context, ProductExchangeActivity::class.java)
-            context.startActivity(intent)
+            ProductExchangeActivity.activityStart(context,"1",999)
         }
     }
 

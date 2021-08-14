@@ -5,6 +5,7 @@ import com.mredrock.cyxbs.common.ui.BaseActivity
 import com.mredrock.cyxbs.store.R
 import com.mredrock.cyxbs.store.bean.ExchangeRecord
 import com.mredrock.cyxbs.store.databinding.StoreActivityExchangeDetailBinding
+import com.mredrock.cyxbs.store.utils.Date
 import kotlinx.android.synthetic.main.store_common_toolbar_no_line.*
 
 /**
@@ -40,7 +41,7 @@ class ExchangeDetailActivity : BaseActivity() {
             dataBinding.storeExchangeDetailState.text = "待领取"
         }
         //设置时间
-//        dataBinding.storeExchangeDetailTime
+        dataBinding.storeExchangeDetailTime.text=Date.getExactTime(data.date)
 
         //设置左上角返回点击事件
         store_iv_toolbar_no_line_arrow_left.setOnClickListener {

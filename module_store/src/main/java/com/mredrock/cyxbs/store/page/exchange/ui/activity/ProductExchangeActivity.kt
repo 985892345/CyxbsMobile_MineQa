@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContract
 import androidx.core.app.ActivityOptionsCompat
@@ -38,6 +37,15 @@ class ProductExchangeActivity : BaseViewModelActivity<ProductExchangeViewModel>(
         dataBinding.storeSlideShowExchangeProductImage.setCurrentItem(result, false)
     }
 
+    companion object {
+        fun activityStart(context: Context, id: String, stampCount: Int) {
+            val intent = Intent(context, ProductExchangeActivity::class.java)
+            intent.putExtra("id", id)
+            intent.putExtra("stampCount", stampCount)
+            context.startActivity(intent)
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         //降低进入activity后的白闪情况
@@ -49,13 +57,18 @@ class ProductExchangeActivity : BaseViewModelActivity<ProductExchangeViewModel>(
         initView()
         initObserve()
         initData()
+        //绑定相关点击事件并设置数据
         dataBinding.eventHandle = EventHandle()
+        dataBinding.storeTvUserStampCount.text = mStampCount.toString()
     }
 
 
     private fun initData() {
+        mId = intent.getStringExtra("id")
+        mStampCount = intent.getIntExtra("stampCount", 0)
         //得到商品详细
         viewModel.getProductDetail("1")
+//        viewModel.getProductDetail(mId)
     }
 
     @SuppressLint("SetTextI18n")
@@ -73,10 +86,6 @@ class ProductExchangeActivity : BaseViewModelActivity<ProductExchangeViewModel>(
                     }
                 }
                 //设置轮播图UrlList
-//          mImageList.add("https://s3-alpha-sig.figma.com/img/2716/1ae8/a90e8b280c050f738d05547af9153217?Expires=1629676800&Signature=YVNkTPufMAVsMB9DEJpITFO9BPAUCXE~VIO0PVrSgQhsaCSetbXOr3Ioph-obX3y59VVpW7eWs-xmJINPuDsGTV-wGMfL-lIUnfPChLkKG96~~9fGvAtT~sQk43eEbmwO50GIeqN8Gf1S31b~OREa0KucuLEE7ZpQso8XLvxU9WBjVSW4n3qjwTnPwqPeMxJrGY4cv3a9342Gagi29bYTy-9i7i4O5XDT9gkDmzZIedVjr9r46ukds-ldUXtlntqZKGfMX1FUY9-xmlUB6qmVWrBEI95AEK~o2XQFBdii3dfi2KNLgxNqmVX5ejFy3PA~WSwujD87bm34pPv0nfpXw__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA")
-//          mImageList.add("http://hakaimg.com/i/2021/08/09/nr64i7.jpg")
-//          mImageList.add("http://hakaimg.com/i/2021/08/09/nr64i7.jpg")
-
                 mImageList = it.urls as ArrayList<String>
                 //初始化轮播图
                 initSlideShow()
