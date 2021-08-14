@@ -34,7 +34,7 @@
         android:layout_width="wrap_content"
         android:layout_height="27dp"
         android:layout_marginEnd="16dp"
-        android:background="@drawable/store_shape_stamp_center_right_top_stamp"
+        android:background="@drawable/store_shape_stamp_center_right_top_stamp_bg"
         app:bgColor="@color/store_stamp_center_background"
         app:layout_constraintBottom_toBottomOf="@+id/store_tv_stamp_center_title"
         app:layout_constraintEnd_toEndOf="parent"
@@ -171,10 +171,9 @@
                 app:tabMode="fixed"
                 app:tabPaddingEnd="40dp"
                 app:tabPaddingStart="40dp"
-                app:tabRippleColor="@color/common_transparent_background"
-                app:tabSelectedTextColor="@color/common_level_two_font_color"
+                app:tabRippleColor="@android:color/transparent"
                 app:tabTextAppearance="@style/tab_style"
-                app:tabTextColor="@color/common_alpha_level_two_font_color" />
+                app:tabTextColor="@color/store_stamp_center_tabLayout_text" />
 
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"

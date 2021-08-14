@@ -11,22 +11,29 @@
     <color name="store_stamp_center_my_stamp_character">#FFFFFF</color>
     <color name="store_stamp_center_my_stamp_number">#FFFFFF</color>
     <color name="store_stamp_center_get_remind">#FFFFFF</color>
+    <color name="store_stamp_center_tabLayout_text">#15315B</color>
     <color name="store_stamp_center_cardView_background">#FBFCFF</color>
     <color name="store_stamp_center_left_top_stamp_bg">#662B333F</color>
     <color name="store_stamp_center_left_top_stamp_text">#E9F2FB</color>
     <color name="store_stamp_center_detail">#FFFFFF</color>
     <!--邮票中心界面的邮票小店-->
+    <color name="store_small_shop_cardView_bg">#FFFFFF</color>
     <color name="store_small_shop_product_name">#15315B</color>
     <color name="store_small_shop_product_stock">#15315B</color>
     <color name="store_small_shop_price">#5177FF</color>
     <color name="store_small_shop_product_exchange">#FFFFFF</color>
     <color name="store_small_shop_title">#15315B</color>
     <color name="store_small_shop_hint">#15315B</color>
+    <color name="store_small_shop_btn_exchange">#4A44E4</color>
     <!--邮票中心界面的邮票任务-->
     <color name="store_stamp_task_name">#15315B</color>
     <color name="store_stamp_task_detail">#15315B</color>
     <color name="store_stamp_task_progress_text">#7D8AFF</color>
-    <color name="store_stamp_task_go_btn">#FFFFFF</color>
+    <color name="store_stamp_task_progress_trackColor">#E5E5E5</color>
+    <color name="store_stamp_task_progress_indicatorColor">#7D8AFF</color>
+    <color name="store_stamp_task_go_btn_bg">#4A44E4</color>
+    <color name="store_stamp_task_go_btn_bg_ok">#C1C1C1</color>
+    <color name="store_stamp_task_go_btn_text">#FFFFFF</color>
     <color name="store_stamp_task_title">#15315B</color>
 
     <!--    邮票明细界面相关颜色-->

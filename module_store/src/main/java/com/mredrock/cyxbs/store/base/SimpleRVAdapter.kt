@@ -1,6 +1,5 @@
 package com.mredrock.cyxbs.store.base
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,6 +15,8 @@ import java.lang.RuntimeException
  *
  * 本 Adapter 的实现涉及到了: 泛型擦除的解决(如何绑定不同的 DataBinding 或 ViewHolder)、
  * 官方推荐的 DiffUtil 刷新帮助类、带有三个参数的 onBindViewHolder 的使用
+ *
+ * **WARNING:** 使用后记得使用 [show] 方法来开始加载
  *
  * ***在使用前, 请先看懂下面的例子***
  *
@@ -64,6 +65,8 @@ class SimpleRVAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     /**
      * 点击传入的类查看注解
+     *
+     * **WARNING:** 使用后记得使用 [show] 方法来开始加载
      */
     fun <DB: ViewDataBinding> addItem(
         dataBindingItem: DBItem<DB>
@@ -78,6 +81,8 @@ class SimpleRVAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     /**
      * 点击传入的类查看注解
+     *
+     * **WARNING:** 使用后记得使用 [show] 方法来开始加载
      */
     fun <VH: RecyclerView.ViewHolder> addItem(
         viewHolderItem: VHItem<VH>
@@ -92,6 +97,8 @@ class SimpleRVAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     /**
      * 增加 DataBinding 的 item, 使用 Lambda 创建
+     *
+     * **WARNING:** 使用后记得使用 [show] 方法来开始加载
      *
      * **WARNING:** 请不要在 [refactor] 中创建对象，
      * 比如：设置点击监听、设置用于 item 整个生命周期的对象等需要创建对象的做法，
@@ -136,6 +143,8 @@ class SimpleRVAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     /**
      * 增加 ViewHolder 的 item, 使用 Lambda 创建
+     *
+     * **WARNING:** 使用后记得使用 [show] 方法来开始加载
      *
      * **WARNING:** 请不要在 [refactor] 中创建对象，
      * 比如：设置点击监听、设置用于 item 整个生命周期的对象等需要创建对象的做法，
@@ -206,14 +215,14 @@ class SimpleRVAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     }
 
     /**
-     * 更高效的自动判断刷新方式的刷新 ***(调用该刷新后的回调必须实现 item 中的 refresh() 方法)***
+     * 更高效的自动判断刷新方式的刷新
      *
      * 本方法使用了谷歌官方的 DiffUtil 来自动判断刷新方式替代 notifyDataSetChanged() 刷新
      *
      * **WARNING:** 用前须知, **不能在 refactor() 中设置点击事件和回调**,
      * 原因在于: https://blog.csdn.net/weixin_28318011/article/details/112872952
      *
-     * @param isRefactor 是否回调 refresh 刷新, 而不是 refactor
+     * @param isRefactor 是否回调 refresh() 刷新, 而不是 refactor(), 它们的区别可以看 [refreshItem] 的注释
      * @param detectMoves 如果你有移动了位置的 item, 请传入 true (**传入 true 后会增大计算量**, 因此没有移动时传入 false)
      * @param isItemTheSame 比较两个 item 拥有的唯一 id 是否相同, 应比较不会改变的数据, 比如: item 要显示的名字、编号等
      * ***(请注意不要在 refactor() 中设置点击事件)***
@@ -256,7 +265,10 @@ class SimpleRVAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
      *
      * ***(如果 [isRefactor] 为 true 后, 调用该刷新后的回调必须实现 Item 中的 refresh() 方法)***
      *
-     * @param isRefactor 是否回调 refresh 刷新, 而不是 refactor
+     * @param isRefactor 是否回调 refactor() 方法刷新. 传入 true 时将回调 refactor() 刷新, 此刷新根据 RecyclerView
+     * 的刷新机制, 会换掉整个 item (从缓存里面找到相同的 item 来替换), 此时如果有图片, 可能会出现图片闪动的问题, 建议在没有图片,
+     * 只有一些文字修改时使用该方式.
+     * 如果传入 false, 则将回调 refresh() 刷新, 此刷新不会换掉整个 item, 适合于有图片显示时
      */
     fun refreshItem(position: Int, isRefactor: Boolean) {
         if (isRefactor) {
@@ -409,6 +421,9 @@ class SimpleRVAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
         internal lateinit var adapter: SimpleRVAdapter
 
+        /**
+         * 用于设置当前 item 所需的数量
+         */
         abstract fun getItemCount(): Int
 
         /**
@@ -416,6 +431,14 @@ class SimpleRVAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
          */
         abstract fun isInHere(position: Int): Boolean
 
+        /**
+         * 只用于没有增加或删除时刷新自己
+         *
+         * @param isRefactor 是否回调 refactor() 方法刷新. 传入 true 时将回调 refactor() 刷新, 此刷新根据 RecyclerView
+         * 的刷新机制, 会换掉整个 item (从缓存里面找到相同的 item 来替换), 此时如果有图片, 可能会出现图片闪动的问题, 建议在没有图片,
+         * 只有一些文字修改时使用该方式.
+         * 如果传入 false, 则将回调 refresh() 刷新, 此刷新不会换掉整个 item, 适合于有图片显示时
+         */
         fun refreshMySelf(isRefactor: Boolean) {
             for (i in 0 until adapter.itemCount) {
                 if (isInHere(i)) {

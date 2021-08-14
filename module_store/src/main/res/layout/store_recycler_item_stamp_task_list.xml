@@ -47,21 +47,28 @@
             android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="@+id/store_tv_stamp_task_list_describe"
             app:layout_constraintStart_toEndOf="@+id/store_tv_stamp_task_list_describe"
-            app:layout_constraintTop_toTopOf="@+id/store_tv_stamp_task_list_describe" />
+            app:layout_constraintTop_toTopOf="@+id/store_tv_stamp_task_list_describe"
+            tools:ignore="HardcodedText" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/store_btn_stamp_task_list_go"
             android:layout_width="70dp"
             android:layout_height="30dp"
             android:layout_marginEnd="16dp"
-            android:background="@drawable/store_btn_exchange"
+            android:theme="@style/Theme.MaterialComponents"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            android:padding="0dp"
             android:text="去裸奔"
-            android:textColor="@color/store_stamp_task_go_btn"
+            android:textSize="14dp"
+            android:textColor="@color/store_stamp_task_go_btn_text"
+            app:backgroundTint="@color/store_stamp_task_go_btn_bg"
+            app:cornerRadius="19dp"
             app:layout_constraintBottom_toBottomOf="@+id/store_tv_stamp_task_list_describe"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/store_tv_stamp_task_list_describe"
-            tools:ignore="HardcodedText"
-            style="?android:attr/borderlessButtonStyle"/>
+            tools:ignore="HardcodedText,SpUsage"
+            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"/>
 
         <com.google.android.material.progressindicator.LinearProgressIndicator
             android:id="@+id/store_progress_bar_stamp_task"
@@ -74,7 +81,7 @@
             app:indicatorColor="#7D8AFF"
             app:layout_constraintStart_toStartOf="@+id/store_tv_stamp_task_list_describe"
             app:layout_constraintTop_toBottomOf="@+id/store_tv_stamp_task_list_describe"
-            app:trackColor="#FFFFFF"
+            app:trackColor="@color/store_stamp_task_progress_trackColor"
             app:trackCornerRadius="4dp" />
 
         <TextView
@@ -89,8 +96,6 @@
             app:layout_constraintStart_toEndOf="@+id/store_progress_bar_stamp_task"
             app:layout_constraintTop_toTopOf="@+id/store_progress_bar_stamp_task"
             tools:ignore="HardcodedText" />
-
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContract
 import androidx.core.app.ActivityOptionsCompat
@@ -65,6 +66,7 @@ class ProductExchangeActivity : BaseViewModelActivity<ProductExchangeViewModel>(
 
     private fun initData() {
         mId = intent.getStringExtra("id")
+        Log.d("123","(ProductExchangeActivity.kt:69)-->> $mId")
         mStampCount = intent.getIntExtra("stampCount", 0)
         //得到商品详细
         viewModel.getProductDetail("1")
@@ -158,29 +160,33 @@ class ProductExchangeActivity : BaseViewModelActivity<ProductExchangeViewModel>(
     }
 
     private fun initSlideShow() {
-
-        dataBinding.storeSlideShowExchangeProductImage
+        if (!dataBinding.storeSlideShowExchangeProductImage.hasBeenSetAdapter()) {
+            dataBinding.storeSlideShowExchangeProductImage
                 .addTransformer(ScaleInTransformer())
                 .openCirculateEnabled()
                 .setImgAdapter(mImageList,
-                        create = { holder ->
-                            holder.view.setOnClickListener {
-                                val options =
-                                        ActivityOptionsCompat.makeSceneTransitionAnimation(
-                                                this, Pair<View, String>(
-                                                dataBinding.storeSlideShowExchangeProductImage,
-                                                "productImage"
-                                        )
-                                        )
-                                mPosition =
-                                        dataBinding.storeSlideShowExchangeProductImage
-                                                .getRealPosition(holder.layoutPosition)
-                                mLauncher.launch(true, options)
-                            }
-                        },
-                        refactor = { data, imageView, _, _ ->
-                            imageView.setImageFromUrl(data)
-                        })
+                    create = { holder ->
+                        holder.view.setOnClickListener {
+                            val options =
+                                ActivityOptionsCompat.makeSceneTransitionAnimation(
+                                    this, Pair<View, String>(
+                                        dataBinding.storeSlideShowExchangeProductImage,
+                                        "productImage"
+                                    )
+                                )
+                            mPosition =
+                                dataBinding.storeSlideShowExchangeProductImage
+                                    .getRealPosition(holder.layoutPosition)
+                            mLauncher.launch(true, options)
+                        }
+                    },
+                    refactor = { data, imageView, _, _ ->
+                        imageView.setImageFromUrl(data)
+                    })
+        }else {
+            dataBinding.storeSlideShowExchangeProductImage.notifyImgDataChange(mImageList)
+        }
+
     }
 
     /**

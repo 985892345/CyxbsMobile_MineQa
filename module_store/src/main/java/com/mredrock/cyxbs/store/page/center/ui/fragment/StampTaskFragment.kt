@@ -1,39 +1,77 @@
-package com.mredrock.cyxbs.store.page.center.ui.item
+package com.mredrock.cyxbs.store.page.center.ui.fragment
 
-import android.util.Log
+import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import android.view.animation.LayoutAnimationController
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.mredrock.cyxbs.common.ui.BaseFragment
 import com.mredrock.cyxbs.store.R
 import com.mredrock.cyxbs.store.base.SimpleRVAdapter
 import com.mredrock.cyxbs.store.bean.StampCenter
+import com.mredrock.cyxbs.store.page.center.ui.item.StampTaskListItem
+import com.mredrock.cyxbs.store.page.center.ui.item.StampTaskTitleItem
+import com.mredrock.cyxbs.store.page.center.viewmodel.StoreCenterViewModel
 
 /**
  * ...
  * @author 985892345 (Guo Xiangrui)
  * @email 2767465918@qq.com
- * @data 2021/8/9
+ * @data 2021/8/14
  */
-class StampTaskItem: SimpleRVAdapter.VHItem<StampTaskItem.StampShopTitleVH>(
-    R.layout.store_item_stamp_task
-) {
+class StampTaskFragment : BaseFragment() {
 
+    private val viewModel by lazy {
+        ViewModelProvider(requireActivity()).get(StoreCenterViewModel::class.java)
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        return inflater.inflate(R.layout.store_item_stamp_task, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val recyclerView: RecyclerView = view.findViewById(R.id.store_rv_stamp_task)
+        viewModel.stampCenterData.observe(viewLifecycleOwner, Observer {
+            resetData(it.data.task)
+            if (recyclerView.adapter == null) {
+                setAdapter(recyclerView)
+            }else {
+                refreshAdapter(it.data.task)
+            }
+        })
+    }
+
+    private val mAdapter = SimpleRVAdapter()
     private lateinit var mStampTaskTitleItem: StampTaskTitleItem
     private lateinit var mStampTaskListItem: StampTaskListItem
-    private var mAdapter = SimpleRVAdapter()
-    fun refreshData(tasks: List<StampCenter.Task>) {
-        resetData(tasks)
-        if (mAdapter.itemCount == 0) {
-            mStampTaskTitleItem = StampTaskTitleItem(titleMap)
-            mStampTaskListItem = StampTaskListItem(taskMap)
-            mAdapter = SimpleRVAdapter()
-                .addItem(mStampTaskTitleItem)
-                .addItem(mStampTaskListItem)
-                .show()
-            return
-        }
+    private fun setAdapter(recyclerView: RecyclerView) {
+        recyclerView.layoutManager = LinearLayoutManager(context)
+        recyclerView.layoutAnimation =
+            LayoutAnimationController(
+                AnimationUtils.loadAnimation(
+                    context,
+                    R.anim.store_slide_from_left_to_right_in
+                )
+            )
+        mStampTaskTitleItem = StampTaskTitleItem(titleMap)
+        mStampTaskListItem = StampTaskListItem(taskMap)
+        recyclerView.adapter = mAdapter
+            .addItem(mStampTaskTitleItem)
+            .addItem(mStampTaskListItem)
+            .show()
+    }
+
+    private fun refreshAdapter(tasks: List<StampCenter.Task>) {
         mStampTaskTitleItem.resetData(titleMap)
         mStampTaskListItem.resetData(taskMap)
         mAdapter.refreshAuto(
@@ -89,39 +127,5 @@ class StampTaskItem: SimpleRVAdapter.VHItem<StampTaskItem.StampShopTitleVH>(
         for (i in 0 until kinds[1].size) {
             taskMap[kinds[0].size + 1 + i] = kinds[1][i]
         }
-    }
-
-    class StampShopTitleVH(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val recyclerView: RecyclerView = itemView.findViewById(R.id.store_rv_stamp_task)
-    }
-
-    override fun isInHere(position: Int): Boolean {
-        return position == 1
-    }
-
-    override fun getNewViewHolder(itemView: View): StampShopTitleVH {
-        return StampShopTitleVH(itemView)
-    }
-
-    override fun getItemCount(): Int {
-        return 1
-    }
-
-    override fun create(holder: StampShopTitleVH) {
-        holder.recyclerView.layoutManager = LinearLayoutManager(holder.itemView.context)
-        holder.recyclerView.layoutAnimation =
-            LayoutAnimationController(
-                AnimationUtils.loadAnimation(
-                    holder.recyclerView.context,
-                    R.anim.store_slide_from_left_to_right_in
-                )
-            )
-        holder.recyclerView.adapter = mAdapter
-    }
-
-    override fun refactor(holder: StampShopTitleVH, position: Int) {
-    }
-
-    override fun refresh(holder: StampShopTitleVH, position: Int) {
     }
 }

@@ -12,9 +12,9 @@ import com.mredrock.cyxbs.common.config.STORE_CENTER
 import com.mredrock.cyxbs.common.ui.BaseViewModelActivity
 import com.mredrock.cyxbs.common.utils.extensions.dp2px
 import com.mredrock.cyxbs.store.R
-import com.mredrock.cyxbs.store.base.SimpleRVAdapter
-import com.mredrock.cyxbs.store.page.center.ui.item.SmallShopItem
-import com.mredrock.cyxbs.store.page.center.ui.item.StampTaskItem
+import com.mredrock.cyxbs.store.base.BaseFragmentVPAdapter
+import com.mredrock.cyxbs.store.page.center.ui.fragment.StampShopFragment
+import com.mredrock.cyxbs.store.page.center.ui.fragment.StampTaskFragment
 import com.mredrock.cyxbs.store.page.center.viewmodel.StoreCenterViewModel
 import com.mredrock.cyxbs.store.page.record.ui.activity.StampDetailActivity
 import com.mredrock.cyxbs.store.utils.widget.AppearLayout
@@ -32,8 +32,6 @@ class StoreCenterActivity : BaseViewModelActivity<StoreCenterViewModel>() {
     private lateinit var mTvStampNumber2: TextView
     private lateinit var mTvShopHint: TextView
     private lateinit var mViewPager2: ViewPager2
-    private lateinit var mSmallShopItem: SmallShopItem
-    private lateinit var mStampTaskItem: StampTaskItem
     private lateinit var mTabLayout: TabLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -56,12 +54,13 @@ class StoreCenterActivity : BaseViewModelActivity<StoreCenterViewModel>() {
     }
 
     private fun initViewPager2() {
-        mSmallShopItem = SmallShopItem()
-        mStampTaskItem = StampTaskItem()
-        mViewPager2.adapter = SimpleRVAdapter()
-            .addItem(mSmallShopItem)
-            .addItem(mStampTaskItem)
-            .show()
+        mViewPager2.adapter = BaseFragmentVPAdapter(
+            this,
+            listOf(
+                StampShopFragment(),
+                StampTaskFragment()
+            )
+        )
     }
 
     private fun initTabLayout() {
@@ -122,8 +121,6 @@ class StoreCenterActivity : BaseViewModelActivity<StoreCenterViewModel>() {
             }else {
                 mTvShopHint.visibility = View.INVISIBLE
             }
-            mSmallShopItem.refreshData(it.data.shop)
-            mStampTaskItem.refreshData(it.data.task)
         }
     }
 }

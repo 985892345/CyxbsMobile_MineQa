@@ -16,6 +16,7 @@
             android:id="@+id/store_cv_stamp_small_shop"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:cardBackgroundColor="@color/store_small_shop_cardView_bg"
             android:layout_margin="6dp"
             app:cardCornerRadius="8dp"
             app:cardElevation="0dp"
@@ -84,22 +85,28 @@
                     app:drawableStartCompat="@drawable/store_ic_stamp"
                     tools:ignore="HardcodedText"/>
 
-                <!--设置了整个 CardView 的点击事件, 所以这里设置成 TextView 更好-->
-                <TextView
+                <!--设置了整个 CardView 的点击事件, 所以这里设置 clickable 为 false-->
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/store_tv_small_shop_product_exchange"
                     android:transitionName="exchange"
-                    android:layout_width="48dp"
-                    android:layout_height="26dp"
+                    android:layout_width="50dp"
+                    android:layout_height="28dp"
                     android:layout_marginEnd="12dp"
                     android:layout_marginBottom="12dp"
-                    android:background="@drawable/store_btn_exchange"
-                    android:gravity="center"
+                    android:theme="@style/Theme.MaterialComponents"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:padding="0dp"
                     android:text="兑换"
                     android:textColor="@color/store_small_shop_product_exchange"
                     android:textSize="14dp"
+                    android:clickable="false"
+                    app:cornerRadius="28dp"
+                    app:backgroundTint="@color/store_small_shop_btn_exchange"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    tools:ignore="HardcodedText,SpUsage" />
+                    tools:ignore="HardcodedText,SpUsage"
+                    style="@style/Widget.MaterialComponents.Button.UnelevatedButton"/>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

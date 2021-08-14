@@ -10,7 +10,7 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.mredrock.cyxbs.common.ui.BaseActivity
 import com.mredrock.cyxbs.store.R
-import com.mredrock.cyxbs.store.page.record.ui.adapter.StampDetailVPAdapter
+import com.mredrock.cyxbs.store.base.BaseFragmentVPAdapter
 import com.mredrock.cyxbs.store.page.record.ui.fragment.EventRecordFragment
 import kotlinx.android.synthetic.main.store_activity_product_exchange.*
 import kotlinx.android.synthetic.main.store_activity_stamp_detail.*
@@ -23,7 +23,7 @@ import kotlinx.android.synthetic.main.store_common_toolbar.*
  *    date   : 2021/8/2 14:46
  */
 class StampDetailActivity : BaseActivity() {
-    private var mEventViewPagerAdapter: StampDetailVPAdapter<EventRecordFragment>? = null
+    private var mEventViewPagerAdapter: BaseFragmentVPAdapter<EventRecordFragment>? = null
     private var mEventRecordFragmentList = arrayListOf<EventRecordFragment>()
     private var mTabText = arrayOf("兑换记录", "获取记录")
     private var animDuration:Long=400 //TabLayout文字缩放动画时间
@@ -122,7 +122,7 @@ class StampDetailActivity : BaseActivity() {
         mEventRecordFragmentList.add(exchangeRecordFragment)
         mEventRecordFragmentList.add(stampGetRecordFragment)
 
-        mEventViewPagerAdapter = StampDetailVPAdapter(this, mEventRecordFragmentList)
+        mEventViewPagerAdapter = BaseFragmentVPAdapter(this, mEventRecordFragmentList)
         store_vp_stamp_detail.adapter = mEventViewPagerAdapter
     }
 

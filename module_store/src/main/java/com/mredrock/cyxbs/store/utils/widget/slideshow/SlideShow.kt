@@ -297,11 +297,16 @@ class SlideShow : CardView {
     /**
      * 用于刷新全部
      *
-     * **NOTE：** 如果使用的 [BaseImgAdapter]，可以在修改了外部数据的情况下调用该方法进行刷新
+     * **NOTE：** 如果使用的 [BaseImgAdapter]，可以在修改了外部数据的情况下调用该方法进行刷新,
+     * 但推荐使用 [notifyImgDataChange] 方法
      */
     fun notifyDataSetChanged() {
         val adapter = mViewPager2.adapter
-        adapter?.notifyDataSetChanged()
+        if (adapter is BaseImgAdapter<*>) {
+            adapter.myNotifyDataSetChanged()
+        }else {
+            adapter?.notifyDataSetChanged()
+        }
     }
 
     /**

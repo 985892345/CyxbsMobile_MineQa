@@ -20,6 +20,7 @@ import com.mredrock.cyxbs.store.utils.widget.slideshow.viewpager2.pagecallback.B
  */
 abstract class BaseImgAdapter<T> : BaseViewAdapter<ShapeableImageView>() {
 
+    private lateinit var outerData: List<T>
     private val datas = ArrayList<T>()
     private val array = SparseArray<ConditionWithListener>()
     private var mIsCirculate = false
@@ -86,10 +87,18 @@ abstract class BaseImgAdapter<T> : BaseViewAdapter<ShapeableImageView>() {
     }
 
     /**
+     * 因为开启了循环, 所以在外面调用 notifyDataSetChanged 时要重新计算
+     */
+    internal fun myNotifyDataSetChanged() {
+        refreshData(outerData)
+    }
+
+    /**
      * **WARNING：** 请不要自己调用
      */
     @Deprecated("禁止自己调用! ")
     internal fun initialize(datas: List<T>, viewPager2: ViewPager2, attrs: SlideShowAttrs) {
+        outerData = datas
         this.datas.addAll(datas)
         size = datas.size
         initializeAttrs(attrs)

@@ -2,6 +2,8 @@ package com.mredrock.cyxbs.store.page.center.ui.item
 
 import android.annotation.SuppressLint
 import android.util.Log
+import androidx.core.content.ContextCompat
+import com.mredrock.cyxbs.common.BaseApp.Companion.context
 import com.mredrock.cyxbs.store.R
 import com.mredrock.cyxbs.store.base.SimpleRVAdapter
 import com.mredrock.cyxbs.store.bean.StampCenter
@@ -50,9 +52,21 @@ class StampTaskListItem(
         if (task != null) {
             binding.storeProgressBarStampTask.max = task.maxProgress
             binding.storeProgressBarStampTask.setProgressCompat(task.currentProgress, true)
+            binding.storeTvStampTaskListProgress.text = "${task.currentProgress}/${task.maxProgress}"
             binding.storeTvStampTaskListName.text = task.title
             binding.storeTvStampTaskListDescribe.text = task.description
             binding.storeTvStampTaskListGainNumber.text = "+${task.gainStamp}"
+            if (task.currentProgress != task.maxProgress) {
+                binding.storeBtnStampTaskListGo.text = "去签到"
+                binding.storeBtnStampTaskListGo.setBackgroundColor(
+                    ContextCompat.getColor(context, R.color.store_stamp_task_go_btn_bg)
+                )
+            }else {
+                binding.storeBtnStampTaskListGo.text = "已完成"
+                binding.storeBtnStampTaskListGo.setBackgroundColor(
+                    ContextCompat.getColor(context, R.color.store_stamp_task_go_btn_bg_ok)
+                )
+            }
         }
     }
 }

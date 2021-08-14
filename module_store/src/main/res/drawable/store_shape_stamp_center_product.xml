@@ -5,7 +5,7 @@
     <!--视觉不喜欢 CardView 的阴影, 非要虚影-->
     <gradient
         android:startColor="#80F4F6FF"
-        android:endColor="#FBFCFF"
+        android:endColor="@color/store_stamp_center_cardView_background"
         android:centerX="0.5"
         android:centerY="0.5"
         android:gradientRadius="600"

@@ -18,13 +18,15 @@ import com.mredrock.cyxbs.store.page.exchange.ui.activity.ProductExchangeActivit
  * @data 2021/8/9
  */
 class SmallShopProductItem(
-    private var shopMap: HashMap<Int, StampCenter.Shop>
+    private var shopMap: HashMap<Int, StampCenter.Shop>,
+    private var stampCount: Int
 ): SimpleRVAdapter.DBItem<StoreRecyclerItemSmallShopProductBinding>(
     R.layout.store_recycler_item_small_shop_product
 ) {
 
-    fun resetData(shopMap: HashMap<Int, StampCenter.Shop>) {
+    fun resetData(shopMap: HashMap<Int, StampCenter.Shop>, stampCount: Int) {
         this.shopMap = shopMap
+        this.stampCount = stampCount
     }
 
     override fun getItemCount(): Int {
@@ -41,7 +43,14 @@ class SmallShopProductItem(
     ) {
         //设置跳转到兑换界面
         binding.storeCvStampSmallShop.onClick {
-            ProductExchangeActivity.activityStart(context,"1",999)
+            val shop = shopMap[holder.layoutPosition]
+            if (shop != null) {
+                ProductExchangeActivity.activityStart(
+                    context,
+                    shop.id.toString(),
+                    stampCount
+                )
+            }
         }
     }
 
