@@ -66,11 +66,9 @@ class ProductExchangeActivity : BaseViewModelActivity<ProductExchangeViewModel>(
 
     private fun initData() {
         mId = intent.getStringExtra("id")
-        Log.d("123","(ProductExchangeActivity.kt:69)-->> $mId")
         mStampCount = intent.getIntExtra("stampCount", 0)
         //得到商品详细
-        viewModel.getProductDetail("1")
-//        viewModel.getProductDetail(mId)
+        viewModel.getProductDetail(mId)
     }
 
     @SuppressLint("SetTextI18n")

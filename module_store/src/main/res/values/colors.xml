@@ -77,5 +77,5 @@
     <!--    商品兑换界面Dialog按钮颜色-->
     <color name="store_exchange_dialog_btn_positive">#4A44E4</color>
     <color name="store_exchange_dialog_btn_negative">#C3D4EE</color>
-
+    <color name="store_exchange_dialog_tv_tips">#15315B</color>
 </resources>
