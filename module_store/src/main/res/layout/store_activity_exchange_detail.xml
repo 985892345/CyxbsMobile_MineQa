@@ -117,7 +117,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="111dp"
             android:layout_marginTop="352dp"
-            android:text='@{String.valueOf(Math.abs(data.goodsPrice))+"邮票"}'
+            android:text="@{@string/store_exchange_detail_price(String.valueOf(Math.abs(data.goodsPrice)))}"
             android:textColor="@color/store_exchange_detail_common_text"
             android:textSize="14sp"
             app:layout_constraintLeft_toLeftOf="parent"

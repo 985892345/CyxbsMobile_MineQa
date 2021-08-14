@@ -26,4 +26,8 @@
     <string name="store_exchange_product_failure">兑换请求异常</string>
     <string name="store_exchange_detail_failure">获取兑换记录失败</string>
     <string name="store_stamp_record_failure">获取邮票记录失败</string>
+
+    <string name="store_product_life">%s天</string>
+    <string name="store_exchange_detail_price">%s邮票</string>
+
 </resources>

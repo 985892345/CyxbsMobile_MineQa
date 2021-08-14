@@ -42,7 +42,8 @@ class ProductExchangeViewModel : BaseViewModel() {
     }
 
     fun exchangeProduct(id: String) {
-        ApiGenerator.getApiService(ApiService::class.java)
+//        ApiGenerator.getApiService(ApiService::class.java)
+        TestRetrofit.testRetrofit
                 .buyProduct(id)
                 .setSchedulers()
                 .doOnError {

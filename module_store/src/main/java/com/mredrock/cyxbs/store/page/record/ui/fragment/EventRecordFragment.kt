@@ -2,7 +2,6 @@ package com.mredrock.cyxbs.store.page.record.ui.fragment
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,7 +14,6 @@ import com.mredrock.cyxbs.common.utils.extensions.gone
 import com.mredrock.cyxbs.common.utils.extensions.onClick
 import com.mredrock.cyxbs.store.R
 import com.mredrock.cyxbs.store.base.SimpleRVAdapter
-import com.mredrock.cyxbs.store.bean.StampGetRecord
 import com.mredrock.cyxbs.store.databinding.StoreRecyclerItemExchangeRecordBinding
 import com.mredrock.cyxbs.store.databinding.StoreRecyclerItemStampGetRecordBinding
 import com.mredrock.cyxbs.store.page.record.ui.activity.ExchangeDetailActivity
@@ -120,7 +118,7 @@ class EventRecordFragment : BaseViewModelFragment<EventRecordViewModel>() {
 
                                         },
                                         refactor = { binding: StoreRecyclerItemStampGetRecordBinding, holder: SimpleRVAdapter.BindingVH, position: Int ->
-                                            binding.data = it[position] as StampGetRecord.Data
+                                            binding.data = it[position]
                                             //单独处理时间
                                             binding.storeItemGetRecordTvDate.text = Date.getTime(it[position].date)
                                         }
