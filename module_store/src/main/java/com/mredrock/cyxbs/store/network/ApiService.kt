@@ -108,7 +108,7 @@ interface ApiService {
     fun getProductDetail(
             @Query("id")
             id: String
-    ): Observable<RedrockApiWrapper<ProductDetail>>
+    ): Observable<ProductDetail>
 
     //购买商品
     @POST("/magipoke-intergral/Integral/purchase")
@@ -121,10 +121,10 @@ interface ApiService {
     //得到兑换记录
     @GET("/magipoke-intergral/User/exchange")
     fun getExchangeRecord(
-    ): Observable<RedrockApiWrapper<ExchangeRecord>>
+    ): Observable<ExchangeRecord>
 
     //得到邮票获取记录
     @GET("/magipoke-intergral/User/getRecord")
     fun getStampGetRecord(
-    ): Observable<RedrockApiWrapper<StampGetRecord>>
+    ): Observable<StampGetRecord>
 }

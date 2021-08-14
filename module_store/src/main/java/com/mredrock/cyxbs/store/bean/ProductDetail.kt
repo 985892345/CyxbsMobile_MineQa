@@ -5,7 +5,7 @@ import java.io.Serializable
 
 data class ProductDetail(
         @SerializedName("data")
-        val `data`: Data,
+        val `data`: Data?,
         @SerializedName("info")
         val info: String,
         @SerializedName("status")

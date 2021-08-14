@@ -1,15 +1,13 @@
 package com.mredrock.cyxbs.store.page.record.viewmodel
 
 import StampGetRecord
+import TestRetrofit
 import androidx.lifecycle.MutableLiveData
-import com.mredrock.cyxbs.common.network.ApiGenerator
-import com.mredrock.cyxbs.common.utils.extensions.mapOrThrowApiException
 import com.mredrock.cyxbs.common.utils.extensions.safeSubscribeBy
 import com.mredrock.cyxbs.common.utils.extensions.setSchedulers
 import com.mredrock.cyxbs.common.viewmodel.BaseViewModel
 import com.mredrock.cyxbs.store.R
 import com.mredrock.cyxbs.store.bean.ExchangeRecord
-import com.mredrock.cyxbs.store.network.ApiService
 
 /**
  *    author : zz
@@ -25,10 +23,11 @@ class EventRecordViewModel : BaseViewModel() {
     }
 
     fun getExchangeRecord() {
-        ApiGenerator.getApiService(ApiService::class.java)
+//        ApiGenerator.getApiService(ApiService::class.java)
+        TestRetrofit.testRetrofit
                 .getExchangeRecord()
                 .setSchedulers()
-                .mapOrThrowApiException()
+//                .mapOrThrowApiException()
                 .safeSubscribeBy(
                         onError = { toastEvent.value = R.string.store_exchange_detail_failure },
                         onNext = {
@@ -39,10 +38,11 @@ class EventRecordViewModel : BaseViewModel() {
     }
 
     fun getStampRecord() {
-        ApiGenerator.getApiService(ApiService::class.java)
+//        ApiGenerator.getApiService(ApiService::class.java)
+        TestRetrofit.testRetrofit
                 .getStampGetRecord()
                 .setSchedulers()
-                .mapOrThrowApiException()
+//                .mapOrThrowApiException()
                 .safeSubscribeBy(
                         onError = { toastEvent.value = R.string.store_stamp_record_failure },
                         onNext = {

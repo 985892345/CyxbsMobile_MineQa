@@ -25,7 +25,7 @@ class ExchangeDetailActivity : BaseActivity() {
     }
 
     private fun initData() {
-        data = intent.getStringExtra("data") as ExchangeRecord.Data
+        data = intent.getSerializableExtra("data") as ExchangeRecord.Data
     }
 
     private fun initView() {

@@ -28,14 +28,13 @@ class ProductExchangeViewModel : BaseViewModel() {
 //        ApiGenerator.getApiService(ApiService::class.java)
 //        .getProductDetail(id)
         TestRetrofit.testRetrofit.getProductDetail(id)
+//                .mapOrThrowApiException()
                 .setSchedulers()
-                .mapOrThrowApiException()
                 .safeSubscribeBy(
                         onError = {
                             toastEvent.value = R.string.store_product_detail_failure
                         },
                         onNext = {
-                            Log.d("zzzz","(ProductExchangeViewModel.kt:39)-->> $it")
                             if (it.info == "success") {
                                 productDetail.postValue(it.data)
                             }

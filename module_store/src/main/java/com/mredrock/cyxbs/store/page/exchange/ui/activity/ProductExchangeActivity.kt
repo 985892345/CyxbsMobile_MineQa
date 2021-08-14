@@ -62,7 +62,6 @@ class ProductExchangeActivity : BaseViewModelActivity<ProductExchangeViewModel>(
     private fun initObserve() {
         viewModel.productDetail.observe {
             if (it != null) {
-                Log.d("zzzz","(ProductExchangeActivity.kt:64)-->> $it")
                 dataBinding.data = it
                 //处理权益说明
                 when (it.type) {
