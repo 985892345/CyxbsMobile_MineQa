@@ -7,7 +7,6 @@ import com.mredrock.cyxbs.common.utils.extensions.mapOrThrowApiException
 import com.mredrock.cyxbs.common.utils.extensions.safeSubscribeBy
 import com.mredrock.cyxbs.common.utils.extensions.setSchedulers
 import com.mredrock.cyxbs.common.viewmodel.BaseViewModel
-import com.mredrock.cyxbs.mine.TestRetrofit
 import com.mredrock.cyxbs.store.R
 import com.mredrock.cyxbs.store.bean.ProductDetail
 import com.mredrock.cyxbs.store.network.ApiService
@@ -36,6 +35,7 @@ class ProductExchangeViewModel : BaseViewModel() {
                             toastEvent.value = R.string.store_product_detail_failure
                         },
                         onNext = {
+                            Log.d("zzzz","(ProductExchangeViewModel.kt:39)-->> $it")
                             if (it.info == "success") {
                                 productDetail.postValue(it.data)
                             }

@@ -103,7 +103,6 @@ interface ApiService {
 
 
 
-
     //获取兑换详细界面内容
     @GET("/magipoke-intergral/Integral/getItemInfo")
     fun getProductDetail(

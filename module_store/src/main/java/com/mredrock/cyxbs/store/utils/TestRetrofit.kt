@@ -1,9 +1,6 @@
-package com.mredrock.cyxbs.mine
 
 import com.mredrock.cyxbs.store.network.ApiService
-import okhttp3.Interceptor
 import okhttp3.OkHttpClient
-import okhttp3.Response
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
@@ -28,7 +25,7 @@ object TestRetrofit {
             .build()
 
         return Retrofit.Builder()
-            .baseUrl("https://be-dev.redrock.cqupt.edu.cn")
+            .baseUrl("https://be-dev.redrock.cqupt.edu.cn/")
             .client(client)
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .addConverterFactory(GsonConverterFactory.create())
