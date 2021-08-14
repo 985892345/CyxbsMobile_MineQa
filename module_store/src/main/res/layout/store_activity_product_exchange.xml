@@ -128,7 +128,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="403dp"
-            android:text="@{String.valueOf(data.life)}"
+            android:text="@{@string/store_product_life(data.life)}"
             android:textColor="@color/store_product_prescription"
             android:textSize="13sp"
             app:layout_constraintLeft_toRightOf="@id/store_tv_product_prescription_title"

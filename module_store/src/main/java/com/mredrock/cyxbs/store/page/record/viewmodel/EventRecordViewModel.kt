@@ -1,6 +1,5 @@
 package com.mredrock.cyxbs.store.page.record.viewmodel
 
-import StampGetRecord
 import TestRetrofit
 import androidx.lifecycle.MutableLiveData
 import com.mredrock.cyxbs.common.utils.extensions.safeSubscribeBy
@@ -8,6 +7,7 @@ import com.mredrock.cyxbs.common.utils.extensions.setSchedulers
 import com.mredrock.cyxbs.common.viewmodel.BaseViewModel
 import com.mredrock.cyxbs.store.R
 import com.mredrock.cyxbs.store.bean.ExchangeRecord
+import com.mredrock.cyxbs.store.bean.StampGetRecord
 
 /**
  *    author : zz
@@ -40,7 +40,7 @@ class EventRecordViewModel : BaseViewModel() {
     fun getStampRecord() {
 //        ApiGenerator.getApiService(ApiService::class.java)
         TestRetrofit.testRetrofit
-                .getStampGetRecord()
+                .getStampGetRecord(1,10)
                 .setSchedulers()
 //                .mapOrThrowApiException()
                 .safeSubscribeBy(
