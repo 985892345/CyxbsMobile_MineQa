@@ -58,6 +58,12 @@ class StampTaskFragment : BaseFragment() {
     private lateinit var mStampTaskListItem: StampTaskListItem
     private fun setAdapter(recyclerView: RecyclerView) {
         recyclerView.layoutManager = LinearLayoutManager(context)
+        mStampTaskTitleItem = StampTaskTitleItem(titleMap)
+        mStampTaskListItem = StampTaskListItem(taskMap)
+        recyclerView.adapter = mAdapter
+            .addItem(mStampTaskTitleItem)
+            .addItem(mStampTaskListItem)
+            .show()
         recyclerView.layoutAnimation =
             LayoutAnimationController(
                 AnimationUtils.loadAnimation(
@@ -65,12 +71,6 @@ class StampTaskFragment : BaseFragment() {
                     R.anim.store_slide_from_left_to_right_in
                 )
             )
-        mStampTaskTitleItem = StampTaskTitleItem(titleMap)
-        mStampTaskListItem = StampTaskListItem(taskMap)
-        recyclerView.adapter = mAdapter
-            .addItem(mStampTaskTitleItem)
-            .addItem(mStampTaskListItem)
-            .show()
     }
 
     // 用于再次得到数据后的刷新 adapter

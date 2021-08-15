@@ -3,10 +3,12 @@ package com.mredrock.cyxbs.store.ui.activity
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.app.Instrumentation
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
+import android.view.KeyEvent
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -14,8 +16,10 @@ import androidx.viewpager2.widget.ViewPager2
 import com.github.chrisbanes.photoview.PhotoView
 import com.mredrock.cyxbs.common.utils.extensions.*
 import com.mredrock.cyxbs.store.R
+import com.mredrock.cyxbs.store.page.exchange.ui.activity.ProductExchangeActivity
 import com.mredrock.cyxbs.store.utils.widget.slideshow.SlideShow
 import kotlinx.android.synthetic.main.store_activity_photo.*
+import kotlin.concurrent.thread
 
 /**
  *    author : zz
@@ -26,7 +30,6 @@ import kotlinx.android.synthetic.main.store_activity_photo.*
 class PhotoActivity : AppCompatActivity() {
 
     private lateinit var mImgUrls: ArrayList<String>
-    private var mPosition = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,7 +45,6 @@ class PhotoActivity : AppCompatActivity() {
 
     private fun initData() {
         mImgUrls = intent.getStringArrayListExtra("imageUrlList")
-        mPosition = intent.getIntExtra("position", 0)
     }
 
     @SuppressLint("SetTextI18n")
@@ -51,18 +53,14 @@ class PhotoActivity : AppCompatActivity() {
 
         val slideShow: SlideShow = findViewById(R.id.store_slideShow_photo)
         slideShow
-            .setStartItem(mPosition)
+            .setStartItem(ProductExchangeActivity.sSlideShowPosition)
             .setPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
                 override fun onPageSelected(position: Int) {
                     //设置图片进度(1/X)
                     tvPosition.post { // TextView 有奇怪的 bug, 改变文字不用 post 就无法改变
                         tvPosition.text = "${position + 1}/${mImgUrls.size}"
                     }
-                    //传入当前选中位置
-                    val intent = Intent().apply {
-                        putExtra("position", position)
-                    }
-                    setResult(Activity.RESULT_OK, intent)
+                    ProductExchangeActivity.sSlideShowPosition = position
                 }
             })
             .setViewAdapter(
@@ -71,7 +69,10 @@ class PhotoActivity : AppCompatActivity() {
                 create = { holder ->
                     holder.view.scaleType= ImageView.ScaleType.CENTER_INSIDE
                     holder.view.setOnPhotoTapListener { _, _, _ ->
-                        finish()
+                        thread { // 模拟返回键调用共享元素动画, 这个返回模拟必须放在其他线程中
+                            val ins = Instrumentation()
+                            ins.sendKeyDownUpSync(KeyEvent.KEYCODE_BACK)
+                        }
                     }
                     holder.view.setOnLongClickListener {
                         val drawable = holder.view.drawable

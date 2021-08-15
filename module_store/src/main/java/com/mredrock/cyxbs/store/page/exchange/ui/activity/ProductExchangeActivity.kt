@@ -32,12 +32,12 @@ class ProductExchangeActivity : BaseViewModelActivity<ProductExchangeViewModel>(
     private var mStampCount = 0 //我的余额
     private var mId = "" //商品ID
     private lateinit var mData: ProductDetail.Data
-    private val mLauncher = registerForActivityResult(ResultContract()) { result ->
-        //从PhotoActivity回到该Activity时 将VP中图片位置移动到退出时PhotoActivity时图片的位置
-        dataBinding.storeSlideShowExchangeProductImage.setCurrentItem(result, false)
-    }
 
     companion object {
+
+        // 为了与 PhotoActivity 的图片位置进行配合写了个静态变量
+        var sSlideShowPosition = 0
+
         fun activityStart(context: Context, id: String, stampCount: Int) {
             val intent = Intent(context, ProductExchangeActivity::class.java)
             intent.putExtra("id", id)
@@ -78,12 +78,16 @@ class ProductExchangeActivity : BaseViewModelActivity<ProductExchangeViewModel>(
                 //处理权益说明 以及标题
                 when (it.type) {
                     1 -> {
-                        dataBinding.storeTvProductDetailTitle.text = getString(R.string.store_entity_product_detail)
-                        dataBinding.storeTvEquityDescription.text = "1、每个实物商品每人限兑换一次，已经兑换的商品不能退货换货也不予折现。\n2、在法律允许的范围内，本活动的最终解释权归红岩网校工作站所有。"
+                        dataBinding.storeTvProductDetailTitle.text =
+                            getString(R.string.store_entity_product_detail)
+                        dataBinding.storeTvEquityDescription.text =
+                            "1、每个实物商品每人限兑换一次，已经兑换的商品不能退货换货也不予折现。\n2、在法律允许的范围内，本活动的最终解释权归红岩网校工作站所有。"
                     }
                     0 -> {
-                        dataBinding.storeTvProductDetailTitle.text = getString(R.string.store_attire_product_detail)
-                        dataBinding.storeTvEquityDescription.text = "1、虚拟商品版权归红岩网校工作站所有。\n2、在法律允许的范围内，本活动的最终解释权归红岩网校工作站所有。"
+                        dataBinding.storeTvProductDetailTitle.text =
+                            getString(R.string.store_attire_product_detail)
+                        dataBinding.storeTvEquityDescription.text =
+                            "1、虚拟商品版权归红岩网校工作站所有。\n2、在法律允许的范围内，本活动的最终解释权归红岩网校工作站所有。"
                     }
                 }
                 //设置轮播图UrlList
@@ -100,18 +104,18 @@ class ProductExchangeActivity : BaseViewModelActivity<ProductExchangeViewModel>(
                     "reduce goods error" -> {
                         ProductExchangeDialogFragment().apply {
                             initView(
-                                    dialogRes = R.layout.store_dialog_exchange_result,
-                                    onPositiveClick = { dismiss() },
-                                    exchangeTips = "啊欧，手慢了！下次再来吧=.="
+                                dialogRes = R.layout.store_dialog_exchange_result,
+                                onPositiveClick = { dismiss() },
+                                exchangeTips = "啊欧，手慢了！下次再来吧=.="
                             )
                         }.show(supportFragmentManager, "zz")
                     }
                     "Integral not enough" -> {
                         ProductExchangeDialogFragment().apply {
                             initView(
-                                    dialogRes = R.layout.store_dialog_exchange_result,
-                                    onPositiveClick = { dismiss() },
-                                    exchangeTips = "诶......邮票不够啊......穷日子真不好过呀QAQ"
+                                dialogRes = R.layout.store_dialog_exchange_result,
+                                onPositiveClick = { dismiss() },
+                                exchangeTips = "诶......邮票不够啊......穷日子真不好过呀QAQ"
                             )
                         }.show(supportFragmentManager, "zz")
                     }
@@ -121,43 +125,45 @@ class ProductExchangeActivity : BaseViewModelActivity<ProductExchangeViewModel>(
                             when (mData.type) {
                                 0 -> {
                                     //刷新兑换后的余额与库存 下同
-                                    dataBinding.storeTvUserStampCount.text = (mStampCount - mData.price).toString()
+                                    dataBinding.storeTvUserStampCount.text =
+                                        (mStampCount - mData.price).toString()
                                     dataBinding.storeTvProductStock.text = it.data.amount.toString()
                                     ProductExchangeDialogFragment().apply {
                                         initView(
-                                                dialogRes = R.layout.store_dialog_exchange_product,
-                                                onPositiveClick = {
-                                                    dismiss()
-                                                },
-                                                onNegativeClick = {
-                                                    dismiss()
-                                                },
-                                                exchangeTips = "兑换成功！现在就换掉原来的名片吧！",
-                                                positiveString = "好的",
-                                                negativeString = "再想想"
+                                            dialogRes = R.layout.store_dialog_exchange_product,
+                                            onPositiveClick = {
+                                                dismiss()
+                                            },
+                                            onNegativeClick = {
+                                                dismiss()
+                                            },
+                                            exchangeTips = "兑换成功！现在就换掉原来的名片吧！",
+                                            positiveString = "好的",
+                                            negativeString = "再想想"
                                         )
                                     }.show(supportFragmentManager, "zz")
                                 }
                                 1 -> {
-                                    dataBinding.storeTvUserStampCount.text = (mStampCount - mData.price).toString()
+                                    dataBinding.storeTvUserStampCount.text =
+                                        (mStampCount - mData.price).toString()
                                     dataBinding.storeTvProductStock.text = it.data.amount.toString()
                                     ProductExchangeDialogFragment().apply {
                                         initView(
-                                                dialogRes = R.layout.store_dialog_exchange_result,
-                                                onPositiveClick = {
-                                                    dismiss()
-                                                    dataBinding.storeTvUserStampCount.text = (mStampCount - mData.price).toString()
-                                                    dataBinding.storeTvProductStock.text = it.data.amount.toString()
-                                                },
-                                                exchangeTips = "兑换成功！请在30天内到红岩网校领取哦"
+                                            dialogRes = R.layout.store_dialog_exchange_result,
+                                            onPositiveClick = {
+                                                dismiss()
+                                                dataBinding.storeTvUserStampCount.text =
+                                                    (mStampCount - mData.price).toString()
+                                                dataBinding.storeTvProductStock.text =
+                                                    it.data.amount.toString()
+                                            },
+                                            exchangeTips = "兑换成功！请在30天内到红岩网校领取哦"
                                         )
                                     }.show(supportFragmentManager, "zz")
                                 }
                             }
                         }
-
                     }
-
                 }
             }
         }
@@ -174,27 +180,29 @@ class ProductExchangeActivity : BaseViewModelActivity<ProductExchangeViewModel>(
     private fun initSlideShow() {
         if (!dataBinding.storeSlideShowExchangeProductImage.hasBeenSetAdapter()) {
             dataBinding.storeSlideShowExchangeProductImage
-                    .addTransformer(ScaleInTransformer())
-                    .openCirculateEnabled()
-                    .setImgAdapter(mImageList,
-                            create = { holder ->
-                                holder.view.setOnClickListener {
-                                    val options =
-                                            ActivityOptionsCompat.makeSceneTransitionAnimation(
-                                                    this, Pair<View, String>(
-                                                    dataBinding.storeSlideShowExchangeProductImage,
-                                                    "productImage"
-                                            )
-                                            )
-                                    mPosition =
-                                            dataBinding.storeSlideShowExchangeProductImage
-                                                    .getRealPosition(holder.layoutPosition)
-                                    mLauncher.launch(true, options)
-                                }
-                            },
-                            refactor = { data, imageView, _, _ ->
-                                imageView.setImageFromUrl(data)
-                            })
+                .addTransformer(ScaleInTransformer())
+                .openCirculateEnabled()
+                .setImgAdapter(mImageList,
+                    create = { holder ->
+                        holder.view.setOnClickListener {
+                            val options =
+                                ActivityOptionsCompat.makeSceneTransitionAnimation(
+                                    this, Pair<View, String>(
+                                        dataBinding.storeSlideShowExchangeProductImage,
+                                        "productImage"
+                                    )
+                                )
+                            sSlideShowPosition =
+                                dataBinding.storeSlideShowExchangeProductImage
+                                    .getRealPosition(holder.layoutPosition)
+                            val intent = Intent(this, PhotoActivity::class.java)
+                            intent.putStringArrayListExtra("imageUrlList", mImageList)
+                            startActivity(intent, options.toBundle())
+                        }
+                    },
+                    refactor = { data, imageView, _, _ ->
+                        imageView.setImageFromUrl(data)
+                    })
         } else {
             dataBinding.storeSlideShowExchangeProductImage.notifyImgDataChange(mImageList)
         }
@@ -214,15 +222,15 @@ class ProductExchangeActivity : BaseViewModelActivity<ProductExchangeViewModel>(
 
                     ProductExchangeDialogFragment().apply {
                         initView(
-                                dialogRes = R.layout.store_dialog_exchange_product,
-                                onPositiveClick = {
-                                    //请求获取用户是否能购买
-                                    viewModel.exchangeProduct(mId)
-                                    dismiss()
-                                },
+                            dialogRes = R.layout.store_dialog_exchange_product,
+                            onPositiveClick = {
+                                //请求获取用户是否能购买
+                                viewModel.exchangeProduct(mId)
+                                dismiss()
+                            },
 
-                                onNegativeClick = { dismiss() },
-                                exchangeTips = "确认要用${dataBinding.storeTvExchangeDetailPrice.text}邮票兑换${dataBinding.storeTvProductName.text}吗？"
+                            onNegativeClick = { dismiss() },
+                            exchangeTips = "确认要用${dataBinding.storeTvExchangeDetailPrice.text}邮票兑换${dataBinding.storeTvProductName.text}吗？"
                         )
                     }.show(supportFragmentManager, "zz")
                 }
@@ -230,20 +238,8 @@ class ProductExchangeActivity : BaseViewModelActivity<ProductExchangeViewModel>(
         }
     }
 
-    inner class ResultContract : ActivityResultContract<Boolean, Int>() {
-
-        override fun createIntent(context: Context, input: Boolean): Intent {
-            return Intent(context, PhotoActivity::class.java).apply {
-                putExtra("position", mPosition)
-                putStringArrayListExtra("imageUrlList", mImageList)
-            }
-        }
-
-        override fun parseResult(resultCode: Int, intent: Intent?): Int {
-            if (intent != null) {
-                return intent.getIntExtra("position", 0)
-            }
-            return 0
-        }
+    override fun onRestart() {
+        super.onRestart()
+        dataBinding.storeSlideShowExchangeProductImage.setCurrentItem(sSlideShowPosition, false)
     }
 }

@@ -29,13 +29,13 @@ class ProductExchangeDialogFragment : DialogFragment() {
     private var onNegativeClick: (() -> Unit)? = null
 
     fun initView(
-            @LayoutRes
-            dialogRes: Int = 0,
-            positiveString: String = "确定",
-            negativeString: String = "取消",
-            exchangeTips: String = "",
-            onPositiveClick: (() -> Unit)? = null,
-            onNegativeClick: (() -> Unit)? = null
+        @LayoutRes
+        dialogRes: Int = 0,
+        positiveString: String = "确定",
+        negativeString: String = "取消",
+        exchangeTips: String = "",
+        onPositiveClick: (() -> Unit)? = null,
+        onNegativeClick: (() -> Unit)? = null
     ) {
         this.dialogRes = dialogRes
         this.positiveString = positiveString
@@ -45,14 +45,23 @@ class ProductExchangeDialogFragment : DialogFragment() {
         this.onNegativeClick = onNegativeClick
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         dialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        val v = inflater.inflate(dialogRes, dialog?.window?.findViewById(android.R.id.content)
-                ?: container, false)
+        val v = inflater.inflate(
+            dialogRes, dialog?.window?.findViewById(android.R.id.content)
+                ?: container, false
+        )
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         val dm = DisplayMetrics()
         activity?.windowManager?.defaultDisplay?.getMetrics(dm)
-        dialog?.window?.setLayout((dm.widthPixels * 0.75).toInt(), ViewGroup.LayoutParams.WRAP_CONTENT)
+        dialog?.window?.setLayout(
+            (dm.widthPixels * 0.75).toInt(),
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        )
         return v
     }
 
