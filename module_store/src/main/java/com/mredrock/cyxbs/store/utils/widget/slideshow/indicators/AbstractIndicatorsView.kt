@@ -15,7 +15,7 @@ import com.mredrock.cyxbs.store.utils.widget.slideshow.indicators.utils.Indicato
 import com.mredrock.cyxbs.store.utils.widget.slideshow.utils.SlideShowUtils
 
 /**
- * 如果你想实现自己的指示器，可以继承于该抽象类
+ * 如果你想实现自己的指示器, 可以继承于该抽象类, 实现该抽象类你只需绘制一段路径的圆点移动动画就能实现所有圆点间的移动动画
  *
  * 继承后，你只需要实现 [onDrawMovePath] 方法即可，该方法可以实现一个区间的轨迹绘制而实现全部轨迹的绘制
  * @author 985892345

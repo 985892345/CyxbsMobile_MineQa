@@ -1,6 +1,5 @@
 package com.mredrock.cyxbs.store.page.center.ui.item
 
-import android.util.Log
 import android.view.View
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
@@ -8,7 +7,7 @@ import com.mredrock.cyxbs.store.R
 import com.mredrock.cyxbs.store.base.SimpleRVAdapter
 
 /**
- * ...
+ * 自己写了个用于解耦不同的 item 的 Adapter 的封装类, 详情请看 [SimpleRVAdapter]
  * @author 985892345 (Guo Xiangrui)
  * @email 2767465918@qq.com
  * @data 2021/8/9

@@ -1,7 +1,6 @@
 package com.mredrock.cyxbs.store.page.center.ui.item
 
 import android.annotation.SuppressLint
-import android.util.Log
 import androidx.core.content.ContextCompat
 import com.mredrock.cyxbs.common.BaseApp.Companion.context
 import com.mredrock.cyxbs.store.R
@@ -10,7 +9,7 @@ import com.mredrock.cyxbs.store.bean.StampCenter
 import com.mredrock.cyxbs.store.databinding.StoreRecyclerItemStampTaskListBinding
 
 /**
- * ...
+ * 自己写了个用于解耦不同的 item 的 Adapter 的封装类, 详情请看 [SimpleRVAdapter]
  * @author 985892345 (Guo Xiangrui)
  * @email 2767465918@qq.com
  * @data 2021/8/9
@@ -51,7 +50,9 @@ class StampTaskListItem(
         val task = taskMap[position]
         if (task != null) {
             binding.storeProgressBarStampTask.max = task.maxProgress
-            binding.storeProgressBarStampTask.setProgressCompat(task.currentProgress, true)
+            binding.storeProgressBarStampTask.post {
+                binding.storeProgressBarStampTask.setProgressCompat(task.currentProgress, true)
+            }
             binding.storeTvStampTaskListProgress.text = "${task.currentProgress}/${task.maxProgress}"
             binding.storeTvStampTaskListName.text = task.title
             binding.storeTvStampTaskListDescribe.text = task.description

@@ -116,7 +116,7 @@ class ProductExchangeActivity : BaseViewModelActivity<ProductExchangeViewModel>(
                     }
                     "success" -> {
                         //根据不同商品类型弹出不同dialog
-                        if (::mData.isInitialized) {
+                        if (this::mData.isInitialized) {
                             when (mData.type) {
                                 0 -> {
                                     ProductExchangeDialogFragment().apply {

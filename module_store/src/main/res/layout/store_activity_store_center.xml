@@ -35,7 +35,7 @@
         android:layout_height="27dp"
         android:layout_marginEnd="16dp"
         android:background="@drawable/store_shape_stamp_center_right_top_stamp_bg"
-        app:bgColor="@color/store_stamp_center_background"
+        app:view_bgColor="@color/store_stamp_center_background"
         app:layout_constraintBottom_toBottomOf="@+id/store_tv_stamp_center_title"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/store_tv_stamp_center_title">
@@ -102,19 +102,19 @@
 
             <TextView
                 android:id="@+id/store_tv_stamp_center_detail"
-                android:layout_width="36dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:gravity="center_horizontal"
-                android:text="@string/store_stamp_center_detail"
-                android:textSize="10dp"
-                android:textColor="@color/store_stamp_center_detail"
+                android:layout_width="40dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="10dp"
                 android:alpha="0.8"
+                android:gravity="center"
+                android:text="@string/store_stamp_center_detail"
+                android:textColor="@color/store_stamp_center_detail"
+                android:textSize="10dp"
+                app:drawableStartCompat="@drawable/store_ic_stamp_center_detail"
                 app:layout_constraintBottom_toBottomOf="@+id/store_textview"
                 app:layout_constraintStart_toEndOf="@+id/store_textview"
                 app:layout_constraintTop_toTopOf="@+id/store_textview"
-                tools:ignore="HardcodedText,SpUsage"
-                app:drawableStartCompat="@drawable/store_ic_stamp_center_detail" />
+                tools:ignore="HardcodedText,SpUsage" />
 
             <TextView
                 android:id="@+id/store_tv_stamp_number"
@@ -180,18 +180,26 @@
                 android:layout_height="match_parent"
                 app:cardBackgroundColor="@color/store_stamp_center_cardView_background"
                 app:cardCornerRadius="16dp"
-                app:cardElevation="4dp"
-                app:cardMaxElevation="6dp"
+                app:cardElevation="2dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@+id/store_tl_stamp_center"
                 app:layout_constraintStart_toStartOf="@+id/store_tl_stamp_center"
                 app:layout_constraintTop_toBottomOf="@+id/store_tl_stamp_center">
 
-                <androidx.viewpager2.widget.ViewPager2
-                    android:id="@+id/store_vp_stamp_center"
+                <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+                    android:id="@+id/store_refreshLayout_stamp_center"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_margin="12dp" />
+                    android:paddingTop="12dp"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginEnd="12dp">
+
+                    <androidx.viewpager2.widget.ViewPager2
+                        android:id="@+id/store_vp_stamp_center"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
+
+                </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
             </androidx.cardview.widget.CardView>
 
@@ -199,13 +207,13 @@
 
     </com.mredrock.cyxbs.store.utils.widget.SlideUpLayout>
 
-    <!--下面的 View 用于遮挡底部-->
-<!--    <View-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="16dp"-->
-<!--        android:background="@color/store_stamp_center_cardView_background"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent" />-->
+    <!--下面的 View 用于遮挡底部 CardView 的圆角-->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="16dp"
+        android:background="@color/store_stamp_center_cardView_background"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

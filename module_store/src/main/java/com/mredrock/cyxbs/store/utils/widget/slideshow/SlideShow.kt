@@ -33,7 +33,10 @@ import kotlin.math.abs
 /**
  * 该控件是自己实现的一个快捷使用 ViewPager2 的库, 由于要整合到掌邮中, 所以删除了除了图片展示的其他功能
  *
- * **NOTE:** 由于继承于 CardView, 如果你想修改背景颜色, 请使用属性 android:backgroundTine=..., 这是 CardView 的原因
+ * 内部整合了指示器
+ *
+ * **NOTE:** 由于继承于 CardView, 如果你想修改背景颜色, 请使用属性 app:cardBackgroundColor=..., 这是 CardView 的原因
+ *
  * @author 985892345
  * @email 2767465918@qq.com
  * @data 2021/5/26
@@ -690,7 +693,7 @@ class SlideShow : CardView {
                 Indicators.Style.ZOOM -> ZoomIndicators(context)
                 Indicators.Style.WATER_DROP -> WaterDropIndicators(context)
                 Indicators.Style.FLASH -> FlashIndicators(context)
-                else -> MoveIndicators(context)
+                else -> WaterDropIndicators(context)
             }
             indicators.setIndicatorsAttrs(mAttrs.mIndicatorsAttrs)
             mIndicators = indicators

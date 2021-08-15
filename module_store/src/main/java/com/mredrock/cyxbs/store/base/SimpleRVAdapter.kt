@@ -8,7 +8,6 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import java.lang.RuntimeException
 
 /**
  * 实现像数组一样的直接添加不同的 item, 使用方法可以点击查看不同的实例
@@ -18,8 +17,8 @@ import java.lang.RuntimeException
  *
  * **WARNING:** 使用后记得使用 [show] 方法来开始加载
  *
- * ***在使用前, 请先看懂下面的例子***
- *
+ * ```
+ * 在使用前, 请先看下下面的例子
  * 此时我有这样的一个需求: 我有多个 Animal 的具体实现类(比如有: Dog, Cat, Bird)
  * 需要保存, 但是, 我不想分开它们, 我想保存在一起, 并且保存后在拿出来时我还必须知道
  * 它是什么具体的类型, 但因为泛型擦除, 我拿出来是时只知道它是 Animal, 却无法得到它究竟
@@ -55,7 +54,7 @@ import java.lang.RuntimeException
  * 3、该方案只能用于回调中, 如果你想要实现数组中的 getter 方法, 则每次 get 都需要回调才能拿到
  *
  * 4、在具体类型很多时, 更推荐使用强转
- *
+ * ```
  * @author 985892345 (Guo Xiangrui)
  * @email 2767465918@qq.com
  * @data 2021/5/31 (在开发邮票商城项目前在自己的项目中开发的, 后续进行了许多优化和修改)
@@ -101,10 +100,12 @@ class SimpleRVAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
      * **WARNING:** 使用后记得使用 [show] 方法来开始加载
      *
      * **WARNING:** 请不要在 [refactor] 中创建对象，
+     * ```
      * 比如：设置点击监听、设置用于 item 整个生命周期的对象等需要创建对象的做法，
-     * 写在 [refactor] 是错误的，因为 [refactor] 是指你的 item 离开屏幕再回到屏幕后的回调，
+     * 写在 refactor() 是错误的，因为 refactor() 是指你的 item 离开屏幕再回到屏幕后的回调，
      * 对于相同的 item 来说，设置的监听都是一样的，无需重复创建 Listener 对象重新设置监听。
-     * 正确的做法是写在 [create] 中。
+     * 正确的做法是写在 create() 中。
+     * ```
      * ***->> [refactor] 只适合用于修改数据，如：修改文字、图片等 <<-***
      *
      * **上方 WARNING 原因请了解 RecyclerView 的真正回调流程**
@@ -115,7 +116,9 @@ class SimpleRVAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
      * @param refactor 用于设置当前 item 每次进入屏幕显示的数据。
      * 会在第一次创建 item 或者当前 item 离开屏幕再回到屏幕后调用。
      * **->> 请不要在此处创建新的对象 <<-**，
+     * ```
      * 比如：设置点击监听、设置只需用于 item 整个生命周期的对象等其他需要创建对象的做法，
+     * ```
      * ***->> 这些应写在 [create] 中 <<-***
      *
      * @param refresh 用于刷新当前 item，可用于：修改文字、图片等，但它的修改周期只会在屏幕内，离开后可能就会还原。
@@ -147,10 +150,13 @@ class SimpleRVAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
      * **WARNING:** 使用后记得使用 [show] 方法来开始加载
      *
      * **WARNING:** 请不要在 [refactor] 中创建对象，
+     * ```
      * 比如：设置点击监听、设置用于 item 整个生命周期的对象等需要创建对象的做法，
-     * 写在 [refactor] 是错误的，因为 [refactor] 是指你的 item 离开屏幕再回到屏幕后的回调，
+     * 写在 refactor() 是错误的，因为 refactor() 是指你的 item 离开屏幕再回到屏幕后的回调，
      * 对于相同的 item 来说，设置的监听都是一样的，无需重复创建 Listener 对象重新设置监听。
-     * 正确的做法是写在 [create] 中。***->> [refactor] 只适合用于修改数据，如：修改文字、图片等 <<-***
+     * 正确的做法是写在 create() 中。
+     * ```
+     * ***->> [refactor] 只适合用于修改数据，如：修改文字、图片等 <<-***
      *
      * **上方 WARNING 原因请了解 RecyclerView 的真正回调流程**
      *
@@ -161,7 +167,9 @@ class SimpleRVAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
      * @param refactor 用于设置当前 item 每次进入屏幕显示的数据。
      * 会在第一次创建 item 或者当前 item 离开屏幕再回到屏幕后调用。
      * **->> 请不要在此处创建新的对象 <<-**，
+     * ```
      * 比如：设置点击监听、设置只需用于 item 整个生命周期的对象等其他需要创建对象的做法，
+     * ```
      * ***->> 这些应写在 [create] 中 <<-***
      *
      * @param refresh 用于刷新当前 item，可用于：修改文字、图片等，但它的修改周期只会在屏幕内，离开后可能就会还原。
@@ -187,7 +195,15 @@ class SimpleRVAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         return addItem(item)
     }
 
+    /**
+     * 用于设置完所有 Item 后加载 Adapter
+     *
+     * **WARNING:** 只能在第一次才能使用该方法
+     */
     fun show(): SimpleRVAdapter {
+        if (itemCount != 0) {
+            throw RuntimeException("SimpleRvAdapter#show(): 该方法只能在一次才能调用")
+        }
         mLayoutIdWithCallback.forEach{
             itemCount += it.value.item.getItemCount()
         }
@@ -220,8 +236,9 @@ class SimpleRVAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
      * 本方法使用了谷歌官方的 DiffUtil 来自动判断刷新方式替代 notifyDataSetChanged() 刷新
      *
      * **WARNING:** 用前须知, **不能在 refactor() 中设置点击事件和回调**,
+     * ```
      * 原因在于: https://blog.csdn.net/weixin_28318011/article/details/112872952
-     *
+     * ```
      * @param isRefactor 是否回调 refresh() 刷新, 而不是 refactor(), 它们的区别可以看 [refreshItem] 的注释
      * @param detectMoves 如果你有移动了位置的 item, 请传入 true (**传入 true 后会增大计算量**, 因此没有移动时传入 false)
      * @param isItemTheSame 比较两个 item 拥有的唯一 id 是否相同, 应比较不会改变的数据, 比如: item 要显示的名字、编号等
@@ -265,10 +282,14 @@ class SimpleRVAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
      *
      * ***(如果 [isRefactor] 为 true 后, 调用该刷新后的回调必须实现 Item 中的 refresh() 方法)***
      *
-     * @param isRefactor 是否回调 refactor() 方法刷新. 传入 true 时将回调 refactor() 刷新, 此刷新根据 RecyclerView
-     * 的刷新机制, 会换掉整个 item (从缓存里面找到相同的 item 来替换), 此时如果有图片, 可能会出现图片闪动的问题, 建议在没有图片,
-     * 只有一些文字修改时使用该方式.
-     * 如果传入 false, 则将回调 refresh() 刷新, 此刷新不会换掉整个 item, 适合于有图片显示时
+     * @param isRefactor 是否回调 refactor() 方法刷新.
+     * **传入 true 时将回调 refactor() 刷新**,
+     * ```
+     * 此刷新根据 RecyclerView 的刷新机制, 会换掉整个 item (从缓存里面找到相同的 item 来替换),
+     * 此时如果有图片, 可能会出现图片闪动的问题, 建议在没有图片, 只有一些文字修改时使用该方式.
+     * ```
+     * **如果传入 false, 则将回调 refresh() 刷新**,
+     * 此刷新不会换掉整个 item, 适合于有图片显示时
      */
     fun refreshItem(position: Int, isRefactor: Boolean) {
         if (isRefactor) {
@@ -277,6 +298,20 @@ class SimpleRVAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             // payload 传入不为 null 都可以
             notifyItemChanged(position, "")
         }
+    }
+
+    /**
+     * 给不使用 [refreshAuto] 留的后路, (notifyDataSetChanged() 永远的神!)
+     *
+     * **WARNING:** 如果在你数据改变的时候, 不可直接调用 notifyDataSetChanged(), 因为你无法修改 [itemCount]
+     *
+     * **NOTE:** 请在你修改了所有 Item 的 getItemCount() 后调用
+     */
+    fun refreshYYDS() {
+        mLayoutIdWithCallback.forEach{
+            itemCount += it.value.item.getItemCount()
+        }
+        notifyDataSetChanged()
     }
 
     private val mLayoutIdWithCallback = HashMap<Int, Callback>() // LayoutId 与 CallBack 的对应关系
@@ -434,10 +469,14 @@ class SimpleRVAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         /**
          * 只用于没有增加或删除时刷新自己
          *
-         * @param isRefactor 是否回调 refactor() 方法刷新. 传入 true 时将回调 refactor() 刷新, 此刷新根据 RecyclerView
-         * 的刷新机制, 会换掉整个 item (从缓存里面找到相同的 item 来替换), 此时如果有图片, 可能会出现图片闪动的问题, 建议在没有图片,
-         * 只有一些文字修改时使用该方式.
-         * 如果传入 false, 则将回调 refresh() 刷新, 此刷新不会换掉整个 item, 适合于有图片显示时
+         * @param isRefactor 是否回调 refactor() 方法刷新.
+         * **传入 true 时将回调 refactor() 刷新**,
+         * ```
+         * 此刷新根据 RecyclerView 的刷新机制, 会换掉整个 item (从缓存里面找到相同的 item 来替换),
+         * 此时如果有图片, 可能会出现图片闪动的问题, 建议在没有图片, 只有一些文字修改时使用该方式.
+         * ```
+         * **如果传入 false, 则将回调 refresh() 刷新**,
+         * 此刷新不会换掉整个 item, 适合于有图片显示时
          */
         fun refreshMySelf(isRefactor: Boolean) {
             for (i in 0 until adapter.itemCount) {
@@ -457,28 +496,33 @@ class SimpleRVAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
          *
          * **WARNING:** ***禁止在这里使用 kotlin 的扩展插件只使用 layoutId 得到 View***
          *
-         * **WARNING:** 在该方法中并**不能直接得到当前 item 的 position**, 但对于设置**点击事件等回调除外**,
-         * 对于点击事件, 它本身是一种回调, 可以在回调时通过 holder 得到 position, 此时 item 已经被加载
-         *
+         * **WARNING:** 在该方法中并**不能直接**得到当前 item 的 ***position***, 但对于设置**点击事件等回调除外**,
+         * 可以使用 ***holder.adapterPosition*** 或者 ***holder.layoutPosition*** 得到
+         * ```
          * (简单插一句, 对于 holder.adapterPosition 与 holder.layoutPosition 的区别
          * 可以查看: https://blog.csdn.net/u013467495/article/details/109078905?utm_
          * medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7EBlogComme
          * ndFromBaidu%7Edefault-10.pc_relevant_baidujshouduan&depth_1-utm_sour
          * ce=distribute.pc_relevant.none-task-blog-2%7Edefault%7EBlogCommendFr
          * omBaidu%7Edefault-10.pc_relevant_baidujshouduan)
+         * ```
          */
         abstract fun create(binding: DB, holder: BindingVH)
 
         /**
          * 用于设置当前 item **每次进入屏幕**显示的数据(包括离开屏幕又回到屏幕)
          *
+         * **点击事件等回调不能写在这里**,
+         * ```
+         * 原因在于: https://blog.csdn.net/weixin_28318011/article/details/112872952
+         * ```
          * **NOTE:** 会在第一次创建 item 或者当前 item 离开屏幕再回到屏幕后调用。
          *
          * **WARNING:** **->> 请不要在此处创建任何新的对象 <<-**
+         * ```
          * 比如：设置点击监听(会生成匿名内部类)、设置只需用于 item 整个生命周期的对象等其他需要创建对象的做法,
+         * ```
          * ***->> 这些做法应写在 [create] 中 <<-***
-         *
-         * **点击事件等回调不能写在这里**, 原因在于: https://blog.csdn.net/weixin_28318011/article/details/112872952
          *
          * **上方 WARNING 原因请了解 RecyclerView 的真正回调流程**
          */
@@ -487,8 +531,10 @@ class SimpleRVAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         /**
          * 刷新当前 item 的回调, 可用于: 修改文字、图片等
          *
-         * **NOTE:** 它的修改周期只会在屏幕内, 离开后可能就会还原,
-         * 因为离开后再回来就只会回调 [refactor]，解决办法是数据修改后就更改一个全局数组，在 [refactor] 中直接取数组中的值
+         * **NOTE:** 它的修改周期只会在屏幕内, 离开后可能就会还原.
+         * ```
+         * 因为离开后再回来就只会回调 refactor(), 解决办法是数据修改后就更改全局数组, 在 refactor() 中直接取数组中的值
+         * ```
          */
         open fun refresh(binding: DB, holder: BindingVH, position: Int) {}
     }
@@ -508,28 +554,33 @@ class SimpleRVAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
          *
          * **WARNING:** ***禁止在这里使用 kotlin 的扩展插件只使用 layoutId 得到 View***
          *
-         * **WARNING:** 在该方法中并**不能直接得到当前 item 的 position**, 但对于设置**点击事件等回调除外**,
-         * 对于点击事件, 它本身是一种回调, 可以在回调时通过 holder 得到 position, 此时 item 已经被加载
-         *
+         * **WARNING:** 在该方法中并**不能直接**得到当前 item 的 ***position***, 但对于设置**点击事件等回调除外**,
+         * 可以使用 ***holder.adapterPosition*** 或者 ***holder.layoutPosition*** 得到
+         * ```
          * (简单插一句, 对于 holder.adapterPosition 与 holder.layoutPosition 的区别
          * 可以查看: https://blog.csdn.net/u013467495/article/details/109078905?utm_
          * medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7EBlogComme
          * ndFromBaidu%7Edefault-10.pc_relevant_baidujshouduan&depth_1-utm_sour
          * ce=distribute.pc_relevant.none-task-blog-2%7Edefault%7EBlogCommendFr
          * omBaidu%7Edefault-10.pc_relevant_baidujshouduan)
+         * ```
          */
         abstract fun create(holder: VH)
 
         /**
          * 用于设置当前 item **每次进入屏幕**显示的数据(包括离开屏幕又回到屏幕)
          *
+         * **点击事件等回调不能写在这里**,
+         * ```
+         * 原因在于: https://blog.csdn.net/weixin_28318011/article/details/112872952
+         * ```
          * **NOTE:** 会在第一次创建 item 或者当前 item 离开屏幕再回到屏幕后调用。
          *
          * **WARNING:** **->> 请不要在此处创建任何新的对象 <<-**
+         * ```
          * 比如：设置点击监听(会生成匿名内部类)、设置只需用于 item 整个生命周期的对象等其他需要创建对象的做法,
+         * ```
          * ***->> 这些做法应写在 [create] 中 <<-***
-         *
-         * **点击事件等回调不能写在这里**, 原因在于: https://blog.csdn.net/weixin_28318011/article/details/112872952
          *
          * **上方 WARNING 原因请了解 RecyclerView 的真正回调流程**
          */
@@ -538,8 +589,10 @@ class SimpleRVAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         /**
          * 刷新当前 item 的回调, 可用于: 修改文字、图片等
          *
-         * **NOTE:** 它的修改周期只会在屏幕内, 离开后可能就会还原,
-         * 因为离开后再回来就只会回调 [refactor]，解决办法是数据修改后就更改一个全局数组，在 [refactor] 中直接取数组中的值
+         * **NOTE:** 它的修改周期只会在屏幕内, 离开后可能就会还原.
+         * ```
+         * 因为离开后再回来就只会回调 refactor(), 解决办法是数据修改后就更改全局数组, 在 refactor() 中直接取数组中的值
+         * ```
          */
         open fun refresh(holder: VH, position: Int) {}
     }

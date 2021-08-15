@@ -1,7 +1,6 @@
 package com.mredrock.cyxbs.store.page.center.ui.item
 
 import android.annotation.SuppressLint
-import android.content.Intent
 import com.mredrock.cyxbs.common.BaseApp.Companion.context
 import com.mredrock.cyxbs.common.utils.extensions.onClick
 import com.mredrock.cyxbs.common.utils.extensions.setImageFromUrl
@@ -12,7 +11,7 @@ import com.mredrock.cyxbs.store.databinding.StoreRecyclerItemSmallShopProductBin
 import com.mredrock.cyxbs.store.page.exchange.ui.activity.ProductExchangeActivity
 
 /**
- * ...
+ * 自己写了个用于解耦不同的 item 的 Adapter 的封装类, 详情请看 [SimpleRVAdapter]
  * @author 985892345 (Guo Xiangrui)
  * @email 2767465918@qq.com
  * @data 2021/8/9
@@ -47,8 +46,8 @@ class SmallShopProductItem(
             if (shop != null) {
                 ProductExchangeActivity.activityStart(
                     context,
-                    shop.id.toString(),
-                    stampCount
+                    shop.id.toString(), // 点击的商品 id
+                    stampCount // 自己还剩下的邮票数量
                 )
             }
         }

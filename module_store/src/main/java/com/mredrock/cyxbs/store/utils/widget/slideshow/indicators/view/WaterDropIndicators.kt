@@ -6,7 +6,7 @@ import com.mredrock.cyxbs.store.utils.widget.slideshow.indicators.AbstractIndica
 import kotlin.math.*
 
 /**
- * .....
+ * 基本思路是两个圆点之间的上下方有两个半径很大的圆, 小圆点就在这两个大圆之间被挤压着移动
  * @author 985892345
  * @email 2767465918@qq.com
  * @data 2021/6/19
@@ -25,7 +25,7 @@ class WaterDropIndicators(
     ) {
         if (outerX == 0F || outerY == 0F || outerR == 0F) {
             outerX = intervalMargin / 2
-            outerY = intervalMargin * 1F
+            outerY = intervalMargin * 1F // 大圆的 y 坐标, 修改此值会影响大圆半径
             outerR = (outerX.pow(2) + outerY.pow(2)).pow(0.5F) - radius
         }
         drawFirstCircle(path1, offsetPixels, intervalMargin)
