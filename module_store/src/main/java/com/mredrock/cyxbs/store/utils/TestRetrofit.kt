@@ -17,7 +17,7 @@ object TestRetrofit {
                     val build = it.request()
                             .newBuilder()
                             .addHeader("Authorization",
-                                    "Bearer eyJEYXRhIjp7ImdlbmRlciI6IueUtyIsInN0dV9udW0iOiIyMDE5MjExNjg1In0sIkRvbWFpbiI6Im1hZ2lwb2tlIiwiUmVkaWQiOiI1NGUxNzEzZTQ5MjUyMTcyNmMzZGQ3ZTg4Mzk1NDcxNzJhZTk1ZTlhIiwiZXhwIjoiNzM5ODgzMDM3NCIsImlhdCI6IjE2MjkwMTkxMjAiLCJzdWIiOiJ3ZWIifQ==.K7vVK0t7o1fn60FXMbBLIsX3YLhRIFKG+ZWhCT7cytfjSe4NrhrOk/wjWiEXJ/+F2FtxmgUDvT79l3/EH0PnbkSPotTHo//o45IjSF+BeQ4cpKaNL9lTZfGL6sndgjklUpsgnBHticzuW/Yb8/NSwDBK/xAnYiWkUokEmzVP4h+3TLg6Sxl+YWy8dn1P1Pxl2O7QwzGSy/g6lpQIVAJihxoiLSWNyl9a4fFKCfvzp2rJOjNy5tKNpii4QhcYqAB6LrKmHdIYb2NJHt/Kb3aMGxnFoRK60ULF2M/Inhh9L78jqj9/QCUx/7ITzBE6lMPVKNATlFPPkFwY1punxQ9nRg==")
+                                    "Bearer eyJEYXRhIjp7ImdlbmRlciI6IueUtyIsInN0dV9udW0iOiIyMDE5MjExNjg1In0sIkRvbWFpbiI6Im1hZ2lwb2tlIiwiUmVkaWQiOiI1NGUxNzEzZTQ5MjUyMTcyNmMzZGQ3ZTg4Mzk1NDcxNzJhZTk1ZTlhIiwiZXhwIjoiNzM5ODg0MTA3NCIsImlhdCI6IjE2MjkwMjk4MjEiLCJzdWIiOiJ3ZWIifQ==.AVYn1JBPM1GITKZHBhttkdL1OaO4BA5tm3/xOKhHhHCgYlWWp604jfrhnq0PC+1q1W7rNhnhRbgIALETMZSrWRDbO3AzP6UzfuYFidh5prMnt+qMJii0GsNj8REOL926ZWflE8YIzDD/OteG+z5c9vsoDNMDQZKwtjp3tdMl6FGViu8lSAU7YdJjzIaruNdGYmnoBrh7S8trPw1GFPcNukl3MHHezxdcbCDainPjAU0pin4VS+yPcuOOE/PHWs45DmBIHDrXNJPJkZge9tQ85K1pxg5UllzWF2y8qoZx0+6xX+ErCvwiCX3QR1oISM0h/PMDeJ66pjgAn8YYNbH1ew==")
                             .build()
                     return@addInterceptor it.proceed(build)
                 }
