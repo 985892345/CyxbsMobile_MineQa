@@ -2,10 +2,7 @@ package com.mredrock.cyxbs.store.network
 
 import com.mredrock.cyxbs.common.bean.RedrockApiStatus
 import com.mredrock.cyxbs.common.bean.RedrockApiWrapper
-import com.mredrock.cyxbs.store.bean.ExchangeRecord
-import com.mredrock.cyxbs.store.bean.ProductDetail
-import com.mredrock.cyxbs.store.bean.StampCenter
-import com.mredrock.cyxbs.store.bean.StampGetRecord
+import com.mredrock.cyxbs.store.bean.*
 import io.reactivex.Observable
 import retrofit2.http.*
 
@@ -31,7 +28,7 @@ interface ApiService {
     fun buyProduct(
             @Field("id")
             id: String
-    ): Observable<RedrockApiStatus>
+    ): Observable<ExchangeState>
 
     //得到兑换记录
     @GET("/magipoke-intergral/User/exchange")
