@@ -3,6 +3,8 @@ package com.mredrock.cyxbs.store.utils.widget
 import android.content.Context
 import android.graphics.*
 import android.util.AttributeSet
+import android.util.Log
+import android.view.View
 import android.widget.FrameLayout
 import com.mredrock.cyxbs.store.R
 
@@ -41,7 +43,7 @@ class AppearLayout(
         bgColor = ty.getColor(R.styleable.AppearLayout_view_bgColor, 0xFFF8F2F2.toInt())
         ty.recycle()
     }
-    private val rect by lazy { Rect(0, 0, width, height) }
+    private val rect by lazy { Rect(0, 0, (parent as View).width, height) }
     private val paint by lazy {
         val paint = Paint()
         paint.color = bgColor

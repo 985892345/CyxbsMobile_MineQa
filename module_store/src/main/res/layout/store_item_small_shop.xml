@@ -4,6 +4,8 @@
     android:id="@+id/store_rv_small_shop"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingStart="12dp"
+    android:paddingEnd="12dp"
     android:background="@color/store_stamp_center_cardView_background">
 
 </androidx.recyclerview.widget.RecyclerView>

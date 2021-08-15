@@ -1,6 +1,7 @@
 package com.mredrock.cyxbs.store.page.center.ui.activity
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.ImageButton
 import android.widget.TextView
@@ -21,6 +22,12 @@ import com.mredrock.cyxbs.store.page.center.viewmodel.StoreCenterViewModel
 import com.mredrock.cyxbs.store.page.record.ui.activity.StampDetailActivity
 import com.mredrock.cyxbs.store.utils.widget.AppearLayout
 import com.mredrock.cyxbs.store.utils.widget.SlideUpLayout
+import com.mredrock.cyxbs.store.utils.widget.slideshow.viewpager2.transformer.AlphaPageTransformer
+import com.mredrock.cyxbs.store.utils.widget.slideshow.viewpager2.transformer.MZScaleInTransformer
+import com.mredrock.cyxbs.store.utils.widget.slideshow.viewpager2.transformer.RotateUpPageTransformer
+import com.mredrock.cyxbs.store.utils.widget.slideshow.viewpager2.transformer.ScaleInTransformer
+import com.mredrock.cyxbs.store.utils.widget.slideshow.viewpager2.transformer2.CubeInTransformer
+import com.mredrock.cyxbs.store.utils.widget.slideshow.viewpager2.transformer2.TabletTransformer
 
 /**
  * @author 985892345 (Guo Xiangrui)
@@ -68,6 +75,7 @@ class StoreCenterActivity : BaseViewModelActivity<StoreCenterViewModel>() {
                 StampTaskFragment()
             )
         )
+        mViewPager2.setPageTransformer(ScaleInTransformer())
     }
 
     // 设置 TabLayout
@@ -111,7 +119,7 @@ class StoreCenterActivity : BaseViewModelActivity<StoreCenterViewModel>() {
         try {
             val field = mRefreshLayout.javaClass.getDeclaredField("mTouchSlop")
             field.isAccessible = true
-            field.set(mRefreshLayout, 300)
+            field.set(mRefreshLayout, 220)
         }catch (e: Exception) {
             e.printStackTrace()
         }

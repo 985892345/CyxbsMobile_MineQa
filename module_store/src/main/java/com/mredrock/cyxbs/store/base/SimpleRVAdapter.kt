@@ -602,10 +602,19 @@ class SimpleRVAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
          */
         open fun refresh(binding: DB, holder: BindingVH, position: Int) {}
 
+        /**
+         * 当这个 holder 显示在屏幕上时
+         */
         open fun onViewAttachedToWindow(binding: DB, holder: BindingVH) {}
 
+        /**
+         * 当这个 holder 从屏幕离开时
+         */
         open fun onViewDetachedFromWindow(binding: DB, holder: BindingVH) {}
 
+        /**
+         * 当这个 holder 被回收时(在调用刷新传入 isRefactor 为 true 后 item 会被回收, 此时就会回调该方法)
+         */
         open fun onViewRecycled(binding: DB, holder: BindingVH) {}
     }
 
@@ -666,10 +675,19 @@ class SimpleRVAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
          */
         open fun refresh(holder: VH, position: Int) {}
 
+        /**
+         * 当这个 holder 显示在屏幕上时
+         */
         open fun onViewAttachedToWindow(holder: VH) {}
 
+        /**
+         * 当这个 holder 从屏幕离开时
+         */
         open fun onViewDetachedFromWindow(holder: VH) {}
 
+        /**
+         * 当这个 holder 被回收时(在调用刷新传入 isRefactor 为 true 后 item 会被回收, 此时就会回调该方法)
+         */
         open fun onViewRecycled(holder: VH) {}
     }
 }

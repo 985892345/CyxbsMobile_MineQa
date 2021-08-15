@@ -69,10 +69,7 @@ class PhotoActivity : AppCompatActivity() {
                 create = { holder ->
                     holder.view.scaleType= ImageView.ScaleType.CENTER_INSIDE
                     holder.view.setOnPhotoTapListener { _, _, _ ->
-                        thread { // 模拟返回键调用共享元素动画, 这个返回模拟必须放在其他线程中
-                            val ins = Instrumentation()
-                            ins.sendKeyDownUpSync(KeyEvent.KEYCODE_BACK)
-                        }
+                        finishAfterTransition()
                     }
                     holder.view.setOnLongClickListener {
                         val drawable = holder.view.drawable

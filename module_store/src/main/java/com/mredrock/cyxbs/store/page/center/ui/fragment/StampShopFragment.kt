@@ -100,7 +100,7 @@ class StampShopFragment : BaseFragment() {
         kinds.add(ArrayList())
         kinds.add(ArrayList())
         for (shop in products) {
-            kinds[shop.type].add(shop) // 因为后端返回的 type = 0 时为装扮, type = 1 时为邮货
+            kinds[1 - shop.type].add(shop) // 因为后端返回的 type = 1 时为装扮, type = 0 时为邮货
         }
         titleMap[0] = "装扮"
         titleMap[kinds[0].size + 1] = "邮货"
