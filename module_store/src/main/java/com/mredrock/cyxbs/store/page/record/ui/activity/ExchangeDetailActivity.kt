@@ -41,7 +41,7 @@ class ExchangeDetailActivity : BaseActivity() {
             dataBinding.storeExchangeDetailState.text = "待领取"
         }
         //设置时间
-        dataBinding.storeExchangeDetailTime.text=Date.getExactTime(data.date)
+        dataBinding.storeExchangeDetailTime.text = Date.getExactTime(data.date)
 
         //设置左上角返回点击事件
         store_iv_toolbar_no_line_arrow_left.setOnClickListener {

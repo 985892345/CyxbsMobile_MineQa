@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import androidx.activity.result.contract.ActivityResultContract
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.util.Pair
 import com.mredrock.cyxbs.common.ui.BaseViewModelActivity
@@ -77,13 +76,13 @@ class ProductExchangeActivity : BaseViewModelActivity<ProductExchangeViewModel>(
                 dataBinding.data = it
                 //处理权益说明 以及标题
                 when (it.type) {
-                    1 -> {
+                    0 -> {
                         dataBinding.storeTvProductDetailTitle.text =
                             getString(R.string.store_entity_product_detail)
                         dataBinding.storeTvEquityDescription.text =
                             "1、每个实物商品每人限兑换一次，已经兑换的商品不能退货换货也不予折现。\n2、在法律允许的范围内，本活动的最终解释权归红岩网校工作站所有。"
                     }
-                    0 -> {
+                    1 -> {
                         dataBinding.storeTvProductDetailTitle.text =
                             getString(R.string.store_attire_product_detail)
                         dataBinding.storeTvEquityDescription.text =
@@ -123,7 +122,7 @@ class ProductExchangeActivity : BaseViewModelActivity<ProductExchangeViewModel>(
                         //根据不同商品类型弹出不同dialog
                         if (this::mData.isInitialized) {
                             when (mData.type) {
-                                0 -> {
+                                1 -> {
                                     //刷新兑换后的余额与库存 下同
                                     dataBinding.storeTvUserStampCount.text =
                                         (mStampCount - mData.price).toString()
@@ -143,7 +142,7 @@ class ProductExchangeActivity : BaseViewModelActivity<ProductExchangeViewModel>(
                                         )
                                     }.show(supportFragmentManager, "zz")
                                 }
-                                1 -> {
+                                0 -> {
                                     dataBinding.storeTvUserStampCount.text =
                                         (mStampCount - mData.price).toString()
                                     dataBinding.storeTvProductStock.text = it.data.amount.toString()

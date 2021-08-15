@@ -26,7 +26,7 @@ class StampDetailActivity : BaseActivity() {
     private var mEventViewPagerAdapter: BaseFragmentVPAdapter<EventRecordFragment>? = null
     private var mEventRecordFragmentList = arrayListOf<EventRecordFragment>()
     private var mTabText = arrayOf("兑换记录", "获取记录")
-    private var animDuration:Long=400 //TabLayout文字缩放动画时间
+    private var animDuration: Long = 400 //TabLayout文字缩放动画时间
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.store_activity_stamp_detail)

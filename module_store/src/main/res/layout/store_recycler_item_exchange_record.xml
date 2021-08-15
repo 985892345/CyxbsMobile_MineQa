@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <variable
             name="data"
             type="com.mredrock.cyxbs.store.bean.ExchangeRecord.Data" />
@@ -65,15 +66,15 @@
             style="?android:attr/borderlessButtonStyle"
             android:layout_width="53dp"
             android:layout_height="21dp"
-            android:layout_marginStart="100dp"
+            android:layout_marginStart="5dp"
             android:layout_marginTop="14dp"
-            android:background="@drawable/store_btn_product_receive_tips"
-            android:text="@string/store_product_unclaimed"
             android:alpha="0"
+            android:background="@drawable/store_btn_product_receive_tips"
             android:clickable="false"
+            android:text="@string/store_product_unclaimed"
             android:textColor="@color/store_btn_product_receive_tips_text"
             android:textSize="11sp"
-            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintLeft_toRightOf="@+id/store_item_exchange_record_tv_event"
             app:layout_constraintTop_toTopOf="parent" />
 
         <View
