@@ -5,12 +5,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.AlphaAnimation
 import android.view.animation.AnimationUtils
 import android.view.animation.LayoutAnimationController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mredrock.cyxbs.common.ui.BaseViewModelFragment
-import com.mredrock.cyxbs.common.utils.extensions.gone
 import com.mredrock.cyxbs.common.utils.extensions.onClick
 import com.mredrock.cyxbs.store.R
 import com.mredrock.cyxbs.store.base.SimpleRVAdapter
@@ -29,7 +27,6 @@ import kotlinx.android.synthetic.main.store_fragment_event_record.*
 
 class EventRecordFragment : BaseViewModelFragment<EventRecordViewModel>() {
     private lateinit var mEventRVAdapter: SimpleRVAdapter
-    private val anim = AlphaAnimation(0f, 1f) //待领取的提示显示动画
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -38,9 +35,9 @@ class EventRecordFragment : BaseViewModelFragment<EventRecordViewModel>() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        initView()
         initAdapter()
         initData()
-        initView()
         super.onViewCreated(view, savedInstanceState)
     }
 
@@ -61,7 +58,6 @@ class EventRecordFragment : BaseViewModelFragment<EventRecordViewModel>() {
 
     private fun initView() {
         store_fragment_rv_event_record.layoutManager = LinearLayoutManager(context)
-        store_fragment_rv_event_record.layoutAnimation = LayoutAnimationController(AnimationUtils.loadAnimation(context, R.anim.store_slide_from_right_to_left_in))
     }
 
     /**
@@ -76,7 +72,7 @@ class EventRecordFragment : BaseViewModelFragment<EventRecordViewModel>() {
                         mEventRVAdapter = SimpleRVAdapter()
                                 .addItem(
                                         layoutId = R.layout.store_recycler_item_exchange_record,
-                                        getItemCount = {it.size},
+                                        getItemCount = { it.size },
                                         isInHere = { true },
                                         create = { binding: StoreRecyclerItemExchangeRecordBinding, holder: SimpleRVAdapter.BindingVH ->
                                             //设置点击事件
@@ -85,23 +81,29 @@ class EventRecordFragment : BaseViewModelFragment<EventRecordViewModel>() {
                                                 intent.putExtra("data", it[holder.layoutPosition])
                                                 activity?.startActivity(intent)
                                             }
-                                            //设置待领取提示的出场动画
-                                            anim.duration = 600
                                         },
                                         refactor = { binding: StoreRecyclerItemExchangeRecordBinding, holder: SimpleRVAdapter.BindingVH, position: Int ->
                                             //绑定数据
                                             binding.data = it[position]
                                             //单独处理时间
                                             binding.storeItemExchangeRecordTvDate.text = Date.getTime(it[position].date)
-                                            //如果已领取就gone 否则启动动画
+
+                                            //如果已领取就隐藏 否则启动动画
                                             if (it[position].isReceived) {
-                                                binding.storeBtnProductReceiveTips.gone()
+                                                binding.storeBtnProductReceiveTips.alpha = 0f
                                             } else {
-                                                binding.storeBtnProductReceiveTips.startAnimation(anim)
+                                                binding.storeBtnProductReceiveTips.animate().alpha(1f).setDuration(1200).start()
                                             }
+                                        },
+                                        onViewRecycled = { binding: StoreRecyclerItemExchangeRecordBinding, holder: SimpleRVAdapter.BindingVH ->
+                                            binding.storeBtnProductReceiveTips.animate().cancel()
+                                            binding.storeBtnProductReceiveTips.alpha = 0f
                                         }
                                 ).show()
+
                         store_fragment_rv_event_record.adapter = mEventRVAdapter
+                        store_fragment_rv_event_record.layoutAnimation = LayoutAnimationController(
+                                AnimationUtils.loadAnimation(context, R.anim.store_slide_from_right_to_left_in))
                     }
                 }
             }
