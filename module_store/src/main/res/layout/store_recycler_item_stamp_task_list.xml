@@ -75,8 +75,6 @@
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:max="5"
-            android:progress="0"
             app:trackThickness="8dp"
             app:indicatorColor="#7D8AFF"
             app:layout_constraintStart_toStartOf="@+id/store_tv_stamp_task_list_describe"

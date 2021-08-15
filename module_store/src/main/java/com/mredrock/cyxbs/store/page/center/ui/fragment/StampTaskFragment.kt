@@ -80,30 +80,7 @@ class StampTaskFragment : BaseFragment() {
         // 使用了自己封装的 DiffUtil 来刷新, 避免使用 notifyDataSetChanged
         // 你要是觉得过于麻烦请使用 refreshYYDS()
         // 不可自己调用 notifyDataSetChanged(), 因为你的 itemCount 将无法改变
-        mAdapter.refreshAuto(
-            true,
-            tasks.size + 1,
-            true,
-            isItemTheSame = { oldItemPosition, newItemPosition ->
-                val old = oldAllMap[oldItemPosition]
-                if (old is StampCenter.Task) {
-                    taskMap.containsKey(newItemPosition)
-                }else {
-                    titleMap.containsKey(newItemPosition)
-                }
-            },
-            isContentsTheSame = { oldItemPosition, newItemPosition ->
-                val old = oldAllMap[oldItemPosition]
-                if (old is StampCenter.Task) {
-                    val task = taskMap[newItemPosition]
-                    if (task != null) {
-                        task == old
-                    }else false
-                }else {
-                    true
-                }
-            }
-        )
+        mAdapter.refreshYYDS()
     }
 
     // 艹, 接口不同的 type 要自己去区分, 这个 kings[0] 装的每日任务, kinds[1] 装的更多任务

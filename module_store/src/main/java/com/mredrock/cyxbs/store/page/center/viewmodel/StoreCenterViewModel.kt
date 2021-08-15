@@ -15,6 +15,7 @@ import com.mredrock.cyxbs.store.bean.StampCenter
 class StoreCenterViewModel: BaseViewModel() {
 
     val stampCenterData = MutableLiveData<StampCenter>()
+    val stampCenterRefreshData = MutableLiveData<Boolean>()
 
     fun refresh() {
         TestRetrofit
@@ -23,9 +24,11 @@ class StoreCenterViewModel: BaseViewModel() {
             .setSchedulers()
             .safeSubscribeBy(
                 onError = {
+                    stampCenterRefreshData.value = false
                 },
                 onNext = {
                     stampCenterData.value = it
+                    stampCenterRefreshData.value = true
                 }
             )
     }

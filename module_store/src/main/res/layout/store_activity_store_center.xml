@@ -122,7 +122,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:fontFamily="@font/store_my_stamp_number"
-                android:text="999999"
+                android:text=""
                 android:textColor="@color/store_stamp_center_my_stamp_number"
                 android:textSize="45dp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -191,6 +191,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:paddingTop="12dp"
+                    android:paddingBottom="12dp"
                     android:layout_marginStart="12dp"
                     android:layout_marginEnd="12dp">
 

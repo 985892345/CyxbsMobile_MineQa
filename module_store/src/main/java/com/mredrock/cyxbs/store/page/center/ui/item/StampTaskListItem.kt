@@ -51,7 +51,10 @@ class StampTaskListItem(
         if (task != null) {
             binding.storeProgressBarStampTask.max = task.maxProgress
             binding.storeProgressBarStampTask.post {
-                binding.storeProgressBarStampTask.setProgressCompat(task.currentProgress, true)
+                binding.storeProgressBarStampTask.setProgressCompat(
+                    task.currentProgress,
+                    task.currentProgress != 0
+                )
             }
             binding.storeTvStampTaskListProgress.text = "${task.currentProgress}/${task.maxProgress}"
             binding.storeTvStampTaskListName.text = task.title
@@ -69,5 +72,20 @@ class StampTaskListItem(
                 )
             }
         }
+    }
+
+    override fun onViewRecycled(
+        binding: StoreRecyclerItemStampTaskListBinding,
+        holder: SimpleRVAdapter.BindingVH
+    ) {
+        super.onViewRecycled(binding, holder)
+        binding.storeProgressBarStampTask.progress = 0
+    }
+
+    override fun onViewAttachedToWindow(
+        binding: StoreRecyclerItemStampTaskListBinding,
+        holder: SimpleRVAdapter.BindingVH
+    ) {
+        super.onViewAttachedToWindow(binding, holder)
     }
 }

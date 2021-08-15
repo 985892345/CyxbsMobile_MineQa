@@ -1,10 +1,7 @@
 package com.mredrock.cyxbs.store.page.center.ui.activity
 
 import android.os.Bundle
-import android.util.Log
-import android.view.MotionEvent
 import android.view.View
-import android.view.ViewConfiguration
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -107,12 +104,19 @@ class StoreCenterActivity : BaseViewModelActivity<StoreCenterViewModel>() {
     }
 
     private fun initRefreshLayout() {
-        try { // 垃圾官方刷新控件, 不能修改偏移的误差值, 在左右滑动时容易出问题
+        /*
+        * 垃圾官方刷新控件, 不能修改偏移的误差值, 在左右滑动时与 ViewPager2 出现滑动冲突问题
+        * 修改 mTouchSlop 可以修改允许的滑动偏移值, 位置在 SwipeRefreshLayout 的 1081 行
+        * */
+        try {
             val field = mRefreshLayout.javaClass.getDeclaredField("mTouchSlop")
             field.isAccessible = true
             field.set(mRefreshLayout, 300)
         }catch (e: Exception) {
             e.printStackTrace()
+        }
+        mRefreshLayout.setOnChildScrollUpCallback { _, _ ->
+            !mSlideUpLayout.isUnfold()
         }
         mRefreshLayout.setOnRefreshListener {
             viewModel.refresh()
@@ -144,11 +148,6 @@ class StoreCenterActivity : BaseViewModelActivity<StoreCenterViewModel>() {
     // 对于 ViewModel 数据的观察
     private fun initData() {
         viewModel.stampCenterData.observeNotNull{
-            mRefreshLayout.isRefreshing = false
-            if (refreshTimes != 0) {
-                toast("刷新成功")
-            }
-            refreshTimes++
             val text = it.data.userAmount.toString()
             mTvStampNumber.text = text // 正上方的大的显示
             mTvStampNumber2.text = text // 右上方小的显示
@@ -159,9 +158,23 @@ class StoreCenterActivity : BaseViewModelActivity<StoreCenterViewModel>() {
                 mTvShopHint.visibility = View.INVISIBLE
             }
         }
+
+        viewModel.stampCenterRefreshData.observeNotNull {
+            mRefreshLayout.isRefreshing = false
+            if (it) {
+                if (refreshTimes != 0) {
+                    toast("刷新成功")
+                }
+                refreshTimes++
+            }else {
+                toast("获取邮票数据失败")
+            }
+        }
     }
 
+    // 从邮货详细界面返回
     override fun onRestart() {
+        refreshTimes = 0
         viewModel.refresh()
         super.onRestart()
     }

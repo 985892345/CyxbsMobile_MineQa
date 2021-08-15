@@ -82,33 +82,7 @@ class StampShopFragment : BaseFragment() {
     private fun refreshAdapter(shops: List<StampCenter.Shop>, stampCount: Int) {
         mSmallShopTitleItem.resetData(titleMap)
         mSmallShopProductItem.resetData(shopMap, stampCount)
-        // 使用了自己封装的 DiffUtil 来刷新, 避免使用 notifyDataSetChanged
-        // 你要是觉得过于麻烦请使用 refreshYYDS()
-        // 不可自己调用 notifyDataSetChanged(), 因为你的 itemCount 将无法改变
-        mAdapter.refreshAuto(
-            true,
-            shops.size + 2,
-            true,
-            isItemTheSame = { oldItemPosition, newItemPosition ->
-                val old = oldAllMap[oldItemPosition]
-                if (old is StampCenter.Shop) {
-                    shopMap.containsKey(newItemPosition)
-                }else {
-                    titleMap.containsKey(newItemPosition)
-                }
-            },
-            isContentsTheSame = { oldItemPosition, newItemPosition ->
-                val old = oldAllMap[oldItemPosition]
-                if (old is StampCenter.Shop) {
-                    val shop = shopMap[newItemPosition]
-                    if (shop != null) {
-                        shop == old
-                    }else false
-                }else {
-                    true
-                }
-            }
-        )
+        mAdapter.refreshYYDS()
     }
 
     // 艹, 接口不同的 type 要自己去区分, 这个 kings[0] 装的装扮, kinds[1] 装的邮货

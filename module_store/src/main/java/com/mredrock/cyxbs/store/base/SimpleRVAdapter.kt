@@ -130,7 +130,10 @@ class SimpleRVAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         isInHere: (position: Int) -> Boolean,
         create: (binding: DB, holder: BindingVH) -> Unit,
         refactor: (binding: DB, holder: BindingVH, position: Int) -> Unit,
-        refresh: ((binding: DB, holder: BindingVH, position: Int) -> Unit)? = null
+        refresh: ((binding: DB, holder: BindingVH, position: Int) -> Unit)? = null,
+        onViewAttachedToWindow: ((binding: DB, holder: BindingVH) -> Unit)? = null,
+        onViewDetachedFromWindow: ((binding: DB, holder: BindingVH) -> Unit)? = null,
+        onViewRecycled: ((binding: DB, holder: BindingVH) -> Unit)? = null
     ): SimpleRVAdapter {
         val item = object : DBItem<DB>(layoutId) {
             override fun getItemCount(): Int = getItemCount()
@@ -139,6 +142,15 @@ class SimpleRVAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             override fun refactor(binding: DB, holder: BindingVH, position: Int) = refactor(binding, holder, position)
             override fun refresh(binding: DB, holder: BindingVH, position: Int) {
                 refresh?.invoke(binding, holder, position)
+            }
+            override fun onViewAttachedToWindow(binding: DB, holder: BindingVH) {
+                onViewAttachedToWindow?.invoke(binding, holder)
+            }
+            override fun onViewDetachedFromWindow(binding: DB, holder: BindingVH) {
+                onViewDetachedFromWindow?.invoke(binding, holder)
+            }
+            override fun onViewRecycled(binding: DB, holder: BindingVH) {
+                onViewRecycled?.invoke(binding, holder)
             }
         }
         return addItem(item)
@@ -182,7 +194,10 @@ class SimpleRVAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         getItemCount: () -> Int,
         create: (holder: VH) -> Unit,
         refactor: (holder: VH, position: Int) -> Unit,
-        refresh: ((holder: VH, position: Int) -> Unit)? = null
+        refresh: ((holder: VH, position: Int) -> Unit)? = null,
+        onViewAttachedToWindow: ((holder: VH) -> Unit)? = null,
+        onViewDetachedFromWindow: ((holder: VH) -> Unit)? = null,
+        onViewRecycled: ((holder: VH) -> Unit)? = null
     ): SimpleRVAdapter {
         val item = object : VHItem<VH>(layoutId) {
             override fun isInHere(position: Int): Boolean = isInHere(position)
@@ -191,6 +206,15 @@ class SimpleRVAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             override fun create(holder: VH) = create(holder)
             override fun refactor(holder: VH, position: Int) = refactor(holder, position)
             override fun refresh(holder: VH, position: Int) { refresh?.invoke(holder, position) }
+            override fun onViewAttachedToWindow(holder: VH) {
+                onViewAttachedToWindow?.invoke(holder)
+            }
+            override fun onViewDetachedFromWindow(holder: VH) {
+                onViewDetachedFromWindow?.invoke(holder)
+            }
+            override fun onViewRecycled(holder: VH) {
+                onViewRecycled?.invoke(holder)
+            }
         }
         return addItem(item)
     }
@@ -209,6 +233,24 @@ class SimpleRVAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         }
         notifyItemRangeInserted(0, itemCount)
         return this
+    }
+
+    override fun onViewAttachedToWindow(holder: RecyclerView.ViewHolder) {
+        super.onViewAttachedToWindow(holder)
+        val call = mLayoutIdWithCallback[holder.itemViewType]
+        call?.onViewAttachedToWindow(holder)
+    }
+
+    override fun onViewDetachedFromWindow(holder: RecyclerView.ViewHolder) {
+        super.onViewDetachedFromWindow(holder)
+        val call = mLayoutIdWithCallback[holder.itemViewType]
+        call?.onViewDetachedFromWindow(holder)
+    }
+
+    override fun onViewRecycled(holder: RecyclerView.ViewHolder) {
+        super.onViewRecycled(holder)
+        val call = mLayoutIdWithCallback[holder.itemViewType]
+        call?.onViewRecycled(holder)
     }
 
     /**
@@ -308,6 +350,7 @@ class SimpleRVAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
      * **NOTE:** 请在你修改了所有 Item 的 getItemCount() 后调用
      */
     fun refreshYYDS() {
+        itemCount = 0
         mLayoutIdWithCallback.forEach{
             itemCount += it.value.item.getItemCount()
         }
@@ -323,19 +366,14 @@ class SimpleRVAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             callBack.create(viewHolder) // 在这里用于设置你在 create 接口中的点击监听或其他只用设置一次的东西
             return viewHolder
         }
-        throw RuntimeException("找不到 $layoutIdOrPosition 位置的 Item, 请检查 Item 中的 isInHere() 方法!" +
+        throw RuntimeException("SimpleRVAdapter: 找不到 $layoutIdOrPosition 位置的 Item, 请检查 Item 中的 isInHere() 方法!" +
                 "或者你使用了 clearItem() 方法!")
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         // 因为每个 position 对应的 CallBack 不同, 但 CallBack 的数量取决于你的 item 类型
-        // 所以遍历不会花很多时间
-        for (map in mLayoutIdWithCallback) {
-            if (map.value.item.isInHere(position)) {
-                map.value.refactor(holder, position)
-                break
-            }
-        }
+        val call = mLayoutIdWithCallback[holder.itemViewType]
+        call?.refactor(holder, position)
     }
 
     override fun onBindViewHolder( // 如果不知道该方法为什么要重写,请自己百度: 带有三个参数的 onBindViewHolder
@@ -346,12 +384,8 @@ class SimpleRVAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         if (payloads.isEmpty()) {
             onBindViewHolder(holder, position)
         }else {
-            for (map in mLayoutIdWithCallback) {
-                if (map.value.item.isInHere(position)) {
-                    map.value.refresh(holder, position)
-                    break
-                }
-            }
+            val call = mLayoutIdWithCallback[holder.itemViewType]
+            call?.refresh(holder, position)
         }
     }
 
@@ -377,6 +411,9 @@ class SimpleRVAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         abstract fun create(holder: RecyclerView.ViewHolder)
         abstract fun refactor(holder: RecyclerView.ViewHolder, position: Int)
         abstract fun refresh(holder: RecyclerView.ViewHolder, position: Int)
+        abstract fun onViewAttachedToWindow(holder: RecyclerView.ViewHolder)
+        abstract fun onViewDetachedFromWindow(holder: RecyclerView.ViewHolder)
+        abstract fun onViewRecycled(holder: RecyclerView.ViewHolder)
     }
 
     /**
@@ -415,6 +452,21 @@ class SimpleRVAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             val binding = (holder as BindingVH).binding as DB
             DBItem.refresh(binding, holder, position)
         }
+
+        override fun onViewAttachedToWindow(holder: RecyclerView.ViewHolder) {
+            val binding = (holder as BindingVH).binding as DB
+            DBItem.onViewAttachedToWindow(binding, holder)
+        }
+
+        override fun onViewDetachedFromWindow(holder: RecyclerView.ViewHolder) {
+            val binding = (holder as BindingVH).binding as DB
+            DBItem.onViewDetachedFromWindow(binding, holder)
+        }
+
+        override fun onViewRecycled(holder: RecyclerView.ViewHolder) {
+            val binding = (holder as BindingVH).binding as DB
+            DBItem.onViewRecycled(binding, holder)
+        }
     }
 
     /**
@@ -447,6 +499,18 @@ class SimpleRVAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         ) {
             holder.adapterPosition
             VHItem.refresh(holder as VH, position)
+        }
+
+        override fun onViewAttachedToWindow(holder: RecyclerView.ViewHolder) {
+            VHItem.onViewAttachedToWindow(holder as VH)
+        }
+
+        override fun onViewDetachedFromWindow(holder: RecyclerView.ViewHolder) {
+            VHItem.onViewDetachedFromWindow(holder as VH)
+        }
+
+        override fun onViewRecycled(holder: RecyclerView.ViewHolder) {
+            VHItem.onViewRecycled(holder as VH)
         }
     }
 
@@ -537,6 +601,12 @@ class SimpleRVAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
          * ```
          */
         open fun refresh(binding: DB, holder: BindingVH, position: Int) {}
+
+        open fun onViewAttachedToWindow(binding: DB, holder: BindingVH) {}
+
+        open fun onViewDetachedFromWindow(binding: DB, holder: BindingVH) {}
+
+        open fun onViewRecycled(binding: DB, holder: BindingVH) {}
     }
 
     /**
@@ -595,5 +665,11 @@ class SimpleRVAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
          * ```
          */
         open fun refresh(holder: VH, position: Int) {}
+
+        open fun onViewAttachedToWindow(holder: VH) {}
+
+        open fun onViewDetachedFromWindow(holder: VH) {}
+
+        open fun onViewRecycled(holder: VH) {}
     }
 }
