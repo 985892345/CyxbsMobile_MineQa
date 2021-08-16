@@ -1,9 +1,8 @@
+package com.mredrock.cyxbs.store.utils
+
 import android.util.Log
 import com.mredrock.cyxbs.common.utils.extensions.safeSubscribeBy
-import com.mredrock.cyxbs.common.utils.extensions.setSchedulers
 import com.mredrock.cyxbs.store.network.ApiService
-import com.mredrock.cyxbs.store.utils.TokenApiService
-import com.mredrock.cyxbs.store.utils.TokenBody
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Response
@@ -13,6 +12,7 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 
 object TestRetrofit {
+
     val testRetrofit = provideRetrofit()
 
     private fun provideRetrofit(): ApiService {
@@ -39,6 +39,8 @@ object TestRetrofit {
             .create(TokenApiService::class.java)
     }
 
+    private var mToken = ""
+
     class Retry(
         private val maxRetry: Int
     ): Interceptor {
@@ -50,21 +52,25 @@ object TestRetrofit {
             var response = chain.proceed(request)
             while (!response.isSuccessful && retryNum < maxRetry) {
                 retryNum++
-                provideToken()
-                    .getToken(TokenBody("2019211685", "096854"))
-                    .safeSubscribeBy(
-                        onError = {
-                        },
-                        onNext = {
-                            response.close()
-                            val build = request
-                                .newBuilder()
-                                .addHeader("Authorization",
-                                    "Bearer ${it.data.token}")
-                                .build()
-                            response = chain.proceed(build)
-                        }
-                    )
+                if (mToken.isEmpty() || retryNum != 1) {
+                    provideToken()
+                        .getToken(TokenBody("2019211685", "096854"))
+                        .safeSubscribeBy(
+                            onError = {
+                            },
+                            onNext = {
+                                retryNum = 0
+                                response.close()
+                                mToken = it.data.token
+                                val build = request
+                                    .newBuilder()
+                                    .addHeader("Authorization",
+                                        "Bearer $mToken")
+                                    .build()
+                                response = chain.proceed(build)
+                            }
+                        )
+                }
             }
             return response
         }

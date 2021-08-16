@@ -1,6 +1,7 @@
 package com.mredrock.cyxbs.store.page.center.ui.activity
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.ImageButton
 import android.widget.TextView
@@ -151,6 +152,8 @@ class StoreCenterActivity : BaseViewModelActivity<StoreCenterViewModel>() {
     // 对于 ViewModel 数据的观察
     private fun initData() {
         viewModel.stampCenterData.observeNotNull{
+            Log.println(Log.ASSERT,"123","(StoreCenterActivity.kt:155)-->> " +
+                    "00000000000")
             val text = it.data.userAmount.toString()
             mSlideUpLayout.setUnfoldCallBack {
                 mTvStampNumber.setText(text, true) // 正上方的大的显示

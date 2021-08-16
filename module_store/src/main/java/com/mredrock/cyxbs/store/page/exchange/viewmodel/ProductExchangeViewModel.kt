@@ -1,6 +1,5 @@
 package com.mredrock.cyxbs.store.page.exchange.viewmodel
 
-import TestRetrofit
 import androidx.lifecycle.MutableLiveData
 import com.google.gson.Gson
 import com.mredrock.cyxbs.common.utils.extensions.safeSubscribeBy
@@ -9,6 +8,7 @@ import com.mredrock.cyxbs.common.viewmodel.BaseViewModel
 import com.mredrock.cyxbs.store.R
 import com.mredrock.cyxbs.store.bean.ExchangeState
 import com.mredrock.cyxbs.store.bean.ProductDetail
+import com.mredrock.cyxbs.store.utils.TestRetrofit
 import okhttp3.ResponseBody
 import retrofit2.HttpException
 

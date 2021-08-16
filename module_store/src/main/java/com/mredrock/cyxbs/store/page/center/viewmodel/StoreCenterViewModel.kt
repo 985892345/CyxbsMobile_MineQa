@@ -5,6 +5,7 @@ import com.mredrock.cyxbs.common.utils.extensions.safeSubscribeBy
 import com.mredrock.cyxbs.common.utils.extensions.setSchedulers
 import com.mredrock.cyxbs.common.viewmodel.BaseViewModel
 import com.mredrock.cyxbs.store.bean.StampCenter
+import com.mredrock.cyxbs.store.utils.TestRetrofit
 
 /**
  * ...
