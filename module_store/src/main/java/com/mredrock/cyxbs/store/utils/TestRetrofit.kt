@@ -1,15 +1,18 @@
 package com.mredrock.cyxbs.store.utils
 
-import android.util.Log
-import com.mredrock.cyxbs.common.utils.extensions.safeSubscribeBy
+import com.google.gson.annotations.SerializedName
 import com.mredrock.cyxbs.store.network.ApiService
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Response
 import okhttp3.logging.HttpLoggingInterceptor
+import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.http.Body
+import retrofit2.http.POST
+import java.io.Serializable
 
 object TestRetrofit {
 
@@ -17,13 +20,6 @@ object TestRetrofit {
     val testRetrofit = provideRetrofit()
 
     private fun provideRetrofit(): ApiService {
-        if (mToken.isEmpty()) {
-            Log.println(Log.ASSERT,"123","(TestRetrofit.kt:21)-->> " +
-                    "1")
-            getNewToken()
-            Log.println(Log.ASSERT,"123","(TestRetrofit.kt:24)-->> " +
-                    "2")
-        }
         val logger = HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BODY }
         val client = OkHttpClient.Builder()
             .addInterceptor(logger)
@@ -36,15 +32,6 @@ object TestRetrofit {
             .addConverterFactory(GsonConverterFactory.create())
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .build().create(ApiService::class.java)
-    }
-
-    private fun provideToken(): TokenApiService {
-        return Retrofit.Builder()
-            .baseUrl("https://be-dev.redrock.cqupt.edu.cn")
-            .addConverterFactory(GsonConverterFactory.create())
-            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-            .build()
-            .create(TokenApiService::class.java)
     }
 
     class Retry(
@@ -94,13 +81,39 @@ object TestRetrofit {
                 val token = response.body()?.data?.token
                 if (token != null) {
                     mToken = token
-                    Log.println(Log.ASSERT,"123","(TestRetrofit.kt:96)-->> " +
-                            "===")
                 }
             }
         }catch (e: Exception) {
-            Log.println(Log.ASSERT,"123","(TestRetrofit.kt:102)-->> " +
-                    "${e.message}")
         }
     }
+
+    data class Token(
+        @SerializedName("data")
+        val `data`: Data,
+        @SerializedName("status")
+        val status: String
+    ) : Serializable {
+        data class Data(
+            @SerializedName("refreshToken")
+            val refreshToken: String,
+            @SerializedName("token")
+            val token: String
+        ) : Serializable
+    }
+
+    data class TokenBody(
+        @SerializedName("stuNum")
+        val stuNum: String,
+        @SerializedName("idNum")
+        val idNum: String
+    ) : Serializable
+
+    interface TokenApiService {
+        @POST("/magipoke/token")
+        fun getToken(
+            @Body
+            tokenBody: TokenBody
+        ): Call<Token>
+    }
 }
+

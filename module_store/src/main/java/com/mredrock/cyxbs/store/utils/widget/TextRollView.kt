@@ -86,6 +86,7 @@ class TextRollView(
         mOldTextList.clear()
         mNewTextList.addAll(text.chunked(1))
         mOldTextList.addAll(mNewTextList)
+        invalidate()
         slowlyAnimate(0F, 1F,
             onCancel = { alpha = 1F },
             onChange = {
