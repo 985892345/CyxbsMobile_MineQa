@@ -40,7 +40,7 @@ class EventRecordViewModel : BaseViewModel() {
     fun getStampRecord() {
 //        ApiGenerator.getApiService(ApiService::class.java)
         TestRetrofit.testRetrofit
-                .getStampGetRecord()
+                .getStampGetRecord(1,100)
                 .setSchedulers()
 //                .mapOrThrowApiException()
                 .safeSubscribeBy(
