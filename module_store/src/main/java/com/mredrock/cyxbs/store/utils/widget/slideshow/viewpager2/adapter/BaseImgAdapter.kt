@@ -110,6 +110,7 @@ abstract class BaseImgAdapter<T> : BaseViewAdapter<ShapeableImageView>() {
      */
     @Deprecated("禁止自己调用! ")
     internal fun refreshData(datas: List<T>) {
+        outerData = datas
         this.datas.clear()
         this.datas.addAll(datas)
         size = datas.size

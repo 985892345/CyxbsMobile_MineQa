@@ -85,6 +85,9 @@ class PhotoActivity : AppCompatActivity() {
                     holder.view.setOnPhotoTapListener { _, _, _ ->
                         finishAfterTransition()
                     }
+                    holder.view.setOnOutsidePhotoTapListener {
+                        finishAfterTransition()
+                    }
                     holder.view.setOnLongClickListener {
                         val drawable = holder.view.drawable
                         if (drawable is BitmapDrawable) {

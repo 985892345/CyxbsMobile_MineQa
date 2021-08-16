@@ -1,9 +1,9 @@
 package com.mredrock.cyxbs.store.page.center.ui.activity
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import androidx.viewpager2.widget.ViewPager2
@@ -142,8 +142,8 @@ class StoreCenterActivity : BaseViewModelActivity<StoreCenterViewModel>() {
             finish()
         }
 
-        val tvDetail: TextView = findViewById(R.id.store_tv_stamp_center_detail)
-        tvDetail.setOnClickListener {
+        val ivDetail: ImageView = findViewById(R.id.store_iv_stamp_center_stamp_bg)
+        ivDetail.setOnClickListener {
             startActivity<StampDetailActivity>()
         }
     }

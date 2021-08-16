@@ -102,8 +102,8 @@
 
             <TextView
                 android:id="@+id/store_tv_stamp_center_detail"
-                android:layout_width="40dp"
-                android:layout_height="30dp"
+                android:layout_width="34dp"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:alpha="0.8"
                 android:gravity="center"

@@ -41,6 +41,9 @@ object TestRetrofit {
         private var retryNum = 0
 
         override fun intercept(chain: Interceptor.Chain): Response {
+            if (mToken.isEmpty()) {
+                getNewToken()
+            }
             val request = chain.request()
             val build = request
                 .newBuilder()
