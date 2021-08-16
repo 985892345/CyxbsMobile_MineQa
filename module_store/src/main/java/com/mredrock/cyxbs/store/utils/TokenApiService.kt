@@ -1,6 +1,6 @@
 package com.mredrock.cyxbs.store.utils
 
-import io.reactivex.Observable
+import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.POST
 
@@ -15,5 +15,5 @@ interface TokenApiService {
     fun getToken(
         @Body
         tokenBody: TokenBody
-    ): Observable<Token>
+    ): Call<Token>
 }

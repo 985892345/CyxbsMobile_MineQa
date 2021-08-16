@@ -153,11 +153,9 @@ class StoreCenterActivity : BaseViewModelActivity<StoreCenterViewModel>() {
     // 对于 ViewModel 数据的观察
     private fun initData() {
         viewModel.stampCenterData.observeNotNull{
-            Log.println(Log.ASSERT,"123","(StoreCenterActivity.kt:155)-->> " +
-                    "00000000000")
             val text = it.data.userAmount.toString()
             if (isFirstLoad) {
-                mTvStampNumber.setTextNoAnimate(text)
+                mTvStampNumber.setTextOnlyAlpha(text)
                 isFirstLoad = false
             }else {
                 mSlideUpLayout.setUnfoldCallBack {

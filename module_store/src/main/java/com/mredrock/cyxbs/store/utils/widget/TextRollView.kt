@@ -81,6 +81,19 @@ class TextRollView(
         invalidate()
     }
 
+    fun setTextOnlyAlpha(text: String) {
+        mNewTextList.clear()
+        mOldTextList.clear()
+        mNewTextList.addAll(text.chunked(1))
+        mOldTextList.addAll(mNewTextList)
+        slowlyAnimate(0F, 1F,
+            onCancel = { alpha = 1F },
+            onChange = {
+                alpha = it
+            }
+        )
+    }
+
     private var mLastText = ""
     private var mRadio = 1F
     private val mTextPaint = Paint()

@@ -27,7 +27,6 @@ import kotlin.concurrent.thread
  *    e-mail : 1140143252@qq.com
  *    date   : 2021/8/9 15:10
  */
-
 class PhotoActivity : AppCompatActivity() {
 
     private lateinit var mImgUrls: ArrayList<String>
