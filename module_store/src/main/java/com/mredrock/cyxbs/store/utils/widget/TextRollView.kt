@@ -55,7 +55,7 @@ class TextRollView(
                     },
                     onChange = {
                         mRadio = it
-                        alpha = 0.7F * it + 0.3F
+//                        alpha = 0.7F * it + 0.3F
                         invalidate()
                     }
                 )
@@ -71,6 +71,14 @@ class TextRollView(
                 }
             }
         }
+    }
+
+    fun setTextNoAnimate(text: String) {
+        mNewTextList.clear()
+        mOldTextList.clear()
+        mNewTextList.addAll(text.chunked(1))
+        mOldTextList.addAll(mNewTextList)
+        invalidate()
     }
 
     private var mLastText = ""
@@ -198,7 +206,7 @@ class TextRollView(
                 }
             )
             interpolator = AccelerateDecelerateInterpolator()
-            duration = 1000L
+            duration = 400L
             start()
         }
     }

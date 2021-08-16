@@ -94,7 +94,7 @@ class EventRecordFragment : BaseViewModelFragment<EventRecordViewModel>() {
                                     if (it[position].isReceived) {
                                         binding.storeBtnProductReceiveTips.alpha = 0f
                                     } else {
-                                        binding.storeBtnProductReceiveTips.animate().alpha(1f).setDuration(1200).start()
+                                        binding.storeBtnProductReceiveTips.animate().alpha(1f).setDuration(600).start()
                                     }
                                 },
                                 onViewRecycled = { binding: StoreRecyclerItemExchangeRecordBinding, holder: SimpleRVAdapter.BindingVH ->

@@ -149,14 +149,20 @@ class StoreCenterActivity : BaseViewModelActivity<StoreCenterViewModel>() {
     }
 
     private var refreshTimes = 0
+    private var isFirstLoad = true
     // 对于 ViewModel 数据的观察
     private fun initData() {
         viewModel.stampCenterData.observeNotNull{
             Log.println(Log.ASSERT,"123","(StoreCenterActivity.kt:155)-->> " +
                     "00000000000")
             val text = it.data.userAmount.toString()
-            mSlideUpLayout.setUnfoldCallBack {
-                mTvStampNumber.setText(text, true) // 正上方的大的显示
+            if (isFirstLoad) {
+                mTvStampNumber.setTextNoAnimate(text)
+                isFirstLoad = false
+            }else {
+                mSlideUpLayout.setUnfoldCallBack {
+                    mTvStampNumber.setText(text, true) // 正上方的大的显示
+                }
             }
             mTvStampNumber2.text = text // 右上方小的显示
             if (it.data.unGotGood) {

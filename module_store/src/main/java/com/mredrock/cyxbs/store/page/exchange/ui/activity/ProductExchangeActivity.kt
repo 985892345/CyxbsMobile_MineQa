@@ -120,9 +120,11 @@ class ProductExchangeActivity : BaseViewModelActivity<ProductExchangeViewModel>(
                         if (this::mData.isInitialized) {
                             when (mData.type) {
                                 1 -> {
+                                    mStampCount -= mData.price
                                     //刷新兑换后的余额与库存 下同
                                     dataBinding.storeTvUserStampCount.text =
-                                        (mStampCount - mData.price).toString()
+                                        (mStampCount).toString()
+
                                     dataBinding.storeTvProductStock.text = it.data.amount.toString()
                                     ProductExchangeDialogFragment().apply {
                                         initView(
