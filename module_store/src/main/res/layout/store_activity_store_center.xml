@@ -119,7 +119,7 @@
                 android:id="@+id/store_tv_stamp_number"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="14dp"
                 android:fontFamily="@font/store_my_stamp_number"
                 android:text=""
                 android:textColor="@color/store_stamp_center_my_stamp_number"
