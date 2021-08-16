@@ -6,6 +6,11 @@
         <attr name="view_bgColor" format="color"/>
     </declare-styleable>
 
+    <declare-styleable name="TextRollView" tools:ignore="ResourceName">
+        <attr name="view_textSize" format="dimension"/>
+        <attr name="view_textColor" format="color"/>
+    </declare-styleable>
+
     <declare-styleable name="SlideShow" tools:ignore="ResourceName">
         <!--设置内部 View 的宽度，用于设置了 BaseImgAdapter、BaseViewAdapter 后使用-->
         <attr name="slide_viewWidth" format="dimension">

@@ -44,10 +44,8 @@ class AppearLayout(
         ty.recycle()
     }
     private val rect by lazy { Rect(0, 0, (parent as View).width, height) }
-    private val paint by lazy {
-        val paint = Paint()
-        paint.color = bgColor
-        paint
+    private val paint = Paint().apply {
+        color = bgColor
     }
 
     override fun dispatchDraw(canvas: Canvas) {

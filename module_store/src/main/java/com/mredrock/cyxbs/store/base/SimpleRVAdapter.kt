@@ -366,8 +366,8 @@ class SimpleRVAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             callBack.create(viewHolder) // 在这里用于设置你在 create 接口中的点击监听或其他只用设置一次的东西
             return viewHolder
         }
-        throw RuntimeException("SimpleRVAdapter: 找不到 $layoutIdOrPosition 位置的 Item, 请检查 Item 中的 isInHere() 方法!" +
-                "或者你使用了 clearItem() 方法!")
+        throw RuntimeException("SimpleRVAdapter: 找不到 $layoutIdOrPosition 位置的 Item, " +
+                "请检查 Item 中的 isInHere() 方法中是否存在 $layoutIdOrPosition 位置没设置!")
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {

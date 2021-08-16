@@ -73,7 +73,7 @@
             android:clipChildren="false">
 
             <ImageView
-                android:id="@+id/store_imageview"
+                android:id="@+id/store_iv_stamp_center_stamp_bg"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_marginStart="16dp"
@@ -95,7 +95,8 @@
                 android:text="@string/store_stamp_center_my_stamp"
                 android:textColor="@color/store_stamp_center_my_stamp_character"
                 android:textSize="12dp"
-                app:layout_constraintStart_toStartOf="@+id/store_imageview"
+                app:layout_constraintBottom_toTopOf="@+id/store_fl_stamp_number_layout"
+                app:layout_constraintStart_toStartOf="@+id/store_iv_stamp_center_stamp_bg"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:ignore="SpUsage" />
 
@@ -115,20 +116,29 @@
                 app:layout_constraintTop_toTopOf="@+id/store_textview"
                 tools:ignore="HardcodedText,SpUsage" />
 
-            <TextView
-                android:id="@+id/store_tv_stamp_number"
+            <!--因为需要放大背景的邮票图片, 所以在父 View 开启了
+                clipChildren="false", 这个属性也会使 TextRollView
+                在滚动时一样不被裁剪, 所以需要添加一个 Layout 在外面对
+                TextRollView 绘出边界的区域进行裁剪-->
+            <FrameLayout
+                android:id="@+id/store_fl_stamp_number_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="14dp"
-                android:fontFamily="@font/store_my_stamp_number"
-                android:text=""
-                android:textColor="@color/store_stamp_center_my_stamp_number"
-                android:textSize="45dp"
+                android:layout_marginStart="12dp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/store_textview"
-                app:layout_constraintTop_toTopOf="@+id/store_textview"
-                app:layout_constraintVertical_bias="0.092"
-                tools:ignore="HardcodedText,SpUsage" />
+                app:layout_constraintStart_toStartOf="@+id/store_iv_stamp_center_stamp_bg"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.57">
+
+                <com.mredrock.cyxbs.store.utils.widget.TextRollView
+                    android:id="@+id/store_tv_stamp_number"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:view_textColor="@color/store_stamp_center_my_stamp_number"
+                    app:view_textSize="52dp"
+                    tools:ignore="HardcodedText,SpUsage" />
+
+            </FrameLayout>
 
             <TextView
                 android:id="@+id/store_tv_stamp_center_hint"
@@ -136,13 +146,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:alpha="0.7"
-                android:fontFamily="@font/store_my_stamp_number"
                 android:text="@string/store_stamp_center_get_remind"
                 android:textColor="@color/store_stamp_center_get_remind"
                 android:textSize="12dp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/store_imageview"
-                app:layout_constraintTop_toBottomOf="@+id/store_tv_stamp_number"
+                app:layout_constraintStart_toStartOf="@+id/store_iv_stamp_center_stamp_bg"
+                app:layout_constraintTop_toBottomOf="@+id/store_fl_stamp_number_layout"
                 app:layout_constraintVertical_bias="0.41000003"
                 tools:ignore="SpUsage" />
 

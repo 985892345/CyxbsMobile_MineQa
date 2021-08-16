@@ -20,6 +20,7 @@ import kotlinx.android.synthetic.main.store_dialog_exchange_product.*
  *    date   : 2021/8/1 13:13
  */
 class ProductExchangeDialogFragment : DialogFragment() {
+
     @LayoutRes
     private var dialogRes: Int = 0
     private var positiveString: String = "确定"
@@ -51,9 +52,10 @@ class ProductExchangeDialogFragment : DialogFragment() {
         savedInstanceState: Bundle?
     ): View? {
         dialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        val v = inflater.inflate(
-            dialogRes, dialog?.window?.findViewById(android.R.id.content)
-                ?: container, false
+        val view = inflater.inflate(
+            dialogRes,
+            dialog?.window?.findViewById(android.R.id.content) ?: container,
+            false
         )
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         val dm = DisplayMetrics()
@@ -62,7 +64,7 @@ class ProductExchangeDialogFragment : DialogFragment() {
             (dm.widthPixels * 0.75).toInt(),
             ViewGroup.LayoutParams.WRAP_CONTENT
         )
-        return v
+        return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

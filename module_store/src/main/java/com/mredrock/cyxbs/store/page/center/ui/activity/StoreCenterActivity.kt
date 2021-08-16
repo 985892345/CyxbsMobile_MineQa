@@ -1,7 +1,6 @@
 package com.mredrock.cyxbs.store.page.center.ui.activity
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.ImageButton
 import android.widget.TextView
@@ -22,12 +21,8 @@ import com.mredrock.cyxbs.store.page.center.viewmodel.StoreCenterViewModel
 import com.mredrock.cyxbs.store.page.record.ui.activity.StampDetailActivity
 import com.mredrock.cyxbs.store.utils.widget.AppearLayout
 import com.mredrock.cyxbs.store.utils.widget.SlideUpLayout
-import com.mredrock.cyxbs.store.utils.widget.slideshow.viewpager2.transformer.AlphaPageTransformer
-import com.mredrock.cyxbs.store.utils.widget.slideshow.viewpager2.transformer.MZScaleInTransformer
-import com.mredrock.cyxbs.store.utils.widget.slideshow.viewpager2.transformer.RotateUpPageTransformer
+import com.mredrock.cyxbs.store.utils.widget.TextRollView
 import com.mredrock.cyxbs.store.utils.widget.slideshow.viewpager2.transformer.ScaleInTransformer
-import com.mredrock.cyxbs.store.utils.widget.slideshow.viewpager2.transformer2.CubeInTransformer
-import com.mredrock.cyxbs.store.utils.widget.slideshow.viewpager2.transformer2.TabletTransformer
 
 /**
  * @author 985892345 (Guo Xiangrui)
@@ -37,7 +32,7 @@ import com.mredrock.cyxbs.store.utils.widget.slideshow.viewpager2.transformer2.T
 @Route(path = STORE_CENTER)
 class StoreCenterActivity : BaseViewModelActivity<StoreCenterViewModel>() {
 
-    private lateinit var mTvStampNumber: TextView
+    private lateinit var mTvStampNumber: TextRollView
     private lateinit var mTvStampNumber2: TextView
     private lateinit var mTvShopHint: TextView
     private lateinit var mViewPager2: ViewPager2
@@ -157,7 +152,9 @@ class StoreCenterActivity : BaseViewModelActivity<StoreCenterViewModel>() {
     private fun initData() {
         viewModel.stampCenterData.observeNotNull{
             val text = it.data.userAmount.toString()
-            mTvStampNumber.text = text // 正上方的大的显示
+            mSlideUpLayout.setUnfoldCallBack {
+                mTvStampNumber.setText(text, true) // 正上方的大的显示
+            }
             mTvStampNumber2.text = text // 右上方小的显示
             if (it.data.unGotGood) {
                 // 显示"你还有待领取的商品，请尽快领取"

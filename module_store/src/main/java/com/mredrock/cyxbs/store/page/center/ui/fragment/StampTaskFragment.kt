@@ -84,7 +84,7 @@ class StampTaskFragment : BaseFragment() {
     }
 
     // 艹, 接口不同的 type 要自己去区分, 这个 kings[0] 装的每日任务, kinds[1] 装的更多任务
-    private val kinds = ArrayList<ArrayList<StampCenter.Task>>(2)
+    private val kinds = listOf<ArrayList<StampCenter.Task>>(ArrayList(), ArrayList())
     private val titleMap = HashMap<Int, String>() // adapter 的 position 与标题的映射
     private val taskMap = HashMap<Int, StampCenter.Task>() // adapter 的 position 与任务的映射
     private val oldAllMap = HashMap<Int, Any>() // 用于 refreshAdapter() 方法中使用 DiffUtil 来比对刷新
@@ -92,11 +92,11 @@ class StampTaskFragment : BaseFragment() {
         oldAllMap.clear()
         oldAllMap.putAll(titleMap)
         oldAllMap.putAll(taskMap)
-        kinds.clear()
         titleMap.clear()
         taskMap.clear()
-        kinds.add(ArrayList())
-        kinds.add(ArrayList())
+        for (list in kinds) {
+            list.clear()
+        }
         for (task in tasks) { // 后端返回的 type = "base" 时为每日任务, type = "more" 时为更多任务
             if (task.type == "base") {
                 kinds[0].add(task)

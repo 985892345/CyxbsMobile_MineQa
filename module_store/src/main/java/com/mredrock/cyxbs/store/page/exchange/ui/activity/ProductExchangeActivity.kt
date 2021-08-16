@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.util.Pair
@@ -27,16 +28,11 @@ class ProductExchangeActivity : BaseViewModelActivity<ProductExchangeViewModel>(
 
     private lateinit var dataBinding: StoreActivityProductExchangeBinding
     private var mImageList = ArrayList<String>()
-    private var mPosition = 0 //当前VP显示的item的位置
     private var mStampCount = 0 //我的余额
     private var mId = "" //商品ID
     private lateinit var mData: ProductDetail.Data
 
     companion object {
-
-        // 为了与 PhotoActivity 的图片位置进行配合写了个静态变量
-        var sSlideShowPosition = 0
-
         fun activityStart(context: Context, id: String, stampCount: Int) {
             val intent = Intent(context, ProductExchangeActivity::class.java)
             intent.putExtra("id", id)
@@ -61,7 +57,6 @@ class ProductExchangeActivity : BaseViewModelActivity<ProductExchangeViewModel>(
         dataBinding.storeTvUserStampCount.text = mStampCount.toString()
     }
 
-
     private fun initData() {
         mId = intent.getStringExtra("id")
         mStampCount = intent.getIntExtra("stampCount", 0)
@@ -80,13 +75,15 @@ class ProductExchangeActivity : BaseViewModelActivity<ProductExchangeViewModel>(
                         dataBinding.storeTvProductDetailTitle.text =
                             getString(R.string.store_entity_product_detail)
                         dataBinding.storeTvEquityDescription.text =
-                            "1、每个实物商品每人限兑换一次，已经兑换的商品不能退货换货也不予折现。\n2、在法律允许的范围内，本活动的最终解释权归红岩网校工作站所有。"
+                            "1、每个实物商品每人限兑换一次，已经兑换的商品不能退货换货也不予折现。\n" +
+                                    "2、在法律允许的范围内，本活动的最终解释权归红岩网校工作站所有。"
                     }
                     1 -> {
                         dataBinding.storeTvProductDetailTitle.text =
                             getString(R.string.store_attire_product_detail)
                         dataBinding.storeTvEquityDescription.text =
-                            "1、虚拟商品版权归红岩网校工作站所有。\n2、在法律允许的范围内，本活动的最终解释权归红岩网校工作站所有。"
+                            "1、虚拟商品版权归红岩网校工作站所有。\n" +
+                                    "2、在法律允许的范围内，本活动的最终解释权归红岩网校工作站所有。"
                     }
                 }
                 //设置轮播图UrlList
@@ -130,12 +127,8 @@ class ProductExchangeActivity : BaseViewModelActivity<ProductExchangeViewModel>(
                                     ProductExchangeDialogFragment().apply {
                                         initView(
                                             dialogRes = R.layout.store_dialog_exchange_product,
-                                            onPositiveClick = {
-                                                dismiss()
-                                            },
-                                            onNegativeClick = {
-                                                dismiss()
-                                            },
+                                            onPositiveClick = { dismiss() },
+                                            onNegativeClick = { dismiss() },
                                             exchangeTips = "兑换成功！现在就换掉原来的名片吧！",
                                             positiveString = "好的",
                                             negativeString = "再想想"
@@ -191,12 +184,15 @@ class ProductExchangeActivity : BaseViewModelActivity<ProductExchangeViewModel>(
                                         "productImage"
                                     )
                                 )
-                            sSlideShowPosition =
-                                dataBinding.storeSlideShowExchangeProductImage
-                                    .getRealPosition(holder.layoutPosition)
-                            val intent = Intent(this, PhotoActivity::class.java)
-                            intent.putStringArrayListExtra("imageUrlList", mImageList)
-                            startActivity(intent, options.toBundle())
+
+                            PhotoActivity.activityStart(
+                                this, mImageList,
+                                // 因为开启了循环滑动, 所以必须使用 getRealPosition() 得到你所看到的位置
+                                dataBinding
+                                    .storeSlideShowExchangeProductImage
+                                    .getRealPosition(holder.layoutPosition),
+                                options.toBundle()
+                            )
                         }
                     },
                     refactor = { data, imageView, _, _ ->
@@ -205,7 +201,6 @@ class ProductExchangeActivity : BaseViewModelActivity<ProductExchangeViewModel>(
         } else {
             dataBinding.storeSlideShowExchangeProductImage.notifyImgDataChange(mImageList)
         }
-
     }
 
     /**
@@ -218,7 +213,6 @@ class ProductExchangeActivity : BaseViewModelActivity<ProductExchangeViewModel>(
 
             when (view.id) {
                 R.id.store_btn_exchange -> {
-
                     ProductExchangeDialogFragment().apply {
                         initView(
                             dialogRes = R.layout.store_dialog_exchange_product,
@@ -229,7 +223,8 @@ class ProductExchangeActivity : BaseViewModelActivity<ProductExchangeViewModel>(
                             },
 
                             onNegativeClick = { dismiss() },
-                            exchangeTips = "确认要用${dataBinding.storeTvExchangeDetailPrice.text}邮票兑换${dataBinding.storeTvProductName.text}吗？"
+                            exchangeTips = "确认要用${dataBinding.storeTvExchangeDetailPrice.text}" +
+                                    "邮票兑换${dataBinding.storeTvProductName.text}吗？"
                         )
                     }.show(supportFragmentManager, "zz")
                 }
@@ -239,6 +234,8 @@ class ProductExchangeActivity : BaseViewModelActivity<ProductExchangeViewModel>(
 
     override fun onRestart() {
         super.onRestart()
-        dataBinding.storeSlideShowExchangeProductImage.setCurrentItem(sSlideShowPosition, false)
+        // 从 PhotoActivity 返回时就使轮播图跳转到对应位置
+        dataBinding.storeSlideShowExchangeProductImage
+            .setCurrentItem(PhotoActivity.SHOW_POSITION, false)
     }
 }

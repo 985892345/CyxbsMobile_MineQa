@@ -4,6 +4,7 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.Instrumentation
+import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
@@ -31,9 +32,23 @@ class PhotoActivity : AppCompatActivity() {
 
     private lateinit var mImgUrls: ArrayList<String>
 
+    companion object {
+
+        // 加载时或退出时图片显示的位置(如果使用 startActivityForResult(), 则会在共享动画时回调过慢出现图片闪动问题)
+        var SHOW_POSITION = 0
+            private set
+
+        fun activityStart(context: Context, imgUrls: ArrayList<String>, showPosition: Int, options: Bundle?) {
+            SHOW_POSITION = showPosition
+            val intent = Intent(context, PhotoActivity::class.java)
+            intent.putStringArrayListExtra("imgUrls", imgUrls)
+            context.startActivity(intent, options)
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //降低进入activity后的白闪情况
+        // 降低因使用共享动画进入 activity 后的白闪情况
         window.setBackgroundDrawableResource(R.color.store_transparent)
         setContentView(R.layout.store_activity_photo)
         setTheme(R.style.Theme_MaterialComponents) // 因为学长用的奇怪的 dialog, 需要这个主题支持
@@ -44,7 +59,7 @@ class PhotoActivity : AppCompatActivity() {
     }
 
     private fun initData() {
-        mImgUrls = intent.getStringArrayListExtra("imageUrlList")
+        mImgUrls = intent.getStringArrayListExtra("imgUrls")
     }
 
     @SuppressLint("SetTextI18n")
@@ -53,14 +68,14 @@ class PhotoActivity : AppCompatActivity() {
 
         val slideShow: SlideShow = findViewById(R.id.store_slideShow_photo)
         slideShow
-            .setStartItem(ProductExchangeActivity.sSlideShowPosition)
+            .setStartItem(SHOW_POSITION)
             .setPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
                 override fun onPageSelected(position: Int) {
                     //设置图片进度(1/X)
                     tvPosition.post { // TextView 有奇怪的 bug, 改变文字不用 post 就无法改变
                         tvPosition.text = "${position + 1}/${mImgUrls.size}"
                     }
-                    ProductExchangeActivity.sSlideShowPosition = position
+                    SHOW_POSITION = position
                 }
             })
             .setViewAdapter(
@@ -94,13 +109,19 @@ class PhotoActivity : AppCompatActivity() {
                     .setTitle(getString(R.string.store_pic_save_alert_dialog_title))
                     .setMessage(R.string.store_pic_save_alert_dialog_message)
                     .setPositiveButton("确定") { dialog, _ ->
-                        val name = System.currentTimeMillis().toString() + url.split('/').lastIndex.toString()
-                        io.reactivex.schedulers.Schedulers.io().scheduleDirect {
-                            this@PhotoActivity.saveImage(bitmap, name)
-                            android.media.MediaScannerConnection.scanFile(this@PhotoActivity,
-                                arrayOf(android.os.Environment.getExternalStorageDirectory().toString() + com.mredrock.cyxbs.common.config.DIR_PHOTO),
-                                arrayOf("image/jpeg"),
-                                null)
+                        val name = "${System.currentTimeMillis()}${url.split('/').lastIndex}"
+                        io.reactivex.schedulers.Schedulers.io()
+                            .scheduleDirect {
+                                this@PhotoActivity.saveImage(bitmap, name)
+                                android.media.MediaScannerConnection.scanFile(
+                                    this@PhotoActivity,
+                                    arrayOf(
+                                        "${android.os.Environment.getExternalStorageDirectory()}" +
+                                                com.mredrock.cyxbs.common.config.DIR_PHOTO
+                                    ),
+                                    arrayOf("image/jpeg"),
+                                    null
+                                )
 
                             runOnUiThread {
                                 toast("图片保存于系统\"${com.mredrock.cyxbs.common.config.DIR_PHOTO}\"文件夹下哦")

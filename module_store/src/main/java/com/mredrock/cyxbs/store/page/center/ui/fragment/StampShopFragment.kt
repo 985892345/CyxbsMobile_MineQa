@@ -86,21 +86,21 @@ class StampShopFragment : BaseFragment() {
     }
 
     // 艹, 接口不同的 type 要自己去区分, 这个 kings[0] 装的装扮, kinds[1] 装的邮货
-    private val kinds = ArrayList<ArrayList<StampCenter.Shop>>(2)
+    private val kinds = listOf<ArrayList<StampCenter.Shop>>(ArrayList(), ArrayList())
     private val titleMap = HashMap<Int, String>() // adapter 的 position 与标题的映射
     private val shopMap = HashMap<Int, StampCenter.Shop>() // adapter 的 position 与商品数据的映射
-    private val oldAllMap = HashMap<Int, Any>() // 用于 refreshAdapter() 方法中使用 DiffUtil 来比对刷新
     private fun resetData(products: List<StampCenter.Shop>) {
-        oldAllMap.clear()
-        oldAllMap.putAll(titleMap)
-        oldAllMap.putAll(shopMap)
-        kinds.clear()
         titleMap.clear()
         shopMap.clear()
-        kinds.add(ArrayList())
-        kinds.add(ArrayList())
+        for (list in kinds) {
+            list.clear()
+        }
         for (shop in products) {
-            kinds[1 - shop.type].add(shop) // 因为后端返回的 type = 1 时为装扮, type = 0 时为邮货
+            if (shop.type == 1) { // 后端返回的 type = 0 时为邮货, type = 1 时为装扮
+                kinds[0].add(shop)
+            }else {
+                kinds[1].add(shop)
+            }
         }
         titleMap[0] = "装扮"
         titleMap[kinds[0].size + 1] = "邮货"

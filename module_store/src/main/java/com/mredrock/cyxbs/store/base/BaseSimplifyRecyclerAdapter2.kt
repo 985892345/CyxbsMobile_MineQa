@@ -24,6 +24,7 @@ import kotlin.math.abs
  * 需要在onBindViewHolder中回调的方法-->onBindView
  * 若集合size发生变化，务必调用refresh()方法 更新ItemCount
  */
+@Deprecated("现已废弃, 请使用 SimpleRVAdapter 代替")
 open class BaseSimplifyRecyclerAdapter2<T>(private vararg var dataList: List<T>) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private var itemCount = 0//总item数

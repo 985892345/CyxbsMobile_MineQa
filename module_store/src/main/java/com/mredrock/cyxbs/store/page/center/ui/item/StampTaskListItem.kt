@@ -50,10 +50,9 @@ class StampTaskListItem(
         val task = taskMap[position]
         if (task != null) {
             binding.storeProgressBarStampTask.max = task.maxProgress
-            binding.storeProgressBarStampTask.post {
+            binding.storeProgressBarStampTask.post { // 不加 post 就不显示进度条加载动画, 很奇怪
                 binding.storeProgressBarStampTask.setProgressCompat(
-                    task.currentProgress,
-                    task.currentProgress != 0
+                    task.currentProgress, task.currentProgress != 0
                 )
             }
             binding.storeTvStampTaskListProgress.text = "${task.currentProgress}/${task.maxProgress}"
@@ -79,13 +78,7 @@ class StampTaskListItem(
         holder: SimpleRVAdapter.BindingVH
     ) {
         super.onViewRecycled(binding, holder)
+        // 当 item 被回收时就设置进度为 0, 防止因为刷新而出现 item 复用时闪进度的 bug
         binding.storeProgressBarStampTask.progress = 0
-    }
-
-    override fun onViewAttachedToWindow(
-        binding: StoreRecyclerItemStampTaskListBinding,
-        holder: SimpleRVAdapter.BindingVH
-    ) {
-        super.onViewAttachedToWindow(binding, holder)
     }
 }

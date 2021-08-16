@@ -50,6 +50,18 @@ class SlideUpLayout(
         return mSecondChild.top >= mOriginalFirstChildRect.bottom
     }
 
+    /**
+     * 设置第一个 View 完全展开时的回调
+     */
+    fun setUnfoldCallBack(call: () -> Unit) {
+        if (mOriginalFirstChildRect.height() == mCurrentFirstChildRect.height()) {
+            call.invoke()
+        }else {
+            mUnfoldCallBack = call
+        }
+    }
+
+    private var mUnfoldCallBack: (() -> Unit)? = null
     private var mMoveListener: ((multiple: Float) -> Unit)? = null
     private val mFirstChild by lazy { getChildAt(0) }
     private val mSecondChild by lazy { getChildAt(1) }
@@ -358,6 +370,9 @@ class SlideUpLayout(
                 mFirstChild.scaleX = 0F
                 mFirstChild.scaleY = 0F
             }
+        }
+        if (multiple == 1F) {
+            mUnfoldCallBack?.invoke()
         }
     }
     // 移动其他 child
