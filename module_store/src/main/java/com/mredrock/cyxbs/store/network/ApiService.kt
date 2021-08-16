@@ -39,7 +39,5 @@ interface ApiService {
     //得到邮票获取记录
     @GET("/magipoke-intergral/User/getRecord")
     fun getStampGetRecord(
-        @Query("page") page: Int,
-        @Query("size") size: Int
     ): Observable<StampGetRecord>
 }

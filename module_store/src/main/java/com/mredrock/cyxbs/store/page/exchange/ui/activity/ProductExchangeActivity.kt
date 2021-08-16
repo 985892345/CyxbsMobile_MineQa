@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.util.Pair
@@ -122,9 +121,9 @@ class ProductExchangeActivity : BaseViewModelActivity<ProductExchangeViewModel>(
                                 1 -> {
                                     mStampCount -= mData.price
                                     //刷新兑换后的余额与库存 下同
+                                    mStampCount -= mData.price
                                     dataBinding.storeTvUserStampCount.text =
-                                        (mStampCount).toString()
-
+                                        mStampCount.toString()
                                     dataBinding.storeTvProductStock.text = it.data.amount.toString()
                                     ProductExchangeDialogFragment().apply {
                                         initView(
@@ -138,8 +137,9 @@ class ProductExchangeActivity : BaseViewModelActivity<ProductExchangeViewModel>(
                                     }.show(supportFragmentManager, "zz")
                                 }
                                 0 -> {
+                                    mStampCount -= mData.price
                                     dataBinding.storeTvUserStampCount.text =
-                                        (mStampCount - mData.price).toString()
+                                        mStampCount.toString()
                                     dataBinding.storeTvProductStock.text = it.data.amount.toString()
                                     ProductExchangeDialogFragment().apply {
                                         initView(
