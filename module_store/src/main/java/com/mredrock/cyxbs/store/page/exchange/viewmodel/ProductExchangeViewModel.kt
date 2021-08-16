@@ -30,42 +30,43 @@ class ProductExchangeViewModel : BaseViewModel() {
 //        ApiGenerator.getApiService(ApiService::class.java)
 //        .getProductDetail(id)
         TestRetrofit
-                .testRetrofit
-                .getProductDetail(id)
+            .testRetrofit
+            .getProductDetail(id)
 //                .mapOrThrowApiException()
-                .setSchedulers()
-                .safeSubscribeBy(
-                        onError = {
-                            toastEvent.value = R.string.store_product_detail_failure
-                        },
-                        onNext = {
-                            if (it.info == "success") {
-                                productDetail.postValue(it.data)
-                            }
-                        })
+            .setSchedulers()
+            .safeSubscribeBy(
+                onError = {
+                    toastEvent.value = R.string.store_product_detail_failure
+                },
+                onNext = {
+                    if (it.info == "success") {
+                        productDetail.postValue(it.data)
+                    }
+                })
     }
 
     fun exchangeProduct(id: String) {
 //        ApiGenerator.getApiService(ApiService::class.java)
         TestRetrofit.testRetrofit
-                .buyProduct(id)
-                .setSchedulers()
-                .safeSubscribeBy(
-                        onError = {
-                            //因为只要不是兑换成功 接口都返回错误 500 导致回调到onError方法 所以这里手动拿到返回的bean类
-                            val responseBody: ResponseBody? = (it as HttpException).response()?.errorBody()
-                            if (responseBody != null) {
-                                val gson = Gson()
-                                val exchangeState = gson.fromJson(responseBody.string(), ExchangeState::class.java)
-                                exchangeResult.postValue(exchangeState)
-                            } else {
-                                toastEvent.value = R.string.store_exchange_product_failure
-                            }
-                        },
-                        onNext = {
-                            exchangeResult.postValue(it)
-                        }
-                )
+            .buyProduct(id)
+            .setSchedulers()
+            .safeSubscribeBy(
+                onError = {
+                    //因为只要不是兑换成功 接口都返回错误 500 导致回调到onError方法 所以这里手动拿到返回的bean类
+                    val responseBody: ResponseBody? = (it as HttpException).response()?.errorBody()
+                    val code = it.response()?.code()//返回的code 如果为500即为余额不足/库存不足
+                    if (code == 500) {
+                        val gson = Gson()
+                        val exchangeState = gson.fromJson(responseBody?.string(), ExchangeState::class.java)
+                        exchangeResult.postValue(exchangeState)
+                    } else {
+                        toastEvent.value = R.string.store_exchange_product_failure
+                    }
+                },
+                onNext = {
+                    exchangeResult.postValue(it)
+                }
+            )
 
     }
 

@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.util.Pair
@@ -122,8 +121,6 @@ class ProductExchangeActivity : BaseViewModelActivity<ProductExchangeViewModel>(
                                 1 -> {
                                     //刷新兑换后的余额与库存 下同
                                     mStampCount -= mData.price
-                                    Log.d("zzzz", "(ProductExchangeActivity.kt:123)-->>装扮 $mStampCount")
-
                                     dataBinding.storeTvUserStampCount.text =
                                         mStampCount.toString()
                                     dataBinding.storeTvProductStock.text = it.data.amount.toString()
