@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.util.Pair
@@ -119,9 +120,10 @@ class ProductExchangeActivity : BaseViewModelActivity<ProductExchangeViewModel>(
                         if (this::mData.isInitialized) {
                             when (mData.type) {
                                 1 -> {
-                                    mStampCount -= mData.price
                                     //刷新兑换后的余额与库存 下同
                                     mStampCount -= mData.price
+                                    Log.d("zzzz", "(ProductExchangeActivity.kt:123)-->>装扮 $mStampCount")
+
                                     dataBinding.storeTvUserStampCount.text =
                                         mStampCount.toString()
                                     dataBinding.storeTvProductStock.text = it.data.amount.toString()
@@ -146,10 +148,6 @@ class ProductExchangeActivity : BaseViewModelActivity<ProductExchangeViewModel>(
                                             dialogRes = R.layout.store_dialog_exchange_result,
                                             onPositiveClick = {
                                                 dismiss()
-                                                dataBinding.storeTvUserStampCount.text =
-                                                    (mStampCount - mData.price).toString()
-                                                dataBinding.storeTvProductStock.text =
-                                                    it.data.amount.toString()
                                             },
                                             exchangeTips = "兑换成功！请在30天内到红岩网校领取哦"
                                         )
