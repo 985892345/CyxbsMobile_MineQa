@@ -54,21 +54,25 @@ class SlideUpLayout(
      * 设置第一个 View 完全展开时的回调
      */
     fun setUnfoldCallBack(call: () -> Unit) {
-        if (mOriginalFirstChildRect.height() == mCurrentFirstChildRect.height()) {
+        if (mSecondChild.top == mOriginalFirstChildRect.bottom) {
             call.invoke()
-        }else {
-            mUnfoldCallBack = call
         }
+        mUnfoldCallBack = call
+    }
+
+    /**
+     * 去掉第一个 View 完全展开时的回调
+     */
+    fun removeUnfoldCallBack() {
+        mUnfoldCallBack = null
     }
 
     private var mUnfoldCallBack: (() -> Unit)? = null
     private var mMoveListener: ((multiple: Float) -> Unit)? = null
     private val mFirstChild by lazy { getChildAt(0) }
     private val mSecondChild by lazy { getChildAt(1) }
-    private val mCurrentFirstChildRect = Rect() // 第一个子 View 当前的 Rect, 会实时改变
     private val mOriginalFirstChildRect by lazy { // 第一个子 View 原始的 Rect, 不会改变
         val rect = Rect(mFirstChild.left, mFirstChild.top, mFirstChild.right, mFirstChild.bottom)
-        mCurrentFirstChildRect.set(rect)
         rect
     }
     private val mCanMoveHeight by lazy { // 能够滑动的距离
@@ -160,7 +164,7 @@ class SlideUpLayout(
     private var mIsExistPreScroll = false // 是否存在手指移动
     private val mParentHelper by lazy { NestedScrollingParentHelper(this) }
     override fun onStartNestedScroll(child: View, target: View, axes: Int, type: Int): Boolean {
-        return axes == ViewCompat.SCROLL_AXIS_VERTICAL
+        return axes == ViewCompat.SCROLL_AXIS_VERTICAL // 只跟垂直滑动进行交互
     }
     override fun onNestedScrollAccepted(child: View, target: View, axes: Int, type: Int) {
         mParentHelper.onNestedScrollAccepted(child, target, axes, type)
@@ -169,7 +173,8 @@ class SlideUpLayout(
             mIsFirstSlide = true // 开始
             mIsOpenNonTouch = false // 还原
         }else {
-            mIsOpenNonTouch = true // 惯性滑动的也会调用 Accepted，且在非惯性调用 Stop 前调用
+            // 惯性滑动的也会调用 onNestedScrollAccepted()，且在非惯性调用 onStopNestedScroll() 前调用
+            mIsOpenNonTouch = true
         }
     }
     override fun onStopNestedScroll(target: View, type: Int) {
@@ -189,7 +194,7 @@ class SlideUpLayout(
         type: Int
     ) {
         if (dyUnconsumed > 0) { // 向上滑, 此时一定处于 RecyclerView 底部
-
+            // nothing
         }else if (dyUnconsumed < 0) { // 向下滑, 此时一定处于 RecyclerView 顶部
             unconsumedSlideDown(target, dyUnconsumed, type)
         }
@@ -266,8 +271,8 @@ class SlideUpLayout(
     }
     private fun consume(dy: Int, type: Int, target: View, consumed: IntArray) {
         if (type == ViewCompat.TYPE_TOUCH) {
-            // 如果正处于拦截快速滑动后的动画状态, 消耗所有滑动距离
-            // 向反方向滑动取消动画因 target view 坐标系改变原因, 写在了 dispatchTouchEvent() 中
+            // 如果正处于拦截快速滑动后的动画状态, 消耗所有滑动距离, 禁止用户滑动(这个状态不会维持很久)
+            // 向反方向滑动时应取消动画, 但因 target view 坐标系改变原因, 写在了 dispatchTouchEvent() 中
             if (mIsInterceptFastSlideUp || mIsInterceptFastSlideDown) { consumed[1] = dy; return }
         }else if (type == ViewCompat.TYPE_NON_TOUCH) {
             if (!mIsAllowNonTouch || mIsInterceptFastSlideUp || mIsInterceptFastSlideDown) {
@@ -326,7 +331,7 @@ class SlideUpLayout(
                         moveTo(newSecondTop)
                     }
                 }else {
-                    consumed[1] = (dy * 0.5).toInt() // 减速
+                    consumed[1] = (dy * 0.5).toInt() // 降低惯性滑动, 防止直接滑到底
                 }
             }
         }
@@ -334,8 +339,10 @@ class SlideUpLayout(
     private fun slideDown(target: View, dy: Int, type: Int, consumed: IntArray) {
         when (type) {
             ViewCompat.TYPE_TOUCH -> {
+                // nothing
             }
             ViewCompat.TYPE_NON_TOUCH -> {
+                // nothing
             }
         }
     }
@@ -349,8 +356,11 @@ class SlideUpLayout(
     }
     // 改变第一个 child
     private fun changeFirstChild(newSecondTop: Int) {
-        val dy = mCurrentFirstChildRect.bottom - newSecondTop
-        val multiple = (mCurrentFirstChildRect.height() - 2 * dy)/mOriginalFirstChildRect.height().toFloat()
+        val half = mOriginalFirstChildRect.height()/2F
+        val x = ((newSecondTop - half) / half)
+        val k = 1F // 调整上下滑动时与第一个 View 的缩放倍速
+        val b = 1 - k
+        val multiple = k * x + b
         when {
             multiple in 0F..1F -> {
                 mFirstChild.alpha = multiple
@@ -391,13 +401,6 @@ class SlideUpLayout(
 
     // 每次 moveTo() 结束
     private fun moveToOver(newSecondTop: Int) {
-        if (newSecondTop < mOriginalFirstChildRect.centerY()) return
-        val dy = mCurrentFirstChildRect.bottom - newSecondTop
-        mCurrentFirstChildRect.top += dy
-        mCurrentFirstChildRect.bottom -= dy
-        val radio = abs(mOriginalFirstChildRect.width() / mOriginalFirstChildRect.height().toFloat())
-        mCurrentFirstChildRect.left += (radio * dy).toInt()
-        mCurrentFirstChildRect.right -= (radio * dy).toInt()
     }
 
     // 手指抬起屏幕且没有惯性滑动和惯性滑动时调用
@@ -444,8 +447,13 @@ class SlideUpLayout(
                 }
             )
             interpolator = OvershootInterpolator()
-            duration = (abs(newY - oldY).toDouble().pow(0.9) + 300).toLong()
+            duration = (abs(newY - oldY).toDouble().pow(0.9) + 280).toLong()
             start()
         }
+    }
+
+    override fun onDetachedFromWindow() {
+        super.onDetachedFromWindow()
+        mSlowlyMoveAnimate?.let { if (it.isRunning) it.end() }
     }
 }

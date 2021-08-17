@@ -22,6 +22,8 @@ class MoveIndicators(
         offsetPixels: Float,
         intervalMargin: Float
     ) {
+        // 这只是一个简单的平移小圆点的动画
+        // 其中 offsetPixels 就相当于横坐标 x
         path1.addCircle(offsetPixels, 0F, radius, Path.Direction.CCW)
     }
 }

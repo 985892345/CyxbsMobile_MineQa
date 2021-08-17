@@ -3,7 +3,6 @@ package com.mredrock.cyxbs.store.utils.widget
 import android.content.Context
 import android.graphics.*
 import android.util.AttributeSet
-import android.util.Log
 import android.view.View
 import android.widget.FrameLayout
 import com.mredrock.cyxbs.store.R
@@ -11,7 +10,7 @@ import com.mredrock.cyxbs.store.R
 /**
  * 用于邮票中心界面右上角的邮票显示
  *
- * 里面给了一个方法用于设置切割线和透明度
+ * 里面给了一个方法用于监听切割线和透明度
  *
  * @author 985892345 (Guo Xiangrui)
  * @email 2767465918@qq.com
@@ -36,16 +35,16 @@ class AppearLayout(
         invalidate()
     }
 
-    private val bgColor: Int
+    private val coverColor: Int
 
     init {
         val ty = context.obtainStyledAttributes(attrs, R.styleable.AppearLayout)
-        bgColor = ty.getColor(R.styleable.AppearLayout_view_bgColor, 0xFFF8F2F2.toInt())
+        coverColor = ty.getColor(R.styleable.AppearLayout_view_coverColor, 0xFFF8F2F2.toInt())
         ty.recycle()
     }
     private val rect by lazy { Rect(0, 0, (parent as View).width, height) }
     private val paint = Paint().apply {
-        color = bgColor
+        color = coverColor
     }
 
     override fun dispatchDraw(canvas: Canvas) {

@@ -99,7 +99,7 @@ class SlideShow : CardView {
      * **WARNING：** 传入 [setAutoSlideEnabled] 为 true 或调用 [openCirculateEnabled] 后，
      * ViewPager2 的内部 item 位置会发生改变。如果此时你与 Toolbar 等进行联合将会出现位置问题。
      *
-     * **NOTICE：** 可以使用 [setPageChangeCallback] 来进行联合，这个回调会返回你想要的 item 位置
+     * **NOTE：** 可以使用 [setPageChangeCallback] 来进行联合，这个回调会返回你想要的 item 位置
      *
      * @see [setPageChangeCallback]
      */
@@ -148,9 +148,9 @@ class SlideShow : CardView {
     /**
      * 用于设置图片加载的 Adapter
      *
-     * **NOTICE：** 如果你想使一个页面能看到相邻的图片边缘，请设置 app:slide_adjacentPageInterval
+     * **NOTE：** 如果你想使一个页面能看到相邻的图片边缘，请设置 app:slide_adjacentPageInterval
      *
-     * **NOTICE：** 使用该方法可能意为着你需要自动滑动，请使用 [setAutoSlideEnabled]
+     * **NOTE：** 使用该方法可能意为着你需要自动滑动，请使用 [setAutoSlideEnabled]
      */
     fun <T> setImgAdapter(datas: List<T>, imgAdapter: BaseImgAdapter<T>) {
         imgAdapter.initialize(datas, mViewPager2, mAttrs)
@@ -171,9 +171,9 @@ class SlideShow : CardView {
     /**
      * 用于设置图片加载的 Adapter（使用 Lambda 填写）
      *
-     * **NOTICE：** 如果你想使一个页面能看到相邻的图片边缘，请设置 app:slide_adjacentPageInterval
+     * **NOTE：** 如果你想使一个页面能看到相邻的图片边缘，请设置 app:slide_adjacentPageInterval
      *
-     * **NOTICE：** 使用该方法可能意为着你需要自动滑动，请使用 [setAutoSlideEnabled]
+     * **NOTE：** 使用该方法可能意为着你需要自动滑动，请使用 [setAutoSlideEnabled]
      */
     fun <T> setImgAdapter(
         datas: List<T>,
@@ -280,7 +280,7 @@ class SlideShow : CardView {
     /**
      * 通知位置为 position 的 imageView 刷新
      *
-     * **NOTICE：** 该方法支持永久的更新，但实现原理是打上标记，在滑动回来时会重新调用，所以会出现重复调用，请注意该点
+     * **NOTE：** 该方法支持永久的更新，但实现原理是打上标记，在滑动回来时会重新调用，所以会出现重复调用，请注意该点
      *
      * **WARNING：** 不建议进行延时操作
      *
@@ -315,12 +315,14 @@ class SlideShow : CardView {
     /**
      * 用于给设置了 [BaseImgAdapter] 的情况下传入新数据刷新
      *
+     * (由于泛型擦除原因, 无法检查你的泛型是否与 Adapter 中数据的泛型一致)
+     *
      * **WARNING：** 使用该方法的前提是 [setImgAdapter] 是 [BaseImgAdapter] 的实现类，否则将报错
      */
     fun <T> notifyImgDataChange(data: List<T>) {
         val adapter = mViewPager2.adapter
         if (adapter is BaseImgAdapter<*>) {
-            adapter.refreshData(data as List<Nothing>)
+            adapter.refreshData(data as List<Nothing>) // 只要你不传错其他类型就没事(一半都是传 string 的 url)
         }else {
             throw RuntimeException(
                 "Your ${SlideShowAttrs.Library_name}#notifyImgDataChange(): " +
@@ -430,7 +432,7 @@ class SlideShow : CardView {
         if (mAttrs.mIndicatorsAttrs.indicatorStyle != Indicators.Style.SELF_VIEW) {
             throw RuntimeException(
                 "Your ${SlideShowAttrs.Library_name}#setYourIndicators(): " +
-                        "You must set the style to \"self_view\" or \"self_view_elsewhere\" before using your own indicators!")
+                        "You must set the style to \"self_view\" before using your own indicators!")
         }
         if (isAttachedToWindow) {
             throw RuntimeException(
@@ -447,6 +449,9 @@ class SlideShow : CardView {
         return this
     }
 
+    /**
+     * 设置后支持属性在 xml 中书写
+     */
     fun setYourIndicators(yourIndicators: AbstractIndicatorsView): SlideShow {
         if (mAttrs.mIndicatorsAttrs.indicatorStyle != Indicators.Style.EXTEND_ABSTRACT_INDICATORS) {
             throw RuntimeException(

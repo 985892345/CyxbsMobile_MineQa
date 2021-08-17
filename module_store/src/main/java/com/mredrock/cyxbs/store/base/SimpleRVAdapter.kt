@@ -343,7 +343,7 @@ class SimpleRVAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     }
 
     /**
-     * 给不使用 [refreshAuto] 留的后路, (notifyDataSetChanged() 永远的神!)
+     * notifyDataSetChanged() 永远的神!
      *
      * **WARNING:** 如果在你数据改变的时候, 不可直接调用 notifyDataSetChanged(), 因为你无法修改 [itemCount]
      *
@@ -359,15 +359,14 @@ class SimpleRVAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private val mLayoutIdWithCallback = HashMap<Int, Callback>() // LayoutId 与 CallBack 的对应关系
 
-    override fun onCreateViewHolder(parent: ViewGroup, layoutIdOrPosition: Int): RecyclerView.ViewHolder {
-        val callBack = mLayoutIdWithCallback[layoutIdOrPosition]
+    override fun onCreateViewHolder(parent: ViewGroup, layoutId: Int): RecyclerView.ViewHolder {
+        val callBack = mLayoutIdWithCallback[layoutId]
         if (callBack != null) {
             val viewHolder = callBack.createNewViewHolder(parent)
             callBack.create(viewHolder) // 在这里用于设置你在 create 接口中的点击监听或其他只用设置一次的东西
             return viewHolder
         }
-        throw RuntimeException("SimpleRVAdapter: 找不到 $layoutIdOrPosition 位置的 Item, " +
-                "请检查 Item 中的 isInHere() 方法中是否存在 $layoutIdOrPosition 位置没设置!")
+        throw RuntimeException("SimpleRVAdapter: 这是一个不会出现的报错!")
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
@@ -393,13 +392,18 @@ class SimpleRVAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     override fun getItemCount(): Int {
         return itemCount
     }
+
+    /**
+     * 找得到就返回 layoutId, 找不到时就返回
+     */
     override fun getItemViewType(position: Int): Int {
         for (map in mLayoutIdWithCallback) {
             if (map.value.item.isInHere(position)) {
                 return map.value.item.layoutId
             }
         }
-        return position
+        throw RuntimeException("SimpleRVAdapter: 找不到 $position 位置的 Item, " +
+                "请检查 Item 中的 isInHere() 方法中是否存在 $position 位置没有设置!")
     }
 
     class BindingVH(val binding: ViewDataBinding) : RecyclerView.ViewHolder(binding.root)

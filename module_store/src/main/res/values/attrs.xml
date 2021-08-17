@@ -2,8 +2,8 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
     <declare-styleable name="AppearLayout" tools:ignore="ResourceName">
-        <!--背景颜色-->
-        <attr name="view_bgColor" format="color"/>
+        <!--用于覆盖的颜色-->
+        <attr name="view_coverColor" format="color"/>
     </declare-styleable>
 
     <declare-styleable name="TextRollView" tools:ignore="ResourceName">
@@ -44,6 +44,8 @@
         <attr name="slide_imgRightBottomRadius" format="dimension"/>
 
         <attr name="slide_imgDefaultColor" format="color"/>
+
+        <attr name="slide_backgroundColor" format="color"/>
 
         <!--设置内部 ViewPager2 的 orientation-->
         <attr name="slide_orientation" format="enum">

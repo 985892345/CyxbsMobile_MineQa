@@ -85,25 +85,33 @@ class StoreCenterActivity : BaseViewModelActivity<StoreCenterViewModel>() {
             mTabLayout, mViewPager2
         ) { tab, position -> tab.text = tabs[position] }.attach()
         // 以下代码是设置邮票任务的小圆点
-        val tab = mTabLayout.getTabAt(1)
-        if (tab != null) {
-            val badge = tab.orCreateBadge
-            badge.backgroundColor = 0xFF6D68FF.toInt()
-            try {
-                /*
-                * 视觉说这个小圆点大了, 艹, 妈的官方也不提供方法修改, 只好靠反射拿了 :)
-                * 官方中 badgeRadius 是 final 常量, 但反射却能修改, 原因在于它在构造器中被初始化, 不会被内联优化, 所以是可以改的
-                * */
-                val field = badge.javaClass.getDeclaredField("badgeRadius")
-                field.isAccessible = true
-                field.set(badge, dp2px(3.5F))
-            } catch (e: Exception) {
-                e.printStackTrace()
+        if (IS_SHOW_BADGE) {
+            val tab = mTabLayout.getTabAt(1)
+            if (tab != null) {
+                val badge = tab.orCreateBadge
+                badge.backgroundColor = 0xFF6D68FF.toInt()
+                try {
+                    /*
+                    * 视觉说这个小圆点大了, 艹, 妈的官方也不提供方法修改, 只好靠反射拿了 :)
+                    * 官方中 badgeRadius 是 final 常量, 但反射却能修改, 原因在于它在构造器中被初始化, 不会被内联优化, 所以是可以改的
+                    * */
+                    val field = badge.javaClass.getDeclaredField("badgeRadius")
+                    field.isAccessible = true
+                    field.set(badge, dp2px(3.5F))
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+                // 滑到邮票任务页面时就取消小圆点
+                mViewPager2.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+                    override fun onPageSelected(position: Int) {
+                        if (position == 1) {
+                            tab.removeBadge()
+                            IS_SHOW_BADGE = false
+                            mViewPager2.unregisterOnPageChangeCallback(this)
+                        }
+                    }
+                })
             }
-            // 滑到邮票任务页面时就取消小圆点
-            mViewPager2.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
-                override fun onPageSelected(position: Int) { if (position == 1) tab.removeBadge() }
-            })
         }
     }
 
@@ -139,30 +147,31 @@ class StoreCenterActivity : BaseViewModelActivity<StoreCenterViewModel>() {
     private fun initJump() {
         val btnBack: ImageButton = findViewById(R.id.store_iv_toolbar_no_line_arrow_left)
         btnBack.setOnClickListener {
-            finish()
+            finish() // 左上角返回键
         }
 
         val ivDetail: ImageView = findViewById(R.id.store_iv_stamp_center_stamp_bg)
         ivDetail.setOnClickListener {
-            startActivity<StampDetailActivity>()
+            startActivity<StampDetailActivity>() // 跳到邮票明细界面
         }
     }
 
-    private var refreshTimes = 0
-    private var isFirstLoad = true
+    private var refreshTimes = 0 // 请求的次数, 用于判断刷新控件和 toast 显示
+    private var isFirstLoad = true // 是否是第一次进入界面, 用于判断邮票数字显示动画
     // 对于 ViewModel 数据的观察
     private fun initData() {
         viewModel.stampCenterData.observeNotNull{
             val text = it.data.userAmount.toString()
             if (isFirstLoad) {
-                mTvStampNumber.setTextOnlyAlpha(text)
-                isFirstLoad = false
+                mTvStampNumber.setTextOnlyAlpha(text) // 第一次进入界面就只使用隐现的动画
+                isFirstLoad = false // over
             }else {
                 mSlideUpLayout.setUnfoldCallBack {
-                    mTvStampNumber.setText(text, true) // 正上方的大的显示
+                    mTvStampNumber.setText(text, true) // 正上方的大的邮票显示
+                    mSlideUpLayout.removeUnfoldCallBack()
                 }
             }
-            mTvStampNumber2.text = text // 右上方小的显示
+            mTvStampNumber2.text = text // 右上方小的邮票显示
             if (it.data.unGotGood) {
                 // 显示"你还有待领取的商品，请尽快领取"
                 mTvShopHint.visibility = View.VISIBLE
@@ -189,5 +198,14 @@ class StoreCenterActivity : BaseViewModelActivity<StoreCenterViewModel>() {
         refreshTimes = 0
         viewModel.refresh()
         super.onRestart()
+    }
+
+    companion object {
+        /**
+         * 是否显示 TabLayout 的邮票任务的小圆点,
+         * 产品说只有每次打开应用时才显示, 为减少处理逻辑, 故把它设置成私有的静态全局变量更合适
+         * 只有在你清理了后台的每次打开才会重新显示小圆点
+         */
+        private var IS_SHOW_BADGE = true
     }
 }
