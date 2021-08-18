@@ -1,5 +1,6 @@
 package com.mredrock.cyxbs.store.page.center.ui.activity
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -137,7 +138,7 @@ class StoreCenterActivity : BaseViewModelActivity<StoreCenterViewModel>() {
 
     // 用于设置向上滑时与右上角邮票小图标的联合效果
     private fun initSlideUpLayoutWithLeftTopStamp() {
-        mTvStampNumber2.alpha = 0F
+        mTvStampNumber2.alpha = 0F // 初始时隐藏, 后面会还原
         val displayMetrics = resources.displayMetrics
         val windowWidth = displayMetrics.widthPixels // 获取屏幕总宽度
         mSlideUpLayout.setMoveListener {
@@ -164,6 +165,7 @@ class StoreCenterActivity : BaseViewModelActivity<StoreCenterViewModel>() {
     private var refreshTimes = 0 // 请求的次数, 用于判断刷新控件和 toast 显示
     private var isFirstLoad = true // 是否是第一次进入界面, 用于判断邮票数字显示动画
     // 对于 ViewModel 数据的观察
+    @SuppressLint("SetTextI18n")
     private fun initData() {
         viewModel.stampCenterData.observeNotNull{
             val text = it.data.userAmount.toString()
@@ -176,7 +178,7 @@ class StoreCenterActivity : BaseViewModelActivity<StoreCenterViewModel>() {
                     mSlideUpLayout.removeUnfoldCallBack()
                 }
             }
-            mTvStampNumber2.text = text // 右上方小的邮票显示
+            mTvStampNumber2.text = " $text" // 右上方小的邮票显示
             if (it.data.unGotGood) {
                 // 显示"你还有待领取的商品，请尽快领取"
                 mTvShopHint.visibility = View.VISIBLE

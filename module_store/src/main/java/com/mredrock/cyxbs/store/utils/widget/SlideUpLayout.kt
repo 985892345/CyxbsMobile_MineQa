@@ -331,7 +331,7 @@ class SlideUpLayout(
                         moveTo(newSecondTop)
                     }
                 }else {
-                    consumed[1] = (dy * 0.5).toInt() // 降低惯性滑动, 防止直接滑到底
+                    consumed[1] = (dy * 0.4).toInt() // 降低惯性滑动, 防止直接滑到底
                 }
             }
         }
@@ -358,7 +358,7 @@ class SlideUpLayout(
     private fun changeFirstChild(newSecondTop: Int) {
         val half = mOriginalFirstChildRect.height()/2F
         val x = ((newSecondTop - half) / half)
-        val k = 1F // 调整上下滑动时与第一个 View 的缩放倍速
+        val k = 0.9F // 调整上下滑动时与第一个 View 的缩放倍速
         val b = 1 - k
         val multiple = k * x + b
         when {

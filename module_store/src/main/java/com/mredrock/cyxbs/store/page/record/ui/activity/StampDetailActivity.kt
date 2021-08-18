@@ -4,8 +4,9 @@ import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.graphics.Typeface
 import android.os.Bundle
+import android.util.AttributeSet
 import android.view.LayoutInflater
-import android.view.animation.AnimationUtils
+import android.view.animation.*
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import com.google.android.material.tabs.TabLayout
@@ -42,7 +43,9 @@ class StampDetailActivity : BaseActivity() {
         initTabLayout()
         //设置预加载 使两个Fragment都加载 避免滑动到下一页时还需等待网络请求加载
         store_vp_stamp_detail.offscreenPageLimit = 1
-        store_vp_stamp_detail.startAnimation(AnimationUtils.loadAnimation(this,R.anim.store_slide_from_right_to_left_in))
+        val animation = AnimationUtils.loadAnimation(this,R.anim.store_slide_from_right_to_left_in)
+        animation.interpolator = DecelerateInterpolator()
+        store_vp_stamp_detail.startAnimation(animation)
         //设置左上角返回点击事件
         store_iv_toolbar_arrow_left.setOnClickListener {
             finish()

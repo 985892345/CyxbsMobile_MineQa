@@ -17,7 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:cardBackgroundColor="@color/store_small_shop_cardView_bg"
-            android:layout_margin="6dp"
+            android:layout_margin="3.5dp"
             app:cardCornerRadius="8dp"
             app:cardElevation="0dp"
             tools:ignore="PxUsage">
@@ -47,6 +47,7 @@
                     android:text="小米充电宝"
                     android:textColor="@color/store_small_shop_product_name"
                     android:textSize="14sp"
+                    android:textStyle="bold"
                     android:transitionName="productName"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/store_iv_small_shop_product"
@@ -62,35 +63,45 @@
                     android:transitionName="productStock"
                     android:text="库存：999"
                     android:textColor="@color/store_small_shop_product_stock"
-                    android:textSize="12sp"
+                    android:textSize="11sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/store_tv_small_shop_product_name"
-                    tools:ignore="HardcodedText" />
+                    tools:ignore="HardcodedText,SmallSp" />
+
+                <ImageView
+                    android:id="@+id/store_iv_small_shop_stamp"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="16dp"
+                    android:src="@drawable/store_ic_stamp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/store_tv_small_shop_product_stock"
+                    app:layout_constraintVertical_bias="1.0"
+                    tools:ignore="ContentDescription" />
 
                 <TextView
                     android:id="@+id/store_tv_small_shop_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="12dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="16dp"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginTop="1dp"
                     android:gravity="bottom"
                     android:text="999"
                     android:textColor="@color/store_small_shop_price"
                     android:textSize="14sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/store_tv_small_shop_product_stock"
-                    app:layout_constraintVertical_bias="1.0"
-                    app:drawableStartCompat="@drawable/store_ic_stamp"
-                    tools:ignore="HardcodedText"/>
+                    app:layout_constraintStart_toEndOf="@+id/store_iv_small_shop_stamp"
+                    app:layout_constraintTop_toTopOf="@+id/store_iv_small_shop_stamp"
+                    tools:ignore="HardcodedText" />
 
                 <!--设置了整个 CardView 的点击事件, 所以这里设置 clickable 为 false-->
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/store_tv_small_shop_product_exchange"
                     android:transitionName="exchange"
-                    android:layout_width="50dp"
-                    android:layout_height="28dp"
+                    android:layout_width="48dp"
+                    android:layout_height="26dp"
                     android:layout_marginEnd="12dp"
                     android:layout_marginBottom="12dp"
                     android:theme="@style/Theme.MaterialComponents"
