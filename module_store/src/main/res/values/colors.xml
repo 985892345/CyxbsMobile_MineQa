@@ -48,6 +48,7 @@
 
     <!--    商品兑换界面相关颜色-->
     <color name="store_btn_product_exchange">#4841E2</color>
+    <color name="store_btn_ban_product_exchange">#d7d7d7</color>
     <color name="store_balance">#6615315B</color>
     <color name="store_exchange_detail_">#6615315B</color>
     <color name="store_product_exchange_price">#5177FF</color>
