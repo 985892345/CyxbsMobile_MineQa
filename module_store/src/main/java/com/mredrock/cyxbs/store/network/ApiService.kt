@@ -1,5 +1,6 @@
 package com.mredrock.cyxbs.store.network
 
+import com.mredrock.cyxbs.common.bean.RedrockApiWrapper
 import com.mredrock.cyxbs.store.bean.*
 import io.reactivex.Observable
 import retrofit2.http.*

@@ -13,7 +13,7 @@ import com.mredrock.cyxbs.store.R
 import java.util.*
 
 /**
- * ...
+ * 邮票中心界面的邮票数字滚动动画
  * @author 985892345 (Guo Xiangrui)
  * @email 2767465918@qq.com
  * @data 2021/8/15
@@ -23,17 +23,22 @@ class TextRollView(
     attrs: AttributeSet
 ) : View(context, attrs) {
 
+    /**
+     * 有动画的设置数字
+     * @param text 输入的数字只能为非负整数
+     * @param isAttachToWindowStart 是否是在该 View 添加到窗口时自动运行动画
+     */
     fun setText(text: String, isAttachToWindowStart: Boolean) {
         if (text == mLastText) return
         if (text.matches(Regex("^\\d+$"))) { // 输入的文字匹配非负整数才有效
-            mChange = {
+            mChangeCallBack = {
                 mLastText = text
                 mNewTextList.clear()
                 mNewTextList.addAll(text.chunked(1))
                 mDiffZero = mNewTextList.size - mOldTextList.size
                 repeat(mNewTextList.size - mOldTextList.size) { mOldTextList.addFirst("0") }
                 repeat(mOldTextList.size - mNewTextList.size) { mNewTextList.addFirst("0") }
-                if (text.length > mMaxNumber) {
+                if (text.length > mMaxNumber) { // 数字大于当前显示长度, 重新测量
                     mMaxNumber += text.length - mMaxNumber + 1
                     requestLayout()
                 }
@@ -44,55 +49,70 @@ class TextRollView(
                         mNewTextList.addAll(mLastText.chunked(1))
                         mOldTextList.clear()
                         mOldTextList.addAll(mNewTextList)
-                        mDiffZero = 0
                     },
                     onCancel = {
                         mNewTextList.clear()
                         mNewTextList.addAll(mLastText.chunked(1))
                         mOldTextList.clear()
                         mOldTextList.addAll(mNewTextList)
-                        mDiffZero = 0
                     },
                     onChange = {
                         mRadio = it
-//                        alpha = 0.7F * it + 0.3F
                         invalidate()
                     }
                 )
             }
-            if (!isAttachToWindowStart) {
-                post {
-                    mChange?.invoke()
-                    mChange = null
-                }
-            }else {
-                if (isAttachedToWindow) {
-                    mChange?.invoke()
-                }
+            if (!isAttachToWindowStart || isAttachedToWindow) {
+                mChangeCallBack?.invoke()
+                mChangeCallBack = null
             }
         }
     }
 
+    /**
+     * 没有动画的设置数字
+     * @param text 输入的数字只能为非负整数
+     */
     fun setTextNoAnimate(text: String) {
-        mNewTextList.clear()
-        mOldTextList.clear()
-        mNewTextList.addAll(text.chunked(1))
-        mOldTextList.addAll(mNewTextList)
-        invalidate()
+        if (text == mLastText) return
+        if (text.matches(Regex("^\\d+$"))) { // 输入的文字匹配非负整数才有效
+            mLastText = text
+            mNewTextList.clear()
+            mOldTextList.clear()
+            mNewTextList.addAll(text.chunked(1))
+            mOldTextList.addAll(mNewTextList)
+            if (text.length > mMaxNumber) {
+                mMaxNumber += text.length - mMaxNumber + 1
+                requestLayout()
+            }
+            invalidate()
+        }
     }
 
+    /**
+     * 透明度从 0 -> 1 的动画, 可用于初次加载
+     * @param text 输入的数字只能为非负整数
+     */
     fun setTextOnlyAlpha(text: String) {
-        mNewTextList.clear()
-        mOldTextList.clear()
-        mNewTextList.addAll(text.chunked(1))
-        mOldTextList.addAll(mNewTextList)
-        invalidate()
-        slowlyAnimate(0F, 1F,
-            onCancel = { alpha = 1F },
-            onChange = {
-                alpha = it
+        if (text == mLastText) return
+        if (text.matches(Regex("^\\d+$"))) { // 输入的文字匹配非负整数才有效
+            mLastText = text
+            mNewTextList.clear()
+            mOldTextList.clear()
+            mNewTextList.addAll(text.chunked(1))
+            mOldTextList.addAll(mNewTextList)
+            if (text.length > mMaxNumber) {
+                mMaxNumber += text.length - mMaxNumber + 1
+                requestLayout()
             }
-        )
+            invalidate()
+            slowlyAnimate(0F, 1F, 600L,
+                onCancel = { alpha = 1F },
+                onChange = {
+                    alpha = it
+                }
+            )
+        }
     }
 
     private var mLastText = ""
@@ -149,7 +169,7 @@ class TextRollView(
                 }
             }
         }
-        if (mSlowlyMoveAnimate == null) {
+        if (mSlowlyAnimate == null) {
             repeat(mNewTextList.size) {
                 canvas.drawText(
                     mNewTextList[it],
@@ -194,17 +214,18 @@ class TextRollView(
         super.onMeasure(wMS, hMS)
     }
 
-    private var mSlowlyMoveAnimate: ValueAnimator? = null
+    private var mSlowlyAnimate: ValueAnimator? = null
     private fun slowlyAnimate(
         old: Float,
         new: Float,
+        time: Long = 400L,
         onEnd: (() -> Unit)? = null,
         onCancel: (() -> Unit)? = null,
         onChange: (now: Float) -> Unit
     ) {
-        mSlowlyMoveAnimate?.let { if (it.isRunning) it.cancel() }
-        mSlowlyMoveAnimate = ValueAnimator.ofFloat(old, new)
-        mSlowlyMoveAnimate?.apply {
+        mSlowlyAnimate?.let { if (it.isRunning) it.cancel() }
+        mSlowlyAnimate = ValueAnimator.ofFloat(old, new)
+        mSlowlyAnimate?.apply {
             addUpdateListener {
                 val now = animatedValue as Float
                 onChange.invoke(now)
@@ -212,25 +233,29 @@ class TextRollView(
             addListener(
                 onEnd = {
                     onEnd?.invoke()
-                    mSlowlyMoveAnimate = null
+                    mSlowlyAnimate = null
                 },
                 onCancel = {
                     onCancel?.invoke()
-                    mSlowlyMoveAnimate = null
+                    mSlowlyAnimate = null
                 }
             )
             interpolator = AccelerateDecelerateInterpolator()
-            duration = 400L
+            duration = time
             start()
         }
     }
 
-    private var mChange: (() -> Unit)? = null
+    // 用于该 View 添加到窗口上时的回调
+    private var mChangeCallBack: (() -> Unit)? = null
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
-        post {
-            mChange?.invoke()
-            mChange = null
-        }
+        mChangeCallBack?.invoke()
+        mChangeCallBack = null
+    }
+
+    override fun onDetachedFromWindow() {
+        super.onDetachedFromWindow()
+        mSlowlyAnimate?.let { if (it.isRunning) it.end() }
     }
 }

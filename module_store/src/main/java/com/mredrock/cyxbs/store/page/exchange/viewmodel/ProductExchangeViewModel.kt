@@ -12,7 +12,6 @@ import com.mredrock.cyxbs.store.utils.TestRetrofit
 import okhttp3.ResponseBody
 import retrofit2.HttpException
 
-
 /**
  *    author : zz
  *    e-mail : 1140143252@qq.com

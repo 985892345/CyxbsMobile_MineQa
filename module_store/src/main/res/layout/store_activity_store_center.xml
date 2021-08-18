@@ -35,7 +35,7 @@
         android:layout_height="27dp"
         android:layout_marginEnd="16dp"
         android:background="@drawable/store_shape_stamp_center_right_top_stamp_bg"
-        app:view_bgColor="@color/store_stamp_center_background"
+        app:view_coverColor="@color/store_stamp_center_background"
         app:layout_constraintBottom_toBottomOf="@+id/store_tv_stamp_center_title"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/store_tv_stamp_center_title">

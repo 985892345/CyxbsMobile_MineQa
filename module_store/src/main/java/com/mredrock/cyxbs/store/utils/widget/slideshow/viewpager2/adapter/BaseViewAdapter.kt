@@ -26,7 +26,7 @@ abstract class BaseViewAdapter<V: View>: RecyclerView.Adapter<BaseViewAdapter<V>
         parent: ViewGroup,
         viewType: Int
     ): BaseViewHolder {
-        parent.setBackgroundColor(0x00000000)
+        parent.setBackgroundColor(attrs.backgroundColor)
         val holder = BaseViewHolder(
             ViewLayout(
                 parent.context,

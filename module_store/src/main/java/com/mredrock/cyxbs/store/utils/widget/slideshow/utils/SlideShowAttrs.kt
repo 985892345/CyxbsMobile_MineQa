@@ -27,6 +27,8 @@ class SlideShowAttrs private constructor(){
         internal set
     var imgDefaultColor = 0x00000000
         internal set
+    var backgroundColor = 0x00000000
+        internal set
 
     private var viewMargin = 0
     var viewMarginHorizontal = 0

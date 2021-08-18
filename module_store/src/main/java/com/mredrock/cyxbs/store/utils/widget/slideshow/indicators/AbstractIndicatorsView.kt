@@ -104,7 +104,7 @@ abstract class AbstractIndicatorsView(
     private lateinit var indicatorsAttrs: IndicatorsAttrs
 
     private var amount = 0
-    private var frontMargin = 0F
+    private var frontMargin = 0F // 指示器第一个小圆点距离左方/上方的距离
 
     /**
      * 圆点位置
@@ -269,6 +269,8 @@ abstract class AbstractIndicatorsView(
             vertical = {
                 mMatrix.setTranslate(wrapWidth / 2, frontMargin)
                 mPath1.transform(mMatrix)
+                mPath2.transform(mMatrix)
+                mPath3.transform(mMatrix)
                 canvas.drawPath(mPath1, mBackgroundCirclePaint)
                 repeat(amount - 1) {
                     mMatrix.setTranslate(0F, intervalMargin)
@@ -328,15 +330,18 @@ abstract class AbstractIndicatorsView(
 
     /**
      * 用于绘制背景
+     * @param width 自身 View 的宽
+     * @param height 自身 View 的高
      */
     open fun onDrawBackground(canvas: Canvas, width: Int, height: Int) {
+        // 对于 xml 中的 indicators_backgroundColor 属性, 实现方式是写在了 IIndicator 接口中
     }
 
     /**
      * 用于绘制背景的小圆点
      *
-     * **NOTE：** 坐标会在内部转换, 只需修改 path, 每个圆的中心左标为(0, 0), 且每个圆点都会以该 path
-     * 来绘制. 有三个 path 只是用来绘制复杂图形使用
+     * **NOTE：** 坐标会在内部转换, 只需修改 path, 每个圆的中心坐标为(0, 0), 且每个圆点都会以该 path
+     * 来绘制(意思是你只需绘制一个小圆点即可). 有三个 path 只是用来绘制复杂图形使用
      */
     open fun onDrawBackgroundCircle(path1: Path, path2: Path, path3: Path, radius: Float) {
         path1.addCircle(0F, 0F, radius, Path.Direction.CCW)
@@ -350,7 +355,9 @@ abstract class AbstractIndicatorsView(
      * 1、你只需要使用 offsetPixels 的值来绘制从 -intervalMargin 到 +intervalMargin 之间对应的 path 即可
      *
      * 2、参考系是水平的，坐标为 (-intervalMargin, 0) <---> (0, 0) <---> (+intervalMargin, 0)，
-     *    在绘图时会对 path 自动进行旋转或移动来展示全部的圆点动画
+     *    在内部绘图时会自动对 path 进行旋转或移动来以一个路径而显示全部路径的圆点动画
+     *
+     * 3、看不懂? 那你去看我写的一些实现类 MoveIndicators
      *
      * @param offsetPixels 值只会在 -intervalMargin 到 +intervalMargin 之间
      * @param intervalMargin 两个圆点间的距离值
