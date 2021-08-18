@@ -9,6 +9,7 @@ import androidx.core.app.ActivityOptionsCompat
 import androidx.core.util.Pair
 import com.mredrock.cyxbs.common.ui.BaseViewModelActivity
 import com.mredrock.cyxbs.common.utils.extensions.setImageFromUrl
+import com.mredrock.cyxbs.common.utils.extensions.toast
 import com.mredrock.cyxbs.store.R
 import com.mredrock.cyxbs.store.bean.ProductDetail
 import com.mredrock.cyxbs.store.databinding.StoreActivityProductExchangeBinding
@@ -121,9 +122,10 @@ class ProductExchangeActivity : BaseViewModelActivity<ProductExchangeViewModel>(
                                 1 -> {
                                     //刷新兑换后的余额与库存 下同
                                     mStampCount -= mData.price
+                                    mData.amount = it.data.amount //由兑换成功时获取到的最新amount来更新mData 下同
+                                    dataBinding.data = mData //重新绑定是实现 购买后库存为0时 兑换按钮置灰(是否置灰的逻辑绑定在xml里) 下同
                                     dataBinding.storeTvUserStampCount.text =
                                         mStampCount.toString()
-                                    dataBinding.storeTvProductStock.text = it.data.amount.toString()
                                     ProductExchangeDialogFragment().apply {
                                         initView(
                                             dialogRes = R.layout.store_dialog_exchange_product,
@@ -137,9 +139,10 @@ class ProductExchangeActivity : BaseViewModelActivity<ProductExchangeViewModel>(
                                 }
                                 0 -> {
                                     mStampCount -= mData.price
+                                    mData.amount = it.data.amount
+                                    dataBinding.data = mData
                                     dataBinding.storeTvUserStampCount.text =
                                         mStampCount.toString()
-                                    dataBinding.storeTvProductStock.text = it.data.amount.toString()
                                     ProductExchangeDialogFragment().apply {
                                         initView(
                                             dialogRes = R.layout.store_dialog_exchange_result,
@@ -152,6 +155,9 @@ class ProductExchangeActivity : BaseViewModelActivity<ProductExchangeViewModel>(
                                 }
                             }
                         }
+                    }
+                    else -> {
+                        toast("兑换请求异常")
                     }
                 }
             }

@@ -13,7 +13,7 @@ data class ProductDetail(
 ) : Serializable {
     data class Data(
             @SerializedName("amount")
-            val amount: Int,
+            var amount: Int,
             @SerializedName("description")
             val description: String,
             @SerializedName("life")
