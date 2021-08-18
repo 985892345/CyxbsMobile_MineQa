@@ -5,8 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.AnimationUtils
-import android.view.animation.LayoutAnimationController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mredrock.cyxbs.common.ui.BaseViewModelFragment
 import com.mredrock.cyxbs.common.utils.extensions.onClick
@@ -60,7 +58,6 @@ class EventRecordFragment : BaseViewModelFragment<EventRecordViewModel>() {
 
     private fun initView() {
         store_fragment_rv_event_record.layoutManager = LinearLayoutManager(context)
-        store_fragment_rv_event_record.startAnimation(AnimationUtils.loadAnimation(context,R.anim.store_slide_from_right_to_left_in))
     }
 
     /**
@@ -105,9 +102,6 @@ class EventRecordFragment : BaseViewModelFragment<EventRecordViewModel>() {
                             ).show()
 
                         store_fragment_rv_event_record.adapter = mEventRVAdapter
-//                        store_fragment_rv_event_record.layoutAnimation = LayoutAnimationController(
-//                            AnimationUtils.loadAnimation(context, R.anim.store_slide_from_right_to_left_in)
-//                        )
                     }
                 }
             }

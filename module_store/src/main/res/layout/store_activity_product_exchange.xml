@@ -101,7 +101,7 @@
             android:id="@+id/store_tv_product_describe"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="15dp"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="351dp"
             android:layout_marginEnd="15dp"
             android:text="@{data.description}"
@@ -118,23 +118,23 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="403dp"
+            android:layout_marginTop="8dp"
             android:text="@string/store_product_prescription_title"
             android:textColor="@color/store_product_prescription"
             android:textSize="13sp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/store_tv_product_describe"
+            app:layout_constraintLeft_toLeftOf="parent" />
 
         <TextView
             android:id="@+id/store_tv_product_prescription"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="403dp"
+            android:layout_marginTop="8dp"
             android:text="@{@string/store_product_life(data.life)}"
             android:textColor="@color/store_product_prescription"
             android:textSize="13sp"
             app:layout_constraintLeft_toRightOf="@id/store_tv_product_prescription_title"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/store_tv_product_describe"
             tools:ignore="HardcodedText" />
 
         <TextView
@@ -225,7 +225,7 @@
             android:transitionName="exchange"
             android:enabled="@{data.amount>0}"
             style="?android:attr/borderlessButtonStyle"
-            android:layout_width="122dp"
+            android:layout_width="112dp"
             android:layout_height="42dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="17dp"

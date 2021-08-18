@@ -6,7 +6,6 @@
     android:textSize="14sp"
     android:layout_gravity="center"
     android:gravity="center"
-    android:textStyle="bold"
     android:textColor="@color/store_stamp_selected_title">
 
 </TextView>
