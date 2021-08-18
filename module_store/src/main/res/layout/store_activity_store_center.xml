@@ -29,32 +29,22 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.06821" />
 
-    <com.mredrock.cyxbs.store.utils.widget.AppearLayout
-        android:id="@+id/store_gradualColorLayout_stamp_center"
+    <TextView
+        android:id="@+id/store_tv_stamp_number_left_top"
         android:layout_width="wrap_content"
         android:layout_height="27dp"
         android:layout_marginEnd="16dp"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
         android:background="@drawable/store_shape_stamp_center_right_top_stamp_bg"
-        app:view_coverColor="@color/store_stamp_center_background"
+        android:gravity="center_vertical"
+        android:fontFamily="@font/store_din_medium"
+        android:textColor="@color/store_stamp_center_left_top_stamp_text"
+        android:textSize="19dp"
+        app:drawableStartCompat="@drawable/store_ic_stamp"
         app:layout_constraintBottom_toBottomOf="@+id/store_tv_stamp_center_title"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/store_tv_stamp_center_title">
-
-        <TextView
-            android:id="@+id/store_tv_stamp_number_left_top"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:layout_marginStart="12dp"
-            android:layout_marginEnd="12dp"
-            android:gravity="center_vertical"
-            android:fontFamily="@font/store_din_medium"
-            android:textColor="@color/store_stamp_center_left_top_stamp_text"
-            android:textSize="19dp"
-            app:drawableStartCompat="@drawable/store_ic_stamp"
-            tools:ignore="HardcodedText,SpUsage" />
-
-    </com.mredrock.cyxbs.store.utils.widget.AppearLayout>
+        app:layout_constraintTop_toTopOf="@+id/store_tv_stamp_center_title"/>
 
     <com.mredrock.cyxbs.store.utils.widget.SlideUpLayout
         android:id="@+id/store_slideUpLayout_stamp_center"

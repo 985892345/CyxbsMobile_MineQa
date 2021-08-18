@@ -37,7 +37,7 @@ class SlideUpLayout(
      *
      * 完全展开时 multiple >= 1, 收拢时 multiple <= 0
      *
-     * @param l 其中 multiple 可能为 [-0.5, 1.5] 的值, 因为有过弹动画, 所以**存在负值**
+     * @param l 其中 multiple 可能为 `[-0.5, 1.5]` 的值, 因为有过弹动画, 所以**存在负值**
      */
     fun setMoveListener(l: (multiple: Float) -> Unit) {
         mMoveListener = l

@@ -1,11 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
 
-    <declare-styleable name="AppearLayout" tools:ignore="ResourceName">
-        <!--用于覆盖的颜色-->
-        <attr name="view_coverColor" format="color"/>
-    </declare-styleable>
-
     <declare-styleable name="TextRollView" tools:ignore="ResourceName">
         <attr name="view_textSize" format="dimension"/>
         <attr name="view_textColor" format="color"/>

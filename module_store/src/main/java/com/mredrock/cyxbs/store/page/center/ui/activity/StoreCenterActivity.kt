@@ -1,6 +1,7 @@
 package com.mredrock.cyxbs.store.page.center.ui.activity
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.ImageButton
 import android.widget.ImageView
@@ -20,7 +21,6 @@ import com.mredrock.cyxbs.store.page.center.ui.fragment.StampShopFragment
 import com.mredrock.cyxbs.store.page.center.ui.fragment.StampTaskFragment
 import com.mredrock.cyxbs.store.page.center.viewmodel.StoreCenterViewModel
 import com.mredrock.cyxbs.store.page.record.ui.activity.StampDetailActivity
-import com.mredrock.cyxbs.store.utils.widget.AppearLayout
 import com.mredrock.cyxbs.store.utils.widget.SlideUpLayout
 import com.mredrock.cyxbs.store.utils.widget.TextRollView
 import com.mredrock.cyxbs.store.utils.widget.slideshow.viewpager2.transformer.ScaleInTransformer
@@ -137,9 +137,14 @@ class StoreCenterActivity : BaseViewModelActivity<StoreCenterViewModel>() {
 
     // 用于设置向上滑时与右上角邮票小图标的联合效果
     private fun initSlideUpLayoutWithLeftTopStamp() {
-        val appearLayout: AppearLayout = findViewById(R.id.store_gradualColorLayout_stamp_center)
+        mTvStampNumber2.alpha = 0F
+        val displayMetrics = resources.displayMetrics
+        val windowWidth = displayMetrics.widthPixels // 获取屏幕总宽度
         mSlideUpLayout.setMoveListener {
-            appearLayout.setMultiple(1 - it)
+            mTvStampNumber2.translationX = it * (windowWidth - mTvStampNumber2.left)
+            if (mTvStampNumber2.alpha == 0F) {
+                mTvStampNumber2.alpha = 1F
+            }
         }
     }
 

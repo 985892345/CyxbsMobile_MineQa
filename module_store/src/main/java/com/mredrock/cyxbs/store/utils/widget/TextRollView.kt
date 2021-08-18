@@ -106,7 +106,7 @@ class TextRollView(
                 requestLayout()
             }
             invalidate()
-            slowlyAnimate(0F, 1F, 600L,
+            slowlyAnimate(0F, 1F,
                 onCancel = { alpha = 1F },
                 onChange = {
                     alpha = it

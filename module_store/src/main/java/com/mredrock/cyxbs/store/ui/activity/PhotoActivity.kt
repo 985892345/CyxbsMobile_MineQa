@@ -33,7 +33,8 @@ class PhotoActivity : AppCompatActivity() {
 
     companion object {
 
-        // 加载时或退出时图片显示的位置(如果使用 startActivityForResult(), 则会在共享动画时回调过慢出现图片闪动问题)
+        // 加载时或退出时图片显示的位置(如果使用 startActivityForResult(),
+        // 则会在共享动画时因回调过慢在图片位置不对应时出现图片闪动问题)
         var SHOW_POSITION = 0
             private set
 

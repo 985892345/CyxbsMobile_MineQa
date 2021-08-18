@@ -49,7 +49,7 @@ class StampShopFragment : BaseFragment() {
             if (recyclerView.adapter == null) { // 第一次得到数据时设置 adapter
                 setAdapter(recyclerView, it.data.userAmount)
             }else {
-                refreshAdapter(it.data.shop, it.data.userAmount) // 再次得到数据时刷新
+                refreshAdapter(it.data.userAmount) // 再次得到数据时刷新
             }
         })
     }
@@ -79,7 +79,7 @@ class StampShopFragment : BaseFragment() {
     }
 
     // 用于再次得到数据后的刷新 adapter
-    private fun refreshAdapter(shops: List<StampCenter.Shop>, stampCount: Int) {
+    private fun refreshAdapter(stampCount: Int) {
         mSmallShopTitleItem.resetData(titleMap)
         mSmallShopProductItem.resetData(shopMap, stampCount)
         mAdapter.refreshYYDS()

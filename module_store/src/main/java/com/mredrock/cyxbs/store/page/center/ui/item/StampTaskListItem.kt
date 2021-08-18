@@ -60,7 +60,12 @@ class StampTaskListItem(
             binding.storeTvStampTaskListDescribe.text = task.description
             binding.storeTvStampTaskListGainNumber.text = "+${task.gainStamp}"
             if (task.currentProgress != task.maxProgress) {
-                binding.storeBtnStampTaskListGo.text = "去签到"
+                if (position == 0) {
+                    binding.storeBtnStampTaskListGo.text = "去签到"
+                }else {
+                    binding.storeBtnStampTaskListGo.text = "去完成"
+                }
+
                 binding.storeBtnStampTaskListGo.setBackgroundColor(
                     ContextCompat.getColor(context, R.color.store_stamp_task_go_btn_bg)
                 )
