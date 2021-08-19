@@ -30,7 +30,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="13dp"
-            android:layout_marginEnd="31dp"
+            android:layout_marginEnd="16dp"
             android:fontFamily="@font/store_din_medium"
             android:text='@{"+"+String.valueOf(data.taskIncome)}'
             android:textColor="@color/store_stamp_detail_increase_count"
