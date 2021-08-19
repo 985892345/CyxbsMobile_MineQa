@@ -56,7 +56,7 @@
             android:textColor="@color/store_exchange_detail_order"
             android:textSize="23dp"
             android:textStyle="bold"
-            app:layout_constraintHorizontal_bias="0.118"
+            app:layout_constraintHorizontal_bias="0.102"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
