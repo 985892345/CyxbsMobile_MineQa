@@ -1,11 +1,9 @@
 package com.mredrock.cyxbs.store.network
 
-import com.google.gson.annotations.SerializedName
 import com.mredrock.cyxbs.common.bean.RedrockApiWrapper
 import com.mredrock.cyxbs.store.bean.*
 import io.reactivex.Observable
 import retrofit2.http.*
-import java.io.Serializable
 
 /**
  *    author : zz、985892345

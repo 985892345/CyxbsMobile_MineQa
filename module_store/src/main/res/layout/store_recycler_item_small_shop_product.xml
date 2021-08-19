@@ -4,9 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
+        <variable
+            name="shop"
+            type="com.mredrock.cyxbs.store.bean.StampCenter.Shop" />
     </data>
 
+    <!--FrameLayout 用于加上视觉要的卡片虚影-->
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -44,7 +47,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:layout_marginStart="12dp"
-                    android:text="小米充电宝"
+                    android:text="@{shop.title}"
                     android:textColor="@color/store_small_shop_product_name"
                     android:textSize="14sp"
                     android:textStyle="bold"
@@ -61,7 +64,7 @@
                     android:layout_marginTop="2dp"
                     android:alpha="0.4"
                     android:transitionName="productStock"
-                    android:text="库存：999"
+                    android:text="@{`库存: `+shop.amount}"
                     android:textColor="@color/store_small_shop_product_stock"
                     android:textSize="11sp"
                     app:layout_constraintStart_toStartOf="parent"
@@ -89,7 +92,7 @@
                     android:layout_marginStart="4dp"
                     android:layout_marginTop="1dp"
                     android:gravity="bottom"
-                    android:text="999"
+                    android:text="@{String.valueOf(shop.price)}"
                     android:textColor="@color/store_small_shop_price"
                     android:textSize="14sp"
                     app:layout_constraintStart_toEndOf="@+id/store_iv_small_shop_stamp"
