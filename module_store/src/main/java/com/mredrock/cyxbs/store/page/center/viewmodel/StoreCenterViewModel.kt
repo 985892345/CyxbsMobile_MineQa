@@ -21,6 +21,7 @@ class StoreCenterViewModel: BaseViewModel() {
         TestRetrofit
             .testRetrofit
             .getStampCenter()
+            .mapOrThrowApiException()
             .setSchedulers()
             .safeSubscribeBy(
                 onError = {

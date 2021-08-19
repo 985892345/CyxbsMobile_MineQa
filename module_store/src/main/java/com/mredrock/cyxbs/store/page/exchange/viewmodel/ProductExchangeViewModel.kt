@@ -1,9 +1,10 @@
 package com.mredrock.cyxbs.store.page.exchange.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.google.gson.Gson
-import com.mredrock.cyxbs.common.utils.extensions.safeSubscribeBy
-import com.mredrock.cyxbs.common.utils.extensions.setSchedulers
+import com.mredrock.cyxbs.common.bean.RedrockApiStatus
+import com.mredrock.cyxbs.common.utils.extensions.*
 import com.mredrock.cyxbs.common.viewmodel.BaseViewModel
 import com.mredrock.cyxbs.store.R
 import com.mredrock.cyxbs.store.bean.ExchangeState
@@ -19,35 +20,35 @@ import retrofit2.HttpException
  */
 class ProductExchangeViewModel : BaseViewModel() {
     val productDetail by lazy {
-        MutableLiveData<ProductDetail.Data>()
+        MutableLiveData<ProductDetail>()
     }
     val exchangeResult by lazy {
         MutableLiveData<ExchangeState>()
     }
+    val exchangeError by lazy {
+        MutableLiveData<String>()
+    }
 
     fun getProductDetail(id: String) {
-//        ApiGenerator.getApiService(ApiService::class.java)
-//        .getProductDetail(id)
         TestRetrofit
             .testRetrofit
             .getProductDetail(id)
-//                .mapOrThrowApiException()
+            .mapOrThrowApiException()
             .setSchedulers()
             .safeSubscribeBy(
                 onError = {
                     toastEvent.value = R.string.store_product_detail_failure
                 },
                 onNext = {
-                    if (it.info == "success") {
-                        productDetail.postValue(it.data)
-                    }
-                })
+                    productDetail.value = it
+                }
+            )
     }
 
     fun exchangeProduct(id: String) {
-//        ApiGenerator.getApiService(ApiService::class.java)
         TestRetrofit.testRetrofit
             .buyProduct(id)
+            .mapOrThrowApiException()
             .setSchedulers()
             .safeSubscribeBy(
                 onError = {
@@ -56,17 +57,16 @@ class ProductExchangeViewModel : BaseViewModel() {
                     val code = it.response()?.code()//返回的code 如果为500即为余额不足/库存不足
                     if (code == 500) {
                         val gson = Gson()
-                        val exchangeState = gson.fromJson(responseBody?.string(), ExchangeState::class.java)
-                        exchangeResult.postValue(exchangeState)
+                        val exchangeState = gson.fromJson(responseBody?.string(), RedrockApiStatus::class.java)
+                        exchangeError.value = exchangeState.info
                     } else {
                         toastEvent.value = R.string.store_exchange_product_failure
                     }
                 },
                 onNext = {
-                    exchangeResult.postValue(it)
+                    Log.d("ggg","(ProductExchangeViewModel.kt:75)-->> 333")
+                    exchangeResult.value = it
                 }
             )
-
     }
-
 }

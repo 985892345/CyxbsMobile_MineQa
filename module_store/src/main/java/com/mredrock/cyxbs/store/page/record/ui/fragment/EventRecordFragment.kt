@@ -30,7 +30,6 @@ class EventRecordFragment : BaseViewModelFragment<EventRecordViewModel>() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
         return inflater.inflate(R.layout.store_fragment_event_record, container, false)
     }
 
@@ -115,7 +114,6 @@ class EventRecordFragment : BaseViewModelFragment<EventRecordViewModel>() {
                                 getItemCount = { it.size },
                                 isInHere = { true },
                                 create = { binding: StoreRecyclerItemStampGetRecordBinding, holder: SimpleRVAdapter.BindingVH ->
-
                                 },
                                 refactor = { binding: StoreRecyclerItemStampGetRecordBinding, holder: SimpleRVAdapter.BindingVH, position: Int ->
                                     binding.data = it[position]

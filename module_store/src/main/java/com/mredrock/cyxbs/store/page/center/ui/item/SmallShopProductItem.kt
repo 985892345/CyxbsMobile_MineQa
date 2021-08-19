@@ -1,7 +1,6 @@
 package com.mredrock.cyxbs.store.page.center.ui.item
 
 import android.annotation.SuppressLint
-import android.util.Log
 import com.mredrock.cyxbs.common.BaseApp.Companion.context
 import com.mredrock.cyxbs.common.utils.extensions.onClick
 import com.mredrock.cyxbs.common.utils.extensions.setImageFromUrl

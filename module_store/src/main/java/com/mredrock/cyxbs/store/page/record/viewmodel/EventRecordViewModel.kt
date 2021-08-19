@@ -1,6 +1,7 @@
 package com.mredrock.cyxbs.store.page.record.viewmodel
 
 import androidx.lifecycle.MutableLiveData
+import com.mredrock.cyxbs.common.utils.extensions.mapOrThrowApiException
 import com.mredrock.cyxbs.common.utils.extensions.safeSubscribeBy
 import com.mredrock.cyxbs.common.utils.extensions.setSchedulers
 import com.mredrock.cyxbs.common.viewmodel.BaseViewModel
@@ -16,40 +17,37 @@ import com.mredrock.cyxbs.store.utils.TestRetrofit
  */
 class EventRecordViewModel : BaseViewModel() {
     val mExchangeRecord by lazy {
-        MutableLiveData<MutableList<ExchangeRecord.Data>>()
+        MutableLiveData<List<ExchangeRecord>>()
     }
     val mStampGetRecord by lazy {
-        MutableLiveData<MutableList<StampGetRecord.Data>>()
+        MutableLiveData<List<StampGetRecord>>()
     }
 
     fun getExchangeRecord() {
 //        ApiGenerator.getApiService(ApiService::class.java)
         TestRetrofit.testRetrofit
-                .getExchangeRecord()
-                .setSchedulers()
-//                .mapOrThrowApiException()
-                .safeSubscribeBy(
-                        onError = { toastEvent.value = R.string.store_exchange_detail_failure },
-                        onNext = {
-                            if (it.info == "success") {
-                                mExchangeRecord.postValue(it.data as MutableList<ExchangeRecord.Data>?)
-                            }
-                        })
+            .getExchangeRecord()
+            .mapOrThrowApiException()
+            .setSchedulers()
+            .safeSubscribeBy(
+                onError = { toastEvent.value = R.string.store_exchange_detail_failure },
+                onNext = {
+                    mExchangeRecord.value = it
+                }
+            )
     }
 
     fun getStampRecord() {
 //        ApiGenerator.getApiService(ApiService::class.java)
         TestRetrofit.testRetrofit
-                .getStampGetRecord(1,100)
-                .setSchedulers()
-//                .mapOrThrowApiException()
-                .safeSubscribeBy(
-                        onError = { toastEvent.value = R.string.store_stamp_record_failure },
-                        onNext = {
-                            if (it.info == "success") {
-                                mStampGetRecord.postValue(it.data as MutableList<StampGetRecord.Data>?)
-                            }
-                        })
+            .getStampGetRecord(1, 100)
+            .mapOrThrowApiException()
+            .setSchedulers()
+            .safeSubscribeBy(
+                onError = { toastEvent.value = R.string.store_stamp_record_failure },
+                onNext = {
+                    mStampGetRecord.value = it
+                }
+            )
     }
-
 }

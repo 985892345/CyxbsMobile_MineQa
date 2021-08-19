@@ -6,7 +6,7 @@
     <data>
         <variable
             name="data"
-            type="com.mredrock.cyxbs.store.bean.ProductDetail.Data" />
+            type="com.mredrock.cyxbs.store.bean.ProductDetail" />
         <variable
             name="eventHandle"
             type="com.mredrock.cyxbs.store.page.exchange.ui.activity.ProductExchangeActivity.EventHandle" />

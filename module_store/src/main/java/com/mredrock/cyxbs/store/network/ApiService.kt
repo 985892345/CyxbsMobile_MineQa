@@ -1,9 +1,11 @@
 package com.mredrock.cyxbs.store.network
 
+import com.google.gson.annotations.SerializedName
 import com.mredrock.cyxbs.common.bean.RedrockApiWrapper
 import com.mredrock.cyxbs.store.bean.*
 import io.reactivex.Observable
 import retrofit2.http.*
+import java.io.Serializable
 
 /**
  *    author : zz、985892345
@@ -14,14 +16,14 @@ interface ApiService {
 
     // 获取邮票中心界面
     @GET("/magipoke-intergral/User/info")
-    fun getStampCenter(): Observable<StampCenter>
+    fun getStampCenter(): Observable<RedrockApiWrapper<StampCenter>>
 
     //获取兑换详细界面内容
     @GET("/magipoke-intergral/Integral/getItemInfo")
     fun getProductDetail(
         @Query("id")
         id: String
-    ): Observable<ProductDetail>
+    ): Observable<RedrockApiWrapper<ProductDetail>>
 
     //购买商品
     @POST("/magipoke-intergral/Integral/purchase")
@@ -29,17 +31,17 @@ interface ApiService {
     fun buyProduct(
         @Field("id")
         id: String
-    ): Observable<ExchangeState>
+    ): Observable<RedrockApiWrapper<ExchangeState>>
 
     //得到兑换记录
     @GET("/magipoke-intergral/User/exchange")
     fun getExchangeRecord(
-    ): Observable<ExchangeRecord>
+    ): Observable<RedrockApiWrapper<List<ExchangeRecord>>>
 
     //得到邮票获取记录
     @GET("/magipoke-intergral/User/getRecord")
     fun getStampGetRecord(
         @Query("page") page: Int,
         @Query("size") size: Int
-    ): Observable<StampGetRecord>
+    ): Observable<RedrockApiWrapper<List<StampGetRecord>>>
 }

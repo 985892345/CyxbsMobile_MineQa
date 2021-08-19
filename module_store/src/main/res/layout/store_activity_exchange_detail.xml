@@ -3,9 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-<variable
-    name="data"
-    type="com.mredrock.cyxbs.store.bean.ExchangeRecord.Data" />
+
+        <variable
+            name="data"
+            type="com.mredrock.cyxbs.store.bean.ExchangeRecord" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -22,25 +23,25 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="7dp"
-            app:layout_constraintVertical_bias="0.06821"
-            app:layout_constraintHorizontal_bias="0.09867"
             android:text="@string/store_exchange_detail"
             android:textColor="@color/store_common_title"
             android:textSize="22sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintHorizontal_bias="0.09867"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.06821" />
 
         <ImageView
             android:id="@+id/store_iv_exchange_order_bg"
             android:layout_width="match_parent"
             android:layout_height="108dp"
-            android:layout_marginTop="132dp"
-            android:scaleType="fitXY"
-            android:layout_marginRight="16dp"
             android:layout_marginLeft="16dp"
+            android:layout_marginTop="132dp"
+            android:layout_marginRight="16dp"
+            android:scaleType="fitXY"
             android:src="@drawable/store_bg_unclaimed_exchange_order"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
@@ -51,11 +52,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="168dp"
-            app:layout_constraintHorizontal_bias="0.118"
             android:text="@{String.valueOf(data.orderId)}"
             android:textColor="@color/store_exchange_detail_order"
             android:textSize="23dp"
             android:textStyle="bold"
+            app:layout_constraintHorizontal_bias="0.118"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

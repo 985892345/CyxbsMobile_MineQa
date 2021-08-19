@@ -44,11 +44,11 @@ class StampTaskFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         val recyclerView: RecyclerView = view.findViewById(R.id.store_rv_stamp_task)
         viewModel.stampCenterData.observe(viewLifecycleOwner, Observer {
-            resetData(it.data.task) // 重新设置数据
+            resetData(it.task) // 重新设置数据
             if (recyclerView.adapter == null) {
                 setAdapter(recyclerView) // 第一次得到数据时设置 adapter
             }else {
-                refreshAdapter(it.data.task) // 再次得到数据时刷新
+                refreshAdapter(it.task) // 再次得到数据时刷新
             }
         })
     }

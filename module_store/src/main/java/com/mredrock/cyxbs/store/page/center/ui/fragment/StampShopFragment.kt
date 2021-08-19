@@ -45,11 +45,11 @@ class StampShopFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         val recyclerView: RecyclerView = view.findViewById(R.id.store_rv_small_shop)
         viewModel.stampCenterData.observe(viewLifecycleOwner, Observer {
-            resetData(it.data.shop) // 重新设置数据
+            resetData(it.shop) // 重新设置数据
             if (recyclerView.adapter == null) { // 第一次得到数据时设置 adapter
-                setAdapter(recyclerView, it.data.userAmount)
+                setAdapter(recyclerView, it.userAmount)
             }else {
-                refreshAdapter(it.data.userAmount) // 再次得到数据时刷新
+                refreshAdapter(it.userAmount) // 再次得到数据时刷新
             }
         })
     }

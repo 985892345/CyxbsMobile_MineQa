@@ -6,7 +6,7 @@
 
         <variable
             name="data"
-            type="com.mredrock.cyxbs.store.bean.ExchangeRecord.Data" />
+            type="com.mredrock.cyxbs.store.bean.ExchangeRecord" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

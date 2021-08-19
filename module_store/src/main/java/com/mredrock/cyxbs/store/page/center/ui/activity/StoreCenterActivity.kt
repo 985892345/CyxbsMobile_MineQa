@@ -45,9 +45,9 @@ class StoreCenterActivity : BaseViewModelActivity<StoreCenterViewModel>() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.store_activity_store_center)
-        initView()
-        initViewPager2()
-        initTabLayout()
+        initView() // 控件的寻找
+        initViewPager2() // 设置 VP2(底部邮票小店与邮票任务界面)
+        initTabLayout() // 设置 TabLayout 与 VP2 的联动
         initRefreshLayout()
         initSlideUpLayoutWithLeftTopStamp()
         initJump()
@@ -168,7 +168,7 @@ class StoreCenterActivity : BaseViewModelActivity<StoreCenterViewModel>() {
     @SuppressLint("SetTextI18n")
     private fun initData() {
         viewModel.stampCenterData.observeNotNull{
-            val text = it.data.userAmount.toString()
+            val text = it.userAmount.toString()
             if (isFirstLoad) {
                 mTvStampNumber.setTextOnlyAlpha(text) // 第一次进入界面就只使用隐现的动画
                 isFirstLoad = false // over
@@ -179,7 +179,7 @@ class StoreCenterActivity : BaseViewModelActivity<StoreCenterViewModel>() {
                 }
             }
             mTvStampNumber2.text = " $text" // 右上方小的邮票显示
-            if (it.data.unGotGood) {
+            if (it.unGotGood) {
                 // 显示"你还有待领取的商品，请尽快领取"
                 mTvShopHint.visibility = View.VISIBLE
             }else {

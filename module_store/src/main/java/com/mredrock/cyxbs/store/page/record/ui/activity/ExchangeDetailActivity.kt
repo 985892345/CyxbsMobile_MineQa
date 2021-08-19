@@ -15,7 +15,7 @@ import kotlinx.android.synthetic.main.store_common_toolbar_no_line.*
  */
 class ExchangeDetailActivity : BaseActivity() {
     private lateinit var dataBinding: StoreActivityExchangeDetailBinding
-    private lateinit var data: ExchangeRecord.Data
+    private lateinit var data: ExchangeRecord
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         dataBinding = StoreActivityExchangeDetailBinding.inflate(layoutInflater)
@@ -26,7 +26,7 @@ class ExchangeDetailActivity : BaseActivity() {
     }
 
     private fun initData() {
-        data = intent.getSerializableExtra("data") as ExchangeRecord.Data
+        data = intent.getSerializableExtra("data") as ExchangeRecord
     }
 
     private fun initView() {

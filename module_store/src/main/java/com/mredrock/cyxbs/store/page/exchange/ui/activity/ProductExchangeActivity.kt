@@ -30,7 +30,7 @@ class ProductExchangeActivity : BaseViewModelActivity<ProductExchangeViewModel>(
     private var mImageList = ArrayList<String>()
     private var mStampCount = 0 //我的余额
     private var mId = "" //商品ID
-    private lateinit var mData: ProductDetail.Data
+    private lateinit var mData: ProductDetail
 
     companion object {
         fun activityStart(context: Context, id: String, stampCount: Int) {
@@ -66,99 +66,100 @@ class ProductExchangeActivity : BaseViewModelActivity<ProductExchangeViewModel>(
 
     @SuppressLint("SetTextI18n")
     private fun initObserve() {
-        viewModel.productDetail.observe {
-            if (it != null) {
-                dataBinding.data = it
-                //处理权益说明 以及标题
-                when (it.type) {
-                    0 -> {
-                        dataBinding.storeTvProductDetailTitle.text =
-                            getString(R.string.store_entity_product_detail)
-                        dataBinding.storeTvEquityDescription.text =
-                            "1、每个实物商品每人限兑换一次，已经兑换的商品不能退货换货也不予折现。\n" +
-                                    "2、在法律允许的范围内，本活动的最终解释权归红岩网校工作站所有。"
-                    }
+        viewModel.productDetail.observeNotNull {
+            dataBinding.data = it
+            //处理权益说明 以及标题
+            when (it.type) {
+                0 -> {
+                    dataBinding.storeTvProductDetailTitle.text =
+                        getString(R.string.store_entity_product_detail)
+                    dataBinding.storeTvEquityDescription.text =
+                        "1、每个实物商品每人限兑换一次，已经兑换的商品不能退货换货也不予折现。\n" +
+                                "2、在法律允许的范围内，本活动的最终解释权归红岩网校工作站所有。"
+                }
+                1 -> {
+                    dataBinding.storeTvProductDetailTitle.text =
+                        getString(R.string.store_attire_product_detail)
+                    dataBinding.storeTvEquityDescription.text =
+                        "1、虚拟商品版权归红岩网校工作站所有。\n" +
+                                "2、在法律允许的范围内，本活动的最终解释权归红岩网校工作站所有。"
+                }
+            }
+            //设置轮播图UrlList
+            mImageList = it.urls as ArrayList<String>
+            //初始化轮播图
+            initSlideShow()
+            //保存
+            mData = it
+        }
+
+        // 请求成功的观察
+        viewModel.exchangeResult.observeNotNull {
+            //根据不同商品类型弹出不同dialog
+            if (this::mData.isInitialized) {
+                when (mData.type) {
                     1 -> {
-                        dataBinding.storeTvProductDetailTitle.text =
-                            getString(R.string.store_attire_product_detail)
-                        dataBinding.storeTvEquityDescription.text =
-                            "1、虚拟商品版权归红岩网校工作站所有。\n" +
-                                    "2、在法律允许的范围内，本活动的最终解释权归红岩网校工作站所有。"
+                        //刷新兑换后的余额与库存 下同
+                        mStampCount -= mData.price
+                        mData.amount = it.amount //由兑换成功时获取到的最新amount来更新mData 下同
+                        dataBinding.data = mData //重新绑定是实现 购买后库存为0时 兑换按钮置灰(是否置灰的逻辑绑定在xml里) 下同
+                        dataBinding.storeTvUserStampCount.text =
+                            mStampCount.toString()
+                        ProductExchangeDialogFragment().apply {
+                            initView(
+                                dialogRes = R.layout.store_dialog_exchange_product,
+                                onPositiveClick = { dismiss() },
+                                onNegativeClick = { dismiss() },
+                                exchangeTips = "兑换成功！现在就换掉原来的名片吧！",
+                                positiveString = "好的",
+                                negativeString = "再想想"
+                            )
+                        }.show(supportFragmentManager, "zz")
+                    }
+                    0 -> {
+                        mStampCount -= mData.price
+                        mData.amount = it.amount
+                        dataBinding.data = mData
+                        dataBinding.storeTvUserStampCount.text =
+                            mStampCount.toString()
+                        ProductExchangeDialogFragment().apply {
+                            initView(
+                                dialogRes = R.layout.store_dialog_exchange_result,
+                                onPositiveClick = {
+                                    dismiss()
+                                },
+                                exchangeTips = "兑换成功！请在30天内到红岩网校领取哦"
+                            )
+                        }.show(supportFragmentManager, "zz")
                     }
                 }
-                //设置轮播图UrlList
-                mImageList = it.urls as ArrayList<String>
-                //初始化轮播图
-                initSlideShow()
-                //保存
-                mData = it
             }
+
         }
-        viewModel.exchangeResult.observe {
-            if (it != null) {
-                when (it.info) {
-                    "reduce goods error" -> {
-                        ProductExchangeDialogFragment().apply {
-                            initView(
-                                dialogRes = R.layout.store_dialog_exchange_result,
-                                onPositiveClick = { dismiss() },
-                                exchangeTips = "啊欧，手慢了！下次再来吧=.="
-                            )
-                        }.show(supportFragmentManager, "zz")
-                    }
-                    "Integral not enough" -> {
-                        ProductExchangeDialogFragment().apply {
-                            initView(
-                                dialogRes = R.layout.store_dialog_exchange_result,
-                                onPositiveClick = { dismiss() },
-                                exchangeTips = "诶......邮票不够啊......穷日子真不好过呀QAQ"
-                            )
-                        }.show(supportFragmentManager, "zz")
-                    }
-                    "success" -> {
-                        //根据不同商品类型弹出不同dialog
-                        if (this::mData.isInitialized) {
-                            when (mData.type) {
-                                1 -> {
-                                    //刷新兑换后的余额与库存 下同
-                                    mStampCount -= mData.price
-                                    mData.amount = it.data.amount //由兑换成功时获取到的最新amount来更新mData 下同
-                                    dataBinding.data = mData //重新绑定是实现 购买后库存为0时 兑换按钮置灰(是否置灰的逻辑绑定在xml里) 下同
-                                    dataBinding.storeTvUserStampCount.text =
-                                        mStampCount.toString()
-                                    ProductExchangeDialogFragment().apply {
-                                        initView(
-                                            dialogRes = R.layout.store_dialog_exchange_product,
-                                            onPositiveClick = { dismiss() },
-                                            onNegativeClick = { dismiss() },
-                                            exchangeTips = "兑换成功！现在就换掉原来的名片吧！",
-                                            positiveString = "好的",
-                                            negativeString = "再想想"
-                                        )
-                                    }.show(supportFragmentManager, "zz")
-                                }
-                                0 -> {
-                                    mStampCount -= mData.price
-                                    mData.amount = it.data.amount
-                                    dataBinding.data = mData
-                                    dataBinding.storeTvUserStampCount.text =
-                                        mStampCount.toString()
-                                    ProductExchangeDialogFragment().apply {
-                                        initView(
-                                            dialogRes = R.layout.store_dialog_exchange_result,
-                                            onPositiveClick = {
-                                                dismiss()
-                                            },
-                                            exchangeTips = "兑换成功！请在30天内到红岩网校领取哦"
-                                        )
-                                    }.show(supportFragmentManager, "zz")
-                                }
-                            }
-                        }
-                    }
-                    else -> {
-                        toast("兑换请求异常")
-                    }
+
+        // 请求失败的观察
+        viewModel.exchangeError.observeNotNull {
+            when (it) {
+                "reduce goods error" -> {
+                    ProductExchangeDialogFragment().apply {
+                        initView(
+                            dialogRes = R.layout.store_dialog_exchange_result,
+                            onPositiveClick = { dismiss() },
+                            exchangeTips = "啊欧，手慢了！下次再来吧=.="
+                        )
+                    }.show(supportFragmentManager, "zz")
+                }
+                "Integral not enough" -> {
+                    ProductExchangeDialogFragment().apply {
+                        initView(
+                            dialogRes = R.layout.store_dialog_exchange_result,
+                            onPositiveClick = { dismiss() },
+                            exchangeTips = "诶......邮票不够啊......穷日子真不好过呀QAQ"
+                        )
+                    }.show(supportFragmentManager, "zz")
+                }
+                else -> {
+                    toast("兑换请求异常")
                 }
             }
         }

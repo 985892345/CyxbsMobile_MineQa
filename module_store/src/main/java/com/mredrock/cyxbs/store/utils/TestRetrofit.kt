@@ -17,21 +17,22 @@ import java.io.Serializable
 object TestRetrofit {
 
     private var mToken = ""
+
+    private val logger = HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BODY }
+    private val client = OkHttpClient.Builder()
+        .addInterceptor(logger)
+        .addInterceptor(Retry(1))
+        .build()
+    private val retrofit = Retrofit.Builder()
+        .baseUrl("https://be-dev.redrock.cqupt.edu.cn")
+        .client(client)
+        .addConverterFactory(GsonConverterFactory.create())
+        .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+
     val testRetrofit = provideRetrofit()
 
     private fun provideRetrofit(): ApiService {
-        val logger = HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BODY }
-        val client = OkHttpClient.Builder()
-            .addInterceptor(logger)
-            .addInterceptor(Retry(1))
-            .build()
-
-        return Retrofit.Builder()
-            .baseUrl("https://be-dev.redrock.cqupt.edu.cn")
-            .client(client)
-            .addConverterFactory(GsonConverterFactory.create())
-            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-            .build().create(ApiService::class.java)
+        return retrofit.build().create(ApiService::class.java)
     }
 
     class Retry(

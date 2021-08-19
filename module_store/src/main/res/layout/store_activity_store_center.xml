@@ -190,14 +190,13 @@
                     android:id="@+id/store_refreshLayout_stamp_center"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:paddingBottom="12dp"
+                    android:paddingBottom="8dp"
                     android:paddingTop="2dp">
 
                     <androidx.viewpager2.widget.ViewPager2
                         android:id="@+id/store_vp_stamp_center"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:paddingTop="10dp"/>
+                        android:layout_height="match_parent" />
 
                 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
@@ -210,7 +209,7 @@
     <!--下面的 View 用于遮挡底部 CardView 的圆角-->
     <View
         android:layout_width="match_parent"
-        android:layout_height="16dp"
+        android:layout_height="8dp"
         android:background="@color/store_stamp_center_cardView_background"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
