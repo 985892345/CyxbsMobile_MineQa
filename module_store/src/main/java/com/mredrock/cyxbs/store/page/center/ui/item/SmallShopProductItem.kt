@@ -62,9 +62,7 @@ class SmallShopProductItem(
         val shop = shopMap[position]
         if (shop != null) {
             binding.storeIvSmallShopProduct.setImageFromUrl(shop.url)
-            binding.storeTvSmallShopProductName.text = shop.title
-            binding.storeTvSmallShopPrice.text = shop.price.toString()
-            binding.storeTvSmallShopProductStock.text = "库存：${shop.amount}"
+            binding.shop = shop
         }
     }
 }

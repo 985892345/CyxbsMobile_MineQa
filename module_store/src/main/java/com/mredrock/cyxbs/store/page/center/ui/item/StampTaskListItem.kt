@@ -49,16 +49,12 @@ class StampTaskListItem(
     ) {
         val task = taskMap[position]
         if (task != null) {
-            binding.storeProgressBarStampTask.max = task.maxProgress
+            binding.task = task
             binding.storeProgressBarStampTask.post { // 不加 post 就不显示进度条加载动画, 很奇怪
                 binding.storeProgressBarStampTask.setProgressCompat(
                     task.currentProgress, task.currentProgress != 0
                 )
             }
-            binding.storeTvStampTaskListProgress.text = "${task.currentProgress}/${task.maxProgress}"
-            binding.storeTvStampTaskListName.text = task.title
-            binding.storeTvStampTaskListDescribe.text = task.description
-            binding.storeTvStampTaskListGainNumber.text = "+${task.gainStamp}"
             if (task.currentProgress != task.maxProgress) {
                 if (position == 0) {
                     binding.storeBtnStampTaskListGo.text = "去签到"
