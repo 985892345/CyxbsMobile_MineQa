@@ -64,7 +64,6 @@ class ProductExchangeViewModel : BaseViewModel() {
                     }
                 },
                 onNext = {
-                    Log.d("ggg","(ProductExchangeViewModel.kt:75)-->> 333")
                     exchangeResult.value = it
                 }
             )

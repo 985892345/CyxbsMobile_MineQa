@@ -25,7 +25,7 @@ import kotlinx.android.synthetic.main.store_fragment_event_record.*
 
 class EventRecordFragment : BaseViewModelFragment<EventRecordViewModel>() {
     private lateinit var mEventRVAdapter: SimpleRVAdapter
-
+    private var mEventType:String?=""
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -34,6 +34,7 @@ class EventRecordFragment : BaseViewModelFragment<EventRecordViewModel>() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        mEventType=arguments?.getString("event")
         initView()
         initAdapter()
         initData()
@@ -45,7 +46,7 @@ class EventRecordFragment : BaseViewModelFragment<EventRecordViewModel>() {
      * 根据event的不同 通过VM获取对应的数据
      */
     private fun initData() {
-        when (arguments?.getString("event")) {
+        when (mEventType) {
             "exchange" -> {
                 viewModel.getExchangeRecord()
             }
@@ -63,7 +64,7 @@ class EventRecordFragment : BaseViewModelFragment<EventRecordViewModel>() {
      * 根据event的不同 为RecyclerView赋予不同的item和数据
      */
     private fun initAdapter() {
-        when (arguments?.getString("event")) {
+        when (mEventType) {
             "exchange" -> {
                 viewModel.mExchangeRecord.observeNotNull {
                     //若adapter未设置 则进行设置
