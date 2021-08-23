@@ -11,7 +11,7 @@ import java.util.Date
  */
 object Date {
     /**
-     * 统一日期格式，如：2021.5.5/2021.5.5 12:00
+     * 统一日期格式，如：2021.5.5/2021-5-5 12:00
      */
     private val sdf1 = SimpleDateFormat("yyyy.M.d", Locale.CHINA)
     private val sdf2 = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.CHINA)

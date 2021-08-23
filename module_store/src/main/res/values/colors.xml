@@ -4,7 +4,7 @@
     <color name="store_common_divide_line">#1A2A4E84</color>
 
     <!--    邮票商城界面通用标题颜色-->
-    <color name="store_common_title">#CC15315B</color>
+    <color name="store_common_title">#E615315B</color>
 
     <!--    邮票中心界面颜色-->
     <color name="store_stamp_center_background">#F2F3F8</color>

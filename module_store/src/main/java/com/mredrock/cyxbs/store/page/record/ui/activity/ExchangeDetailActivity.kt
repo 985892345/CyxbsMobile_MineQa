@@ -1,5 +1,7 @@
 package com.mredrock.cyxbs.store.page.record.ui.activity
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import com.mredrock.cyxbs.common.ui.BaseActivity
 import com.mredrock.cyxbs.store.R
@@ -14,6 +16,15 @@ import kotlinx.android.synthetic.main.store_common_toolbar_no_line.*
  *    date   : 2021/8/4 11:39
  */
 class ExchangeDetailActivity : BaseActivity() {
+
+    companion object {
+        fun activityStart(context: Context, data: ExchangeRecord) {
+            val intent = Intent(context, ExchangeDetailActivity::class.java)
+            intent.putExtra("data", data)
+            context.startActivity(intent)
+        }
+    }
+
     private lateinit var dataBinding: StoreActivityExchangeDetailBinding
     private lateinit var data: ExchangeRecord
     override fun onCreate(savedInstanceState: Bundle?) {

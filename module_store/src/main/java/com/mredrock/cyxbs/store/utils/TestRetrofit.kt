@@ -1,5 +1,6 @@
 package com.mredrock.cyxbs.store.utils
 
+import android.util.Log
 import com.google.gson.annotations.SerializedName
 import com.mredrock.cyxbs.store.network.ApiService
 import okhttp3.Interceptor
@@ -45,6 +46,7 @@ object TestRetrofit {
             if (mToken.isEmpty()) {
                 getNewToken()
             }
+            Log.d("ggg","(TestRetrofit.kt:49)-->> $mToken")
             val request = chain.request()
             val build = request
                 .newBuilder()

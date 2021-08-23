@@ -15,12 +15,13 @@
         android:layout_height="wrap_content"
         android:background="@drawable/store_shape_stamp_center_product">
 
+        <!--下面这个 CardView 用于裁剪成圆角-->
         <androidx.cardview.widget.CardView
             android:id="@+id/store_cv_stamp_small_shop"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardBackgroundColor="@color/store_small_shop_cardView_bg"
             android:layout_margin="3.5dp"
+            app:cardBackgroundColor="@color/store_small_shop_cardView_bg"
             app:cardCornerRadius="8dp"
             app:cardElevation="0dp"
             tools:ignore="PxUsage">
@@ -123,9 +124,6 @@
                     style="@style/Widget.MaterialComponents.Button.UnelevatedButton"/>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
-
         </androidx.cardview.widget.CardView>
-
     </FrameLayout>
-
 </layout>

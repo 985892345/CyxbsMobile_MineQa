@@ -127,6 +127,7 @@
                     android:layout_height="wrap_content"
                     app:view_textColor="@color/store_stamp_center_my_stamp_number"
                     app:view_textSize="48dp"
+                    app:view_textFontFromAssets="font/store_my_stamp_number.ttf"
                     tools:ignore="HardcodedText,SpUsage" />
 
             </FrameLayout>
@@ -157,7 +158,7 @@
                 android:id="@+id/store_tl_stamp_center"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="10dp"
                 android:backgroundTint="@android:color/transparent"
                 android:theme="@style/Theme.MaterialComponents"
                 app:tabGravity="fill"

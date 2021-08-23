@@ -95,6 +95,8 @@ class StampShopFragment : BaseFragment() {
         for (list in kinds) {
             list.clear()
         }
+        // 为什么要遍历一边?
+        // 因为后端不同 type 是混在一起的, 不遍历的话我就不知道 "邮货" 这个 title 是在哪个位置
         for (shop in products) {
             if (shop.type == 1) { // 后端返回的 type = 0 时为邮货, type = 1 时为装扮
                 kinds[0].add(shop)

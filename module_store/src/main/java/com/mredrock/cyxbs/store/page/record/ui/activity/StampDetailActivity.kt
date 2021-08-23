@@ -25,10 +25,10 @@ import kotlinx.android.synthetic.main.store_common_toolbar.*
  *    date   : 2021/8/2 14:46
  */
 class StampDetailActivity : BaseActivity() {
-    private var mEventViewPagerAdapter: BaseFragmentVPAdapter<EventRecordFragment>? = null
-    private var mEventRecordFragmentList = arrayListOf<EventRecordFragment>()
+
     private var mTabText = arrayOf("兑换记录", "获取记录")
     private var animDuration: Long = 400 //TabLayout文字缩放动画时间
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.store_activity_stamp_detail)
@@ -79,10 +79,16 @@ class StampDetailActivity : BaseActivity() {
     private fun initUnselectedText(tab: TabLayout.Tab?) {
         if (tab != null) {
             tab.customView = null
-            val textView: TextView = LayoutInflater.from(this@StampDetailActivity).inflate(R.layout.store_item_tab_text, null) as TextView
+            val textView = LayoutInflater
+                .from(this@StampDetailActivity)
+                .inflate(R.layout.store_item_tab_text, null) as TextView
             textView.text = tab.text
             textView.setTypeface(null, Typeface.NORMAL)
-            textView.setTextColor(ContextCompat.getColor(this@StampDetailActivity, R.color.store_stamp_unselected_title))
+            textView.setTextColor(ContextCompat
+                .getColor(
+                    this@StampDetailActivity,
+                    R.color.store_stamp_unselected_title
+                ))
             val anim = ValueAnimator.ofFloat(16f, 14f)
             anim.duration = animDuration
             anim.addUpdateListener {
@@ -98,9 +104,11 @@ class StampDetailActivity : BaseActivity() {
     private fun initSelectedText(tab: TabLayout.Tab?) {
         if (tab != null) {
             tab.customView = null
-            val textView: TextView = LayoutInflater.from(this@StampDetailActivity).inflate(R.layout.store_item_tab_text, null) as TextView
+            val textView = LayoutInflater
+                .from(this@StampDetailActivity)
+                .inflate(R.layout.store_item_tab_text, null) as TextView
             textView.text = tab.text
-            textView.setTypeface(null, Typeface.BOLD)
+            textView.setTypeface(null, Typeface.BOLD) // 加粗
             val anim = ValueAnimator.ofFloat(14f, 16f)
             anim.duration = animDuration
             anim.addUpdateListener {
@@ -119,18 +127,22 @@ class StampDetailActivity : BaseActivity() {
     private fun initAdapter() {
         //创建两个EventRecordFragment 用Bundle携带不同的事件字符串来控制Fragment中RecyclerView的item类型
         val exchangeBundle = Bundle()
-        exchangeBundle.putString("event", "exchange")
+        exchangeBundle.putString("event", "兑换记录")
         val exchangeRecordFragment = EventRecordFragment()
         exchangeRecordFragment.arguments = exchangeBundle
+
         val stampBundle = Bundle()
         val stampGetRecordFragment = EventRecordFragment()
-        stampBundle.putString("event", "getStamp")
+        stampBundle.putString("event", "获取记录")
         stampGetRecordFragment.arguments = stampBundle
-        mEventRecordFragmentList.add(exchangeRecordFragment)
-        mEventRecordFragmentList.add(stampGetRecordFragment)
 
-        mEventViewPagerAdapter = BaseFragmentVPAdapter(this, mEventRecordFragmentList)
-        store_vp_stamp_detail.adapter = mEventViewPagerAdapter
+        store_vp_stamp_detail.adapter = BaseFragmentVPAdapter(
+            this,
+            listOf(
+                exchangeRecordFragment,
+                stampGetRecordFragment
+            )
+        )
     }
 
     private fun initData() {

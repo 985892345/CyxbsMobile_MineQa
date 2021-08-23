@@ -4,6 +4,9 @@
     <declare-styleable name="TextRollView" tools:ignore="ResourceName">
         <attr name="view_textSize" format="dimension"/>
         <attr name="view_textColor" format="color"/>
+        <!--由于 getFont() 方法只支持 API28 以上, 所以字体只能放到 assets 文件夹中.
+            要使用该属性, 请填入 assets 下的路径(如: font/store_my_stamp_number.ttf)-->
+        <attr name="view_textFontFromAssets" format="string"/>
     </declare-styleable>
 
     <declare-styleable name="SlideShow" tools:ignore="ResourceName">

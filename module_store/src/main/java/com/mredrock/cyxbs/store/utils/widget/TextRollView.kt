@@ -6,6 +6,7 @@ import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.Typeface
 import android.util.AttributeSet
+import android.util.Log
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
 import androidx.core.animation.addListener
@@ -26,20 +27,20 @@ class TextRollView(
     /**
      * 有动画的设置数字
      * @param text 输入的数字只能为非负整数
-     * @param isAttachToWindowStart 是否是在该 View 添加到窗口时自动运行动画
+     * @param isAttachToWindowStart 是否在该 View 添加到窗口时自动运行动画
      */
     fun setText(text: String, isAttachToWindowStart: Boolean) {
         if (text == mLastText) return
         if (text.matches(Regex("^\\d+$"))) { // 输入的文字匹配非负整数才有效
+            mLastText = text
             mChangeCallBack = {
-                mLastText = text
                 mNewTextList.clear()
-                mNewTextList.addAll(text.chunked(1))
+                mNewTextList.addAll(mLastText.chunked(1))
                 mDiffZero = mNewTextList.size - mOldTextList.size
                 repeat(mNewTextList.size - mOldTextList.size) { mOldTextList.addFirst("0") }
                 repeat(mOldTextList.size - mNewTextList.size) { mNewTextList.addFirst("0") }
-                if (text.length > mMaxNumber) { // 数字大于当前显示长度, 重新测量
-                    mMaxNumber += text.length - mMaxNumber + 1
+                if (mLastText.length > mMaxNumber) { // 数字大于当前显示长度, 重新测量
+                    mMaxNumber += mLastText.length - mMaxNumber + 1
                     requestLayout()
                 }
                 slowlyAnimate(
@@ -116,24 +117,25 @@ class TextRollView(
     }
 
     private var mLastText = ""
-    private var mRadio = 1F
+    private var mRadio = 1F // 0 -> 1 的动画进度
     private val mTextPaint = Paint()
-    private val mOneTextWidth: Float
-    private val mTextHeight: Float
-    private val mTextDrawHeight: Float
-    private var mMaxNumber = 8
+    private val mOneTextWidth: Float // 一个文字的宽度
+    private val mTextHeight: Float // 文字的整体高度
+    private val mTextDrawHeight: Float // 文字基线的距离(加上你想绘制的中心线 y 值, 文字就会绘制在中心)
+    private var mMaxNumber = 8 // 默认的文字个数, 超过就要重新测量
 
     init {
         val ty = context.obtainStyledAttributes(attrs, R.styleable.TextRollView)
         val size = ty.getDimension(R.styleable.TextRollView_view_textSize, 60F)
-        val font = Typeface.createFromAsset(context.assets, "font/store_my_stamp_number.ttf")
+        val font = ty.getString(R.styleable.TextRollView_view_textFontFromAssets)
+        Log.d("ggg","(TextRollView.kt:131)-->> $font")
         val color = ty.getColor(R.styleable.TextRollView_view_textColor, 0xFF000000.toInt())
         ty.recycle()
         mTextPaint.apply {
             isAntiAlias = true
             textSize = size
             this.color = color
-            typeface = font
+            typeface = Typeface.createFromAsset(context.assets, font)
         }
         mOneTextWidth = mTextPaint.measureText("0")
         val fm = mTextPaint.fontMetrics
