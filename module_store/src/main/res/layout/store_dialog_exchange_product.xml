@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="300dp"
-    android:layout_height="178dp"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="178dp">
+
     <ImageView
         android:id="@+id/store_iv_dialog_background"
         android:layout_width="match_parent"
@@ -10,7 +12,9 @@
         android:orientation="vertical"
         android:src="@drawable/common_shape_round_corner_dialog"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"/>
+        app:layout_constraintLeft_toLeftOf="parent"
+        tools:ignore="ContentDescription" />
+
     <TextView
         android:id="@+id/store_tv_dialog_exchange_content"
         android:layout_width="match_parent"
@@ -25,11 +29,11 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        />
+        tools:text="你真得要购买“兮哥哥的爱❤“吗？"/>
 
     <Button
-        android:id="@+id/store_dialog_btn_negative"
         style="?android:attr/borderlessButtonStyle"
+        android:id="@+id/store_dialog_btn_negative"
         android:layout_width="80dp"
         android:layout_height="34dp"
         android:layout_marginBottom="30dp"
@@ -38,11 +42,12 @@
         android:textSize="15sp"
         app:layout_constraintBottom_toBottomOf="@+id/store_iv_dialog_background"
         app:layout_constraintEnd_toStartOf="@+id/store_dialog_btn_positive"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        tools:text="确定"/>
 
     <Button
-        android:id="@+id/store_dialog_btn_positive"
         style="?android:attr/borderlessButtonStyle"
+        android:id="@+id/store_dialog_btn_positive"
         android:layout_width="80dp"
         android:layout_height="34dp"
         android:layout_marginBottom="30dp"
@@ -51,5 +56,7 @@
         android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="@+id/store_iv_dialog_background"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/store_dialog_btn_negative" />
+        app:layout_constraintStart_toEndOf="@+id/store_dialog_btn_negative"
+        tools:text="确定"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

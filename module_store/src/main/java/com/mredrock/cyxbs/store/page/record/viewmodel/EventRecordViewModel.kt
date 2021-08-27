@@ -16,12 +16,11 @@ import com.mredrock.cyxbs.store.utils.TestRetrofit
  *    date   : 2021/8/2 14:47
  */
 class EventRecordViewModel : BaseViewModel() {
-    val mExchangeRecord by lazy {
-        MutableLiveData<List<ExchangeRecord>>()
-    }
-    val mStampGetRecord by lazy {
-        MutableLiveData<List<StampGetRecord>>()
-    }
+    // 兑换记录
+    val mExchangeRecord by lazy(LazyThreadSafetyMode.NONE) { MutableLiveData<List<ExchangeRecord>>() }
+
+    // 获取记录
+    val mStampGetRecord by lazy(LazyThreadSafetyMode.NONE) { MutableLiveData<List<StampGetRecord>>() }
 
     fun getExchangeRecord() {
 //        ApiGenerator.getApiService(ApiService::class.java)

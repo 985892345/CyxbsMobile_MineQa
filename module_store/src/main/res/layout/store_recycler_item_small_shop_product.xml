@@ -55,7 +55,8 @@
                     android:transitionName="productName"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/store_iv_small_shop_product"
-                    tools:ignore="HardcodedText" />
+                    tools:ignore="HardcodedText"
+                    tools:text="兮哥哥的爱❤"/>
 
                 <TextView
                     android:id="@+id/store_tv_small_shop_product_stock"
@@ -70,7 +71,8 @@
                     android:textSize="11sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/store_tv_small_shop_product_name"
-                    tools:ignore="HardcodedText,SmallSp" />
+                    tools:ignore="HardcodedText,SmallSp"
+                    tools:text="库存: 无穷大"/>
 
                 <ImageView
                     android:id="@+id/store_iv_small_shop_stamp"
@@ -98,7 +100,8 @@
                     android:textSize="14sp"
                     app:layout_constraintStart_toEndOf="@+id/store_iv_small_shop_stamp"
                     app:layout_constraintTop_toTopOf="@+id/store_iv_small_shop_stamp"
-                    tools:ignore="HardcodedText" />
+                    tools:ignore="HardcodedText"
+                    tools:text="无价"/>
 
                 <!--设置了整个 CardView 的点击事件, 所以这里设置 clickable 为 false-->
                 <com.google.android.material.button.MaterialButton

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
         <variable
@@ -23,7 +24,8 @@
             android:textSize="16sp"
             android:text="@{data.taskName}"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="兮哥哥的爱❤"/>
 
         <TextView
             android:id="@+id/store_item_get_record_tv_count"
@@ -36,7 +38,8 @@
             android:textColor="@color/store_stamp_detail_increase_count"
             android:textSize="16sp"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="+999999999"/>
 
         <TextView
             android:id="@+id/store_item_get_record_tv_date"
@@ -47,7 +50,8 @@
             android:textColor="@color/store_stamp_detail_date"
             android:textSize="12sp"
             app:layout_constraintLeft_toLeftOf="parent"
-           app:layout_constraintTop_toBottomOf="@+id/store_item_get_record_tv_event" />
+            app:layout_constraintTop_toBottomOf="@+id/store_item_get_record_tv_event"
+            tools:text="2021.8.1"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

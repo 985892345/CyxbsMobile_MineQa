@@ -116,7 +116,15 @@ class TextRollView(
         }
     }
 
-    private var mLastText = ""
+
+
+
+    /*
+    * ==================================================================================================================
+    * 全局变量及 init()
+    * */
+
+    private var mLastText = "" // 之前的文字, 在使用 setText*() 方法后都会变成现在的文字
     private var mRadio = 1F // 0 -> 1 的动画进度
     private val mTextPaint = Paint()
     private val mOneTextWidth: Float // 一个文字的宽度
@@ -128,7 +136,6 @@ class TextRollView(
         val ty = context.obtainStyledAttributes(attrs, R.styleable.TextRollView)
         val size = ty.getDimension(R.styleable.TextRollView_view_textSize, 60F)
         val font = ty.getString(R.styleable.TextRollView_view_textFontFromAssets)
-        Log.d("ggg","(TextRollView.kt:131)-->> $font")
         val color = ty.getColor(R.styleable.TextRollView_view_textColor, 0xFF000000.toInt())
         ty.recycle()
         mTextPaint.apply {
@@ -143,16 +150,24 @@ class TextRollView(
         mTextDrawHeight = (fm.bottom - fm.top) / 2F - fm.bottom
     }
 
-    private var mDiffZero = 0
+
+
+
+    /*
+    * ==================================================================================================================
+    * 实现数字滚动的核心代码
+    * */
+
+    private var mDiffZero = 0 // 之前与现在的数字位数差, 大于 0, 表示现在的位数大于之前的位数
     private val mOldTextList = LinkedList<String>()
     private val mNewTextList = LinkedList<String>()
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
-        repeat(mOldTextList.size) {
+        repeat(mOldTextList.size) { // 控制位数的循环
             val start = mOldTextList[it].toInt()
             val end = mNewTextList[it].toInt()
-            if (start < end) {
-                repeat(end - start + 1) { i ->
+            if (start < end) { // 当前位上, 之前的数字小于现在的数字
+                repeat(end - start + 1) { i -> // 控制当前位的滚动绘制
                     canvas.drawText(
                         (start + i).toString(),
                         getTextX(it),
@@ -160,8 +175,8 @@ class TextRollView(
                         mTextPaint
                     )
                 }
-            }else {
-                repeat(start - end + 1) { i ->
+            }else { // 当前位上, 之前的数字大于现在的数字
+                repeat(start - end + 1) { i -> // 控制当前位的滚动绘制
                     canvas.drawText(
                         (start - i).toString(),
                         getTextX(it),
@@ -171,7 +186,11 @@ class TextRollView(
                 }
             }
         }
-        if (mSlowlyAnimate == null) {
+        if (mSlowlyAnimate == null) { // 动画为空表明动画结束, 就完整的重新绘制一边
+            /*
+            * 为什么仍以位数来绘制, 直接绘制 mLastText 不香吗?
+            * 原因在于如果直接绘制整个文字, 会出现间隔不对应的问题
+            * */
             repeat(mNewTextList.size) {
                 canvas.drawText(
                     mNewTextList[it],
@@ -183,21 +202,30 @@ class TextRollView(
         }
     }
 
+    // 得到当前为的 X 坐标, 因为在 999 -> 99 的过程中少了一位, 所以需要该函数来判断
     private fun getTextX(position: Int): Float {
-        return if (mDiffZero > 0) {
+        return if (mDiffZero > 0) { // 位数减少, 往左移
             (position - mDiffZero * (1 - mRadio)) * mOneTextWidth
-        }else if (mDiffZero < 0){
+        }else if (mDiffZero < 0) { // 位数增加, 往右移
             (position + mDiffZero * mRadio) * mOneTextWidth
         }else {
             position * mOneTextWidth
         }
     }
-
+    // 当当前位数字滚动时改变 Y 坐标
     private fun getTextY(start: Int, end: Int, now: Int): Float {
         val moveH = (end - start) * mTextHeight * mRadio
         val diffH = (now - start) * mTextHeight
         return height / 2F + moveH - diffH + mTextDrawHeight
     }
+
+
+
+
+    /*
+    * ==================================================================================================================
+    * 一般不会修改的代码
+    * */
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         var wMS = widthMeasureSpec
@@ -225,9 +253,9 @@ class TextRollView(
         onCancel: (() -> Unit)? = null,
         onChange: (now: Float) -> Unit
     ) {
-        mSlowlyAnimate?.let { if (it.isRunning) it.cancel() }
+        mSlowlyAnimate?.run { if (isRunning) cancel() }
         mSlowlyAnimate = ValueAnimator.ofFloat(old, new)
-        mSlowlyAnimate?.apply {
+        mSlowlyAnimate?.run {
             addUpdateListener {
                 val now = animatedValue as Float
                 onChange.invoke(now)
@@ -258,6 +286,6 @@ class TextRollView(
 
     override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()
-        mSlowlyAnimate?.let { if (it.isRunning) it.end() }
+        mSlowlyAnimate?.run { if (isRunning) end() }
     }
 }

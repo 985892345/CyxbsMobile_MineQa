@@ -15,9 +15,11 @@ import com.mredrock.cyxbs.store.utils.TestRetrofit
  * @data 2021/8/7
  */
 class StoreCenterViewModel: BaseViewModel() {
+    // 邮票中心界面数据
+    val stampCenterData by lazy(LazyThreadSafetyMode.NONE) { MutableLiveData<StampCenter>() }
 
-    val stampCenterData = MutableLiveData<StampCenter>() // 邮票中心界面数据
-    val stampCenterRefreshData = MutableLiveData<Boolean>() // 网络请求是否刷新成功
+    // 网络请求是否刷新成功
+    val stampCenterRefreshData by lazy(LazyThreadSafetyMode.NONE) { MutableLiveData<Boolean>() }
 
     // 是否展示邮票中心界面 TabLayout 的小圆点, 产品给的需求是每天只显示一遍
     var isShowTabLayoutBadge: Boolean

@@ -70,7 +70,8 @@
             android:transitionName="productName"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:ignore="HardcodedText" />
+            tools:ignore="HardcodedText"
+            tools:text="兮哥哥的爱❤"/>
 
         <TextView
             android:id="@+id/store_tv_product_stock_title"
@@ -95,7 +96,8 @@
             android:transitionName="productStock"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:ignore="HardcodedText" />
+            tools:ignore="HardcodedText"
+            tools:text="无穷大"/>
 
         <TextView
             android:id="@+id/store_tv_product_describe"
@@ -110,7 +112,8 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:ignore="HardcodedText" />
+            tools:ignore="HardcodedText"
+            tools:text="兮哥哥的爱❤😘😍能把你迷得梦魂颠倒，快拿起你的邮票购买吧！"/>
 
 
         <TextView
@@ -123,7 +126,8 @@
             android:textColor="@color/store_product_prescription"
             android:textSize="13sp"
             app:layout_constraintTop_toBottomOf="@+id/store_tv_product_describe"
-            app:layout_constraintLeft_toLeftOf="parent" />
+            app:layout_constraintLeft_toLeftOf="parent"
+            tools:text="永久"/>
 
         <TextView
             android:id="@+id/store_tv_product_prescription"
@@ -196,7 +200,8 @@
             android:transitionName="productPrice"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
-            tools:ignore="HardcodedText" />
+            tools:ignore="HardcodedText"
+            tools:text="9999999999999999999999999"/>
 
         <TextView
             android:id="@+id/store_tv_user_balance_title"
@@ -219,7 +224,8 @@
             android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@+id/store_tv_user_balance_title"
-            tools:ignore="HardcodedText" />
+            tools:ignore="HardcodedText"
+            tools:text="0"/>
 
         <Button
             android:id="@+id/store_btn_exchange"

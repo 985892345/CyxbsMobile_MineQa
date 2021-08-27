@@ -23,7 +23,8 @@
             android:textSize="16sp"
             app:layout_constraintBottom_toTopOf="@+id/store_tv_stamp_task_list_describe"
             app:layout_constraintStart_toStartOf="@+id/store_tv_stamp_task_list_describe"
-            tools:ignore="HardcodedText" />
+            tools:ignore="HardcodedText"
+            tools:text="等兮哥哥的爱❤"/>
 
         <TextView
             android:id="@+id/store_tv_stamp_task_list_describe"
@@ -36,7 +37,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:ignore="HardcodedText" />
+            tools:ignore="HardcodedText"
+            tools:text="上床就能得到兮哥哥的爱❤"/>
 
         <TextView
             android:id="@+id/store_tv_stamp_task_list_gain_number"
@@ -50,7 +52,8 @@
             app:layout_constraintBottom_toBottomOf="@+id/store_tv_stamp_task_list_describe"
             app:layout_constraintStart_toEndOf="@+id/store_tv_stamp_task_list_describe"
             app:layout_constraintTop_toTopOf="@+id/store_tv_stamp_task_list_describe"
-            tools:ignore="HardcodedText" />
+            tools:ignore="HardcodedText"
+            tools:text="+99999999"/>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/store_btn_stamp_task_list_go"
@@ -60,7 +63,6 @@
             android:insetTop="0dp"
             android:insetBottom="0dp"
             android:padding="0dp"
-            android:text="去裸奔"
             android:textColor="@color/store_stamp_task_go_btn_text"
             android:textSize="14dp"
             android:theme="@style/Theme.MaterialComponents"
@@ -69,7 +71,8 @@
             app:layout_constraintBottom_toBottomOf="@+id/store_tv_stamp_task_list_describe"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/store_tv_stamp_task_list_describe"
-            tools:ignore="HardcodedText,SpUsage" />
+            tools:ignore="HardcodedText,SpUsage"
+            tools:text="去上床"/>
 
         <com.google.android.material.progressindicator.LinearProgressIndicator
             android:id="@+id/store_progress_bar_stamp_task"
@@ -95,7 +98,8 @@
             app:layout_constraintBottom_toBottomOf="@+id/store_progress_bar_stamp_task"
             app:layout_constraintStart_toEndOf="@+id/store_progress_bar_stamp_task"
             app:layout_constraintTop_toTopOf="@+id/store_progress_bar_stamp_task"
-            tools:ignore="HardcodedText" />
+            tools:ignore="HardcodedText"
+            tools:text="0/99999999"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

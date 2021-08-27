@@ -3,12 +3,12 @@ package com.mredrock.cyxbs.store.page.record.ui.activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.widget.ImageButton
 import com.mredrock.cyxbs.common.ui.BaseActivity
 import com.mredrock.cyxbs.store.R
 import com.mredrock.cyxbs.store.bean.ExchangeRecord
 import com.mredrock.cyxbs.store.databinding.StoreActivityExchangeDetailBinding
 import com.mredrock.cyxbs.store.utils.Date
-import kotlinx.android.synthetic.main.store_common_toolbar_no_line.*
 
 /**
  *    author : zz
@@ -55,7 +55,8 @@ class ExchangeDetailActivity : BaseActivity() {
         dataBinding.storeExchangeDetailTime.text = Date.getExactTime(data.date)
 
         //设置左上角返回点击事件
-        store_iv_toolbar_no_line_arrow_left.setOnClickListener {
+        val button: ImageButton = findViewById(R.id.store_iv_toolbar_no_line_arrow_left)
+        button.setOnClickListener {
             finish()
         }
     }

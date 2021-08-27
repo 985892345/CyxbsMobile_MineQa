@@ -1,4 +1,4 @@
-package com.mredrock.cyxbs.store.utils.widget.slideshow.viewpager2.transformer
+package com.mredrock.cyxbs.store.utils.transformer
 
 import android.view.View
 import androidx.viewpager2.widget.ViewPager2

@@ -17,7 +17,14 @@ import java.io.Serializable
 
 object TestRetrofit {
 
-    private var mToken = ""
+    private var mToken = "eyJEYXRhIjp7ImdlbmRlciI6IueUtyIsInN0dV9udW0iOiIyMDIwMjE0OTg4In0sIkRvbW" +
+            "FpbiI6Im1hZ2lwb2tlIiwiUmVkaWQiOiJmYWQ1ODAwMmMwMWY3MjE3ZjQxM2ZkYWI1MjdjNzM5MmQxMDZmM" +
+            "WI3IiwiZXhwIjoiNzM5OTg0Njc2NCIsImlhdCI6IjE2MzAwMzU1MTEiLCJzdWIiOiJ3ZWIifQ==.haMwF9e" +
+            "oUjMh/jN0EMmuLgh6xK/IWIkwV8THji3HvbJdFuXho9+QxcieymUXL0gjzummGmQwEFakzr/S42gzlFkSyO" +
+            "PZ1h2IM9CZhgH7l5kkkqf538dIMlErYjv99QepfgGGV6jBBi8v5sC8oUcupscYZTFHzhLYNf6G9XIeBbj8J" +
+            "PzaBYYYugcN/xrPzN6wUbtFAfsnDHxFml3nQGsw0V8zvBH9fgFE+UgZ7hfffwsNdgSCt2GAk90AKT3oFeUs" +
+            "Z+h5J5HWxzHhwKNipnVbgzM7Nou7B8qRXYZ8g0bFJB/uTRaWm7Cl3OGkHMluzd5cEX5H1JAApRVBxP0bWx0" +
+            "fDA=="
 
     private val logger = HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BODY }
     private val client = OkHttpClient.Builder()
@@ -46,7 +53,6 @@ object TestRetrofit {
             if (mToken.isEmpty()) {
                 getNewToken()
             }
-            Log.d("ggg","(TestRetrofit.kt:49)-->> $mToken")
             val request = chain.request()
             val build = request
                 .newBuilder()

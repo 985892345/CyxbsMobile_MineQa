@@ -23,7 +23,7 @@ import com.mredrock.cyxbs.store.page.center.viewmodel.StoreCenterViewModel
 import com.mredrock.cyxbs.store.page.record.ui.activity.StampDetailActivity
 import com.mredrock.cyxbs.store.utils.widget.SlideUpLayout
 import com.mredrock.cyxbs.store.utils.widget.TextRollView
-import com.mredrock.cyxbs.store.utils.widget.slideshow.viewpager2.transformer.ScaleInTransformer
+import com.mredrock.cyxbs.store.utils.transformer.ScaleInTransformer
 
 /**
  * @author 985892345 (Guo Xiangrui)
@@ -77,7 +77,7 @@ class StoreCenterActivity : BaseViewModelActivity<StoreCenterViewModel>() {
     // 设置 TabLayout
     private fun initTabLayout() {
         mTabLayout = findViewById(R.id.store_tl_stamp_center)
-        val tabs = listOf(
+        val tabs = arrayOf(
             getString(R.string.store_stamp_center_small_shop),
             getString(R.string.store_stamp_center_stamp_task)
         )

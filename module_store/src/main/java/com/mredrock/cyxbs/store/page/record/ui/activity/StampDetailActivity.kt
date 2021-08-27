@@ -1,151 +1,145 @@
 package com.mredrock.cyxbs.store.page.record.ui.activity
 
 import android.animation.ValueAnimator
-import android.annotation.SuppressLint
 import android.graphics.Typeface
 import android.os.Bundle
-import android.view.LayoutInflater
+import android.view.Gravity
 import android.view.animation.*
+import android.widget.ImageButton
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
-import com.mredrock.cyxbs.common.ui.BaseActivity
+import com.mredrock.cyxbs.common.ui.BaseViewModelActivity
 import com.mredrock.cyxbs.store.R
 import com.mredrock.cyxbs.store.base.BaseFragmentVPAdapter
-import com.mredrock.cyxbs.store.page.record.ui.fragment.EventRecordFragment
-import kotlinx.android.synthetic.main.store_activity_product_exchange.*
-import kotlinx.android.synthetic.main.store_activity_stamp_detail.*
-import kotlinx.android.synthetic.main.store_common_toolbar.*
-
+import com.mredrock.cyxbs.store.page.record.ui.fragment.RecordFragment
+import com.mredrock.cyxbs.store.page.record.viewmodel.EventRecordViewModel
+import com.mredrock.cyxbs.store.utils.dp2pxF
 
 /**
- *    author : zz
+ *    author : zz (后期优化: 985892345)
  *    e-mail : 1140143252@qq.com
  *    date   : 2021/8/2 14:46
  */
-class StampDetailActivity : BaseActivity() {
+class StampDetailActivity : BaseViewModelActivity<EventRecordViewModel>() {
 
-    private var mTabText = arrayOf("兑换记录", "获取记录")
-    private var animDuration: Long = 400 //TabLayout文字缩放动画时间
+    private lateinit var mTabLayout: TabLayout
+    private lateinit var mViewPager2: ViewPager2
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.store_activity_stamp_detail)
-        initAdapter()
         initView()
+        initViewPager2()
+        initTabLayout()
+        initJump() // 一些简单的跳转
         initData()
     }
 
     private fun initView() {
-        //设置TabLayout相关参数和监听
-        initTabLayout()
-        //设置预加载 使两个Fragment都加载 避免滑动到下一页时还需等待网络请求加载
-        store_vp_stamp_detail.offscreenPageLimit = 1
-        val animation = AnimationUtils.loadAnimation(this,R.anim.store_slide_from_bottom_to_top_in)
+        mTabLayout = findViewById(R.id.store_tl_stamp_record)
+        mViewPager2 = findViewById(R.id.store_vp_stamp_detail)
+    }
+
+    private fun initViewPager2() {
+        val animation = AnimationUtils.loadAnimation(this, R.anim.store_slide_from_bottom_to_top_in)
         animation.interpolator = DecelerateInterpolator()
-        store_vp_stamp_detail.startAnimation(animation)
-        //设置左上角返回点击事件
-        store_iv_toolbar_arrow_left.setOnClickListener {
-            finish()
-        }
+        mViewPager2.startAnimation(animation) // 入场动画
+//        mViewPager2.setPageTransformer(ScaleInTransformer())
+        mViewPager2.adapter = BaseFragmentVPAdapter(
+            this,
+            listOf(
+                RecordFragment.getFragment(RecordFragment.Page.EXCHANGE),
+                RecordFragment.getFragment(RecordFragment.Page.GET)
+            )
+        )
     }
 
     private fun initTabLayout() {
-        //设置tab选中监听 用于处理选中的title字体变大
-        store_tab_stamp_record.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
-            override fun onTabSelected(tab: TabLayout.Tab?) {
-                //当tab被选中时 用size更大的TextView来代替原TextView
-                initSelectedText(tab)
+        val tabs = arrayOf("兑换记录", "获取记录")
+        //添加title
+        TabLayoutMediator(mTabLayout, mViewPager2) { tab, position ->
+            tab.text = tabs[position]
+        }.attach()
+
+        val tab1 = mTabLayout.getTabAt(0)
+        val textView1 = TextView(this).apply { gravity = Gravity.CENTER }
+        tab1?.customView = textView1 // 替换 tab 中的 View, 用于产品要文字大小改变的需求
+        textView1.text = tab1?.text
+
+        val tab2 = mTabLayout.getTabAt(1)
+        val textView2 = TextView(this).apply { gravity = Gravity.CENTER }
+        tab2?.customView = textView2 // 替换 tab 中的 View, 用于产品要文字大小改变的需求
+        textView2.text = tab2?.text
+
+        // 设置 Tab 的选择监听, 用于加载动画
+        mTabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab) {
+                tabSelected(tab)
             }
 
-            override fun onTabUnselected(tab: TabLayout.Tab?) {
-                //当tab从选中状态到不被选中状态 还原大小与颜色
-                initUnselectedText(tab)
+            override fun onTabUnselected(tab: TabLayout.Tab) {
+                tabUnselected(tab)
             }
 
-            override fun onTabReselected(tab: TabLayout.Tab?) {
-
+            override fun onTabReselected(tab: TabLayout.Tab) {
             }
         })
-        //添加title
-        TabLayoutMediator(store_tab_stamp_record, store_vp_stamp_detail) { tab, position ->
-            tab.text = mTabText[position]
-        }.attach()
+
+        // 设置刚进入页面时 Tab 的选择状态
+        val nowTab = mTabLayout.getTabAt(mViewPager2.currentItem)
+        if (nowTab != null) {
+            tabSelected(nowTab)
+        }
     }
 
-    //设置TabLayout中未被选择时的文字属性
-    @SuppressLint("InflateParams")
-    private fun initUnselectedText(tab: TabLayout.Tab?) {
-        if (tab != null) {
-            tab.customView = null
-            val textView = LayoutInflater
-                .from(this@StampDetailActivity)
-                .inflate(R.layout.store_item_tab_text, null) as TextView
-            textView.text = tab.text
-            textView.setTypeface(null, Typeface.NORMAL)
+    private fun tabSelected(tab: TabLayout.Tab) {
+        val textView = tab.customView
+        if (textView is TextView) {
+            textView.setTypeface(null, Typeface.BOLD) // 加粗
+            textView.setTextColor(ContextCompat
+                .getColor(
+                    this@StampDetailActivity,
+                    R.color.store_stamp_selected_title
+                ))
+            ValueAnimator.ofFloat(5.dp2pxF(), 5.6F.dp2pxF()).run {
+                duration = 260L
+                addUpdateListener { textView.textSize = animatedValue as Float }
+                start()
+            }
+        }
+    }
+
+    private fun tabUnselected(tab: TabLayout.Tab) {
+        val textView = tab.customView
+        if (textView is TextView) {
+            textView.setTypeface(null, Typeface.NORMAL) // 取消加粗
             textView.setTextColor(ContextCompat
                 .getColor(
                     this@StampDetailActivity,
                     R.color.store_stamp_unselected_title
                 ))
-            val anim = ValueAnimator.ofFloat(16f, 14f)
-            anim.duration = animDuration
-            anim.addUpdateListener {
-                textView.textSize = (it.animatedValue) as Float
+            ValueAnimator.ofFloat(5.6F.dp2pxF(), 5.dp2pxF()).run {
+                duration = 260L
+                addUpdateListener { textView.textSize = animatedValue as Float }
+                start()
             }
-            anim.start()
-            tab.customView = textView
         }
     }
 
-    //设置TabLayout中当前被选择时的文字属性
-    @SuppressLint("InflateParams")
-    private fun initSelectedText(tab: TabLayout.Tab?) {
-        if (tab != null) {
-            tab.customView = null
-            val textView = LayoutInflater
-                .from(this@StampDetailActivity)
-                .inflate(R.layout.store_item_tab_text, null) as TextView
-            textView.text = tab.text
-            textView.setTypeface(null, Typeface.BOLD) // 加粗
-            val anim = ValueAnimator.ofFloat(14f, 16f)
-            anim.duration = animDuration
-            anim.addUpdateListener {
-                textView.textSize = (it.animatedValue) as Float
-            }
-            anim.start()
-            tab.customView = textView
+    private fun initJump() {
+        // 设置左上角返回点击事件
+        val button: ImageButton = findViewById(R.id.store_iv_toolbar_arrow_left)
+        button.setOnClickListener {
+            finish()
         }
-    }
-
-    /**
-     * 因为兑换记录和获取记录界面中均只有一个RecyclerView
-     * 所以这里将两个界面基于EventRecordFragment
-     * 根据event的不同 为RecyclerView赋予不同的item
-     */
-    private fun initAdapter() {
-        //创建两个EventRecordFragment 用Bundle携带不同的事件字符串来控制Fragment中RecyclerView的item类型
-        val exchangeBundle = Bundle()
-        exchangeBundle.putString("event", "兑换记录")
-        val exchangeRecordFragment = EventRecordFragment()
-        exchangeRecordFragment.arguments = exchangeBundle
-
-        val stampBundle = Bundle()
-        val stampGetRecordFragment = EventRecordFragment()
-        stampBundle.putString("event", "获取记录")
-        stampGetRecordFragment.arguments = stampBundle
-
-        store_vp_stamp_detail.adapter = BaseFragmentVPAdapter(
-            this,
-            listOf(
-                exchangeRecordFragment,
-                stampGetRecordFragment
-            )
-        )
     }
 
     private fun initData() {
-
+        // 请求网络数据
+        viewModel.getExchangeRecord()
+        viewModel.getStampRecord()
     }
 }

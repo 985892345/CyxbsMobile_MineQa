@@ -28,7 +28,7 @@ import com.mredrock.cyxbs.store.page.center.viewmodel.StoreCenterViewModel
 class StampShopFragment : BaseFragment() {
 
     // 因为我只需要 Activity 的 ViewModel, 所以没有继承于 BaseViewModelFragment
-    private val viewModel by lazy {
+    private val viewModel by lazy(LazyThreadSafetyMode.NONE) {
         ViewModelProvider(requireActivity()).get(StoreCenterViewModel::class.java)
     }
 

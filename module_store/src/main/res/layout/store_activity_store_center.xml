@@ -45,7 +45,8 @@
         app:layout_constraintBottom_toBottomOf="@+id/store_tv_stamp_center_title"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/store_tv_stamp_center_title"
-        tools:ignore="SpUsage" />
+        tools:ignore="SpUsage"
+        tools:text=" 9999999999999999999"/>
 
     <com.mredrock.cyxbs.store.utils.widget.SlideUpLayout
         android:id="@+id/store_slideUpLayout_stamp_center"

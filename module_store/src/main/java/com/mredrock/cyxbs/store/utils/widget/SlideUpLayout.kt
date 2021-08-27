@@ -17,7 +17,7 @@ import kotlin.math.min
 import kotlin.math.pow
 
 /**
- * 用于邮票中心界面上下滑控件
+ * 用于邮票中心界面板块上下滑控件
  *
  * **WARNING:** 只有第一层下的第一个 View(ViewGroup) 才能改变大小,
  * 第二个 View(ViewGroup) 在设置为 match_parent 的情况下才会有隐藏于屏幕底外的高度
@@ -37,9 +37,13 @@ import kotlin.math.pow
  *   4、AppBarLayout(王中泰设计)
  *   5、MotionLayout(叶圣豪设计)
  * 最后因为我们组的更符合产品效果就选上了
- * 当初想的是自己自定义 View 更强, 就使用自定义 View 来做了
- * 原谅我可能会在以后需求变更时有学弟抱怨这什么垃圾学长写的什么jb玩意
- * 但其实我的自定义 View 算是最简单, 耦合度最低的解决方案
+ * 1、当初想的是自己自定义 View 更强, 就使用自定义 View 来做了
+ * 2、原谅我因为可能会在以后需求变更时有学弟抱怨这什么垃圾学长写的什么jb玩意
+ * 3、但其实我的自定义 View 算是最简单且耦合度最低的解决方案, 因为我将逻辑代码封装进了自定义 View 中
+ * 4、对于大部分的代码我已经添加了注释, 如果你能读懂我设计的整体思路, 相信你能在嵌套滑动中学到许多
+ * 5、之后我可能会写一份自定义 View 的代码规范(看了学长写的部分自定义 View 后, 真的 "💩")提交到网校,
+ *    如果对于该 View 还因需求变更需要修改时, 请遵守规范进行修改
+ *    (当然你也可以来与我当面对线, 没事, 我也欢迎有学弟能与我共同交流👀)
  * ```
  * @author 985892345 (Guo Xiangrui)
  * @email 2767465918@qq.com
@@ -89,18 +93,22 @@ class SlideUpLayout(
 
 
     /*
-    * ==============================================================================================
+    * ===================================================================================================================
     * 全局变量区
     * */
 
     private var mUnfoldCallBack: (() -> Unit)? = null
     private var mMoveListener: ((multiple: Float) -> Unit)? = null
+
     private val mFirstChild by lazy(LazyThreadSafetyMode.NONE) { getChildAt(0) }
     private val mSecondChild by lazy(LazyThreadSafetyMode.NONE) { getChildAt(1) }
-    private val mOriginalFirstChildRect by lazy(LazyThreadSafetyMode.NONE) { // 第一个子 View 原始的 Rect, 不会改变
+
+    // 第一个子 View 原始的 Rect, 不会改变
+    private val mOriginalFirstChildRect by lazy(LazyThreadSafetyMode.NONE) {
         Rect(mFirstChild.left, mFirstChild.top, mFirstChild.right, mFirstChild.bottom)
     }
-    private val mCanMoveHeight by lazy(LazyThreadSafetyMode.NONE) { // 能够滑动的距离
+    // 能够滑动的距离
+    private val mCanMoveHeight by lazy(LazyThreadSafetyMode.NONE) {
         getChildAt(0).layoutParams.height // 返回了第一个 View 的高度
     }
     // 能够移动的上限值
@@ -110,28 +118,31 @@ class SlideUpLayout(
 
 
     /*
-    * ==============================================================================================
+    * ===================================================================================================================
     * 实现板块上下滑动和图片缩放的核心代码
     * */
 
     /**
-     * 如果以后有什么动画的变更, 可以在这里进行修改
+     * 如果以后有什么动画的变更、事件的监听, 可以在这里进行修改
      *
-     * 该方法就是用于修改子 View 的
+     * 该方法就是用于修改子 View 状态的
      *
      * @param newSecondTop 表示第二个 View 的顶部(或第一个 View 的底部)将要移到的高度
      */
     private fun moveTo(newSecondTop: Int) {
         if (newSecondTop == mSecondChild.y.toInt()) return
         changeFirstChild(newSecondTop)
-        changeOtherChild(newSecondTop)
+        changeSecondChild(newSecondTop)
         mMoveListener?.invoke((newSecondTop - mUpperHeight) / mCanMoveHeight.toFloat())
     }
     // 改变第一个 child
     private fun changeFirstChild(newSecondTop: Int) {
         val half = mOriginalFirstChildRect.height()/2F
         val x = ((newSecondTop - half) / half)
-        val k = 0.9F // 调整第二个 View 上下滑动时与第一个 View 的缩放倍速
+        // 调整第二个 View 上下滑动时与第一个 View 的缩放倍速,
+        // 你稍微注意就会发现下面的板块移动到图片差不多一半的高度时, 图片就测定隐藏了
+        // 如果想延长图片缩放的时间, 可以降低下面这个 k 值的大小(降低了后视觉效果有些不好)
+        val k = 0.9F
         val b = 1 - k
         val multiple = k * x + b
         when {
@@ -159,10 +170,10 @@ class SlideUpLayout(
         }
     }
     // 移动其他 child
-    private fun changeOtherChild(newSecondTop: Int) {
+    private fun changeSecondChild(newSecondTop: Int) {
         mSecondChild.y = newSecondTop.toFloat()
     }
-    // 滑动彻底结束时调用(滑动彻底结束并不一定指手指抬起, 因为可能存在惯性滑动)
+    // 滑动彻底结束时调用(滑动彻底结束并不一定就是手指抬起, 因为可能存在惯性滑动)
     private fun slideOver() {
         if (!mIsExistPreScroll) { return } // 这个必须放到最前面, 此值用于手指没有移动就结束
         mIsAllowNonTouch = true // 结束
@@ -170,7 +181,7 @@ class SlideUpLayout(
 
         val y = mSecondChild.y.toInt()
         val halfY = mOriginalFirstChildRect.bottom - mCanMoveHeight/2
-        if (y < halfY ) { // 小于以半就自动压缩
+        if (y < halfY ) { // 小于一半就自动压缩
             /*
             * 下面这个判断很重要
             * 其实是嵌套滑动的坑, 在手指触摸时会调用 accept -> stop -> accept -> ...
@@ -192,7 +203,7 @@ class SlideUpLayout(
 
 
     /*
-    * ==============================================================================================
+    * ===================================================================================================================
     * 下面是嵌套滑动的具体逻辑代码, 查看前请先了解嵌套滑动基础知识
     * */
 
@@ -437,7 +448,7 @@ class SlideUpLayout(
 
 
     /*
-    * ==============================================================================================
+    * ===================================================================================================================
     * 下面的东西涉及到一些基本布局等一些不用修改的内容
     * */
 
@@ -449,13 +460,16 @@ class SlideUpLayout(
         var wMS = widthMeasureSpec
         var hMS = heightMeasureSpec
         if (widthMode == MeasureSpec.AT_MOST || widthMode == MeasureSpec.UNSPECIFIED) {
+            // 这里的意思是在 wrap_content 和 ScrollView 中直接改为填满父布局的效果(ScrollView 中可能会为 0).
             wMS = MeasureSpec.makeMeasureSpec(width, MeasureSpec.EXACTLY)
         }
         if (heightMode == MeasureSpec.AT_MOST || heightMode == MeasureSpec.UNSPECIFIED) {
+            // 原因与 wMS 上同
             hMS = MeasureSpec.makeMeasureSpec(height, MeasureSpec.EXACTLY)
         }
         setMeasuredDimension(wMS, hMS)
-        // 因为只允许有两个子 View, 原因在于测量时不用关心子 View 的高度, 就跟 ScrollView 只允许只有一个子 View 一样
+
+        // 因为只允许有两个子 View, 原因在于测量时不用关心子 View 的高度, 就跟 ScrollView 只允许只有一个子 View 道理一样
         val child1 = getChildAt(0)
         val child2 = getChildAt(1)
         val lp1 = child1.layoutParams
@@ -465,21 +479,21 @@ class SlideUpLayout(
 
         val lp2 = child2.layoutParams
         val childWidthMS2 = getChildMeasureSpec(wMS, 0, lp2.width)
-        val childHeightMS2: Int = if (lp2.height >= 0) {
+        val childHeightMS2 = if (lp2.height >= 0) { // 为精确值时
             MeasureSpec.makeMeasureSpec(lp2.height, MeasureSpec.EXACTLY)
         }else {
             // 如果为 match_parent 或 wrap_content 就设置多的高度给第二个 View, 让它超出屏幕, 向上滑动时就能显示
-            // 该方案比动态改变第一个 View 的 LayoutParams 性能更好
+            // 该方案比动态改变第一个 View 的 LayoutParams 性能更好, 但可能会出现部分需求不适合的问题
             MeasureSpec.makeMeasureSpec(height - lp1.height + mCanMoveHeight, MeasureSpec.EXACTLY)
         }
         child2.measure(childWidthMS2, childHeightMS2)
     }
 
     override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
-        // 因为只有两个 View, 所以测量就很简单
+        // 因为只有两个 View, 所以放置就很简单
         mFirstChild.layout(0, 0, mFirstChild.measuredWidth, mFirstChild.measuredHeight)
-        val height = mFirstChild.measuredHeight
-        mSecondChild.layout(0, height, mSecondChild.measuredWidth, height + mSecondChild.measuredHeight)
+        val firstHeight = mFirstChild.measuredHeight
+        mSecondChild.layout(0, firstHeight, mSecondChild.measuredWidth, firstHeight + mSecondChild.measuredHeight)
     }
 
     override fun onFinishInflate() {
@@ -498,9 +512,9 @@ class SlideUpLayout(
         onCancel: (() -> Unit)? = null,
         onMove: (nowY: Int) -> Unit
     ) {
-        mSlowlyMoveAnimate?.let { if (it.isRunning) it.cancel() }
+        mSlowlyMoveAnimate?.run { if (isRunning) cancel() }
         mSlowlyMoveAnimate = ValueAnimator.ofInt(oldY, newY)
-        mSlowlyMoveAnimate?.apply {
+        mSlowlyMoveAnimate?.run {
             addUpdateListener {
                 val nowY = animatedValue as Int
                 onMove.invoke(nowY)
@@ -524,6 +538,6 @@ class SlideUpLayout(
     override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()
         // 防止控件离开屏幕后造成内存泄漏
-        mSlowlyMoveAnimate?.let { if (it.isRunning) it.end() }
+        mSlowlyMoveAnimate?.run { if (isRunning) end() }
     }
 }

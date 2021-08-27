@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.ImageButton
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.util.Pair
 import com.mredrock.cyxbs.common.ui.BaseViewModelActivity
@@ -16,8 +17,7 @@ import com.mredrock.cyxbs.store.databinding.StoreActivityProductExchangeBinding
 import com.mredrock.cyxbs.store.page.exchange.viewmodel.ProductExchangeViewModel
 import com.mredrock.cyxbs.store.ui.activity.PhotoActivity
 import com.mredrock.cyxbs.store.ui.fragment.ProductExchangeDialogFragment
-import com.mredrock.cyxbs.store.utils.widget.slideshow.viewpager2.transformer.ScaleInTransformer
-import kotlinx.android.synthetic.main.store_common_toolbar.*
+import com.mredrock.cyxbs.store.utils.transformer.ScaleInTransformer
 
 /**
  *    author : zz
@@ -86,7 +86,8 @@ class ProductExchangeActivity : BaseViewModelActivity<ProductExchangeViewModel>(
                 }
             }
             //设置轮播图UrlList
-            mImageList = it.urls as ArrayList<String>
+            mImageList.clear()
+            mImageList.addAll(it.urls)
             //初始化轮播图
             initSlideShow()
             //保存
@@ -168,7 +169,8 @@ class ProductExchangeActivity : BaseViewModelActivity<ProductExchangeViewModel>(
     private fun initView() {
 
         //设置左上角返回点击事件
-        store_iv_toolbar_arrow_left.setOnClickListener {
+        val button: ImageButton = findViewById(R.id.store_iv_toolbar_arrow_left)
+        button.setOnClickListener {
             finish()
         }
     }

@@ -6,6 +6,4 @@
     android:layout_height="match_parent"
     android:paddingStart="16dp"
     android:paddingEnd="16dp"
-    android:background="@color/store_stamp_center_cardView_background">
-
-</androidx.recyclerview.widget.RecyclerView>
+    android:background="@color/store_stamp_center_cardView_background"/>

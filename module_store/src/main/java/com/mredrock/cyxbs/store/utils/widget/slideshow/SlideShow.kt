@@ -35,8 +35,6 @@ import kotlin.math.abs
  *
  * 内部整合了指示器
  *
- * **NOTE:** 由于继承于 CardView, 如果你想修改背景颜色, 请使用属性 app:cardBackgroundColor=..., 这是 CardView 的原因
- *
  * @author 985892345
  * @email 2767465918@qq.com
  * @data 2021/5/26
@@ -174,6 +172,8 @@ class SlideShow : CardView {
      * **NOTE：** 如果你想使一个页面能看到相邻的图片边缘，请设置 app:slide_adjacentPageInterval
      *
      * **NOTE：** 使用该方法可能意为着你需要自动滑动，请使用 [setAutoSlideEnabled]
+     *
+     * **NOTE：** 使用该方法可能意为着你需要循环滑动，请使用 [openCirculateEnabled]
      */
     fun <T> setImgAdapter(
         datas: List<T>,
@@ -322,7 +322,7 @@ class SlideShow : CardView {
     fun <T> notifyImgDataChange(data: List<T>) {
         val adapter = mViewPager2.adapter
         if (adapter is BaseImgAdapter<*>) {
-            adapter.refreshData(data as List<Nothing>) // 只要你不传错其他类型就没事(一半都是传 string 的 url)
+            adapter.refreshData(data as List<Nothing>) // 只要你不传错其他类型就没事(一般都是传 string 的 url)
         }else {
             throw RuntimeException(
                 "Your ${SlideShowAttrs.Library_name}#notifyImgDataChange(): " +
@@ -375,6 +375,8 @@ class SlideShow : CardView {
     }
 
     /**
+     * 开启循环轮播图
+     *
      * 开启自动滑动后该方法自动会被调用
      *
      * 调用该方法将会使 ViewPager2 的 item 位置发生变化，该变化不能取消
