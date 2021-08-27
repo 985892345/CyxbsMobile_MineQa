@@ -56,8 +56,8 @@
             tools:text="+99999999"/>
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/store_btn_stamp_task_list_go"
             style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+            android:id="@+id/store_btn_stamp_task_list_go"
             android:layout_width="66dp"
             android:layout_height="31dp"
             android:insetTop="0dp"
@@ -66,13 +66,14 @@
             android:textColor="@color/store_stamp_task_go_btn_text"
             android:textSize="14dp"
             android:theme="@style/Theme.MaterialComponents"
-            app:backgroundTint="@color/store_stamp_task_go_btn_bg"
+            android:clickable="@{task.currentProgress!=task.maxProgress}"
+            android:backgroundTint="@{task.currentProgress!=task.maxProgress?@color/store_stamp_task_go_btn_bg:@color/store_stamp_task_go_btn_bg_ok, default=@color/store_stamp_task_go_btn_bg}"
             app:cornerRadius="19dp"
             app:layout_constraintBottom_toBottomOf="@+id/store_tv_stamp_task_list_describe"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/store_tv_stamp_task_list_describe"
             tools:ignore="HardcodedText,SpUsage"
-            tools:text="去上床"/>
+            tools:text="去上床" />
 
         <com.google.android.material.progressindicator.LinearProgressIndicator
             android:id="@+id/store_progress_bar_stamp_task"

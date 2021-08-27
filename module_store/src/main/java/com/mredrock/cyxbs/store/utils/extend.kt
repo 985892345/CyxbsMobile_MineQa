@@ -1,6 +1,9 @@
 package com.mredrock.cyxbs.store.utils
 
 import android.content.res.Resources
+import androidx.annotation.ColorRes
+import androidx.core.content.ContextCompat
+import com.mredrock.cyxbs.common.BaseApp.Companion.context
 
 /**
  * ...
@@ -22,4 +25,8 @@ internal fun Float.dp2px(): Int {
 
 internal fun Float.dp2pxF(): Float {
     return Resources.getSystem().displayMetrics.density * this
+}
+
+internal fun getColor(@ColorRes colorId: Int): Int {
+    return ContextCompat.getColor(context, colorId)
 }

@@ -1,9 +1,8 @@
 package com.mredrock.cyxbs.store.page.center.ui.item
 
 import android.annotation.SuppressLint
-import com.mredrock.cyxbs.common.BaseApp.Companion.context
-import com.mredrock.cyxbs.common.utils.extensions.onClick
 import com.mredrock.cyxbs.common.utils.extensions.setImageFromUrl
+import com.mredrock.cyxbs.common.utils.extensions.setOnSingleClickListener
 import com.mredrock.cyxbs.store.R
 import com.mredrock.cyxbs.store.base.SimpleRVAdapter
 import com.mredrock.cyxbs.store.bean.StampCenter
@@ -18,7 +17,8 @@ import com.mredrock.cyxbs.store.page.exchange.ui.activity.ProductExchangeActivit
  */
 class SmallShopProductItem(
     private var shopMap: HashMap<Int, StampCenter.Shop>,
-    private var stampCount: Int
+    private var stampCount: Int,
+    private var productActivityLauncher: ProductExchangeActivity.IProductExchangeLauncher
 ): SimpleRVAdapter.DBItem<StoreRecyclerItemSmallShopProductBinding>(
     R.layout.store_recycler_item_small_shop_product
 ) {
@@ -41,14 +41,10 @@ class SmallShopProductItem(
         holder: SimpleRVAdapter.BindingVH
     ) {
         //设置跳转到兑换界面
-        binding.storeCvStampSmallShop.onClick {
+        binding.storeCvStampSmallShop.setOnSingleClickListener {
             val shop = shopMap[holder.layoutPosition]
             if (shop != null) {
-                ProductExchangeActivity.activityStart(
-                    context,
-                    shop.id.toString(), // 点击的商品 id
-                    stampCount // 自己还剩下的邮票数量
-                )
+                productActivityLauncher.launch(shop.id, stampCount)
             }
         }
     }

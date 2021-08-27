@@ -17,6 +17,7 @@ import com.mredrock.cyxbs.store.bean.StampCenter
 import com.mredrock.cyxbs.store.page.center.ui.item.StampTaskListItem
 import com.mredrock.cyxbs.store.page.center.ui.item.StampTaskTitleItem
 import com.mredrock.cyxbs.store.page.center.viewmodel.StoreCenterViewModel
+import com.mredrock.cyxbs.store.utils.Type
 
 /**
  * ...
@@ -77,39 +78,31 @@ class StampTaskFragment : BaseFragment() {
     private fun refreshAdapter(tasks: List<StampCenter.Task>) {
         mStampTaskTitleItem.resetData(titleMap)
         mStampTaskListItem.resetData(taskMap)
-        // 使用了自己封装的 DiffUtil 来刷新, 避免使用 notifyDataSetChanged
-        // 你要是觉得过于麻烦请使用 refreshYYDS()
         // 不可自己调用 notifyDataSetChanged(), 因为你的 itemCount 将无法改变
         mAdapter.refreshYYDS()
     }
 
-    // 艹, 接口不同的 type 要自己去区分, 这个 kings[0] 装的每日任务, kinds[1] 装的更多任务
-    private val kinds = listOf<ArrayList<StampCenter.Task>>(ArrayList(), ArrayList())
+    private val baseList = ArrayList<StampCenter.Task>()
+    private val moreList = ArrayList<StampCenter.Task>()
     private val titleMap = HashMap<Int, String>() // adapter 的 position 与标题的映射
     private val taskMap = HashMap<Int, StampCenter.Task>() // adapter 的 position 与任务的映射
-    private val oldAllMap = HashMap<Int, Any>() // 用于 refreshAdapter() 方法中使用 DiffUtil 来比对刷新
     private fun resetData(tasks: List<StampCenter.Task>) {
-        oldAllMap.clear()
-        oldAllMap.putAll(titleMap)
-        oldAllMap.putAll(taskMap)
         titleMap.clear()
         taskMap.clear()
-        for (list in kinds) {
-            list.clear()
-        }
+        baseList.clear()
+        moreList.clear()
         for (task in tasks) { // 后端返回的 type = "base" 时为每日任务, type = "more" 时为更多任务
-            if (task.type == "base") {
-                kinds[0].add(task)
-            }else {
-                kinds[1].add(task)
+            when (task.type) {
+                Type.Task.Base -> baseList.add(task)
+                Type.Task.More -> moreList.add(task)
             }
         }
-        titleMap[kinds[0].size] = "更多任务"
-        for (i in 0 until kinds[0].size) {
-            taskMap[i] = kinds[0][i]
+        titleMap[baseList.size] = "更多任务"
+        for (i in baseList.indices) {
+            taskMap[i] = baseList[i]
         }
-        for (i in 0 until kinds[1].size) {
-            taskMap[kinds[0].size + 1 + i] = kinds[1][i]
+        for (i in moreList.indices) {
+            taskMap[baseList.size + 1 + i] = moreList[i]
         }
     }
 }

@@ -12,10 +12,11 @@ import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.mredrock.cyxbs.common.ui.BaseViewModelActivity
+import com.mredrock.cyxbs.common.utils.extensions.setOnSingleClickListener
 import com.mredrock.cyxbs.store.R
 import com.mredrock.cyxbs.store.base.BaseFragmentVPAdapter
 import com.mredrock.cyxbs.store.page.record.ui.fragment.RecordFragment
-import com.mredrock.cyxbs.store.page.record.viewmodel.EventRecordViewModel
+import com.mredrock.cyxbs.store.page.record.viewmodel.RecordViewModel
 import com.mredrock.cyxbs.store.utils.dp2pxF
 
 /**
@@ -23,7 +24,7 @@ import com.mredrock.cyxbs.store.utils.dp2pxF
  *    e-mail : 1140143252@qq.com
  *    date   : 2021/8/2 14:46
  */
-class StampDetailActivity : BaseViewModelActivity<EventRecordViewModel>() {
+class StampDetailActivity : BaseViewModelActivity<RecordViewModel>() {
 
     private lateinit var mTabLayout: TabLayout
     private lateinit var mViewPager2: ViewPager2
@@ -132,7 +133,7 @@ class StampDetailActivity : BaseViewModelActivity<EventRecordViewModel>() {
     private fun initJump() {
         // 设置左上角返回点击事件
         val button: ImageButton = findViewById(R.id.store_iv_toolbar_arrow_left)
-        button.setOnClickListener {
+        button.setOnSingleClickListener {
             finish()
         }
     }

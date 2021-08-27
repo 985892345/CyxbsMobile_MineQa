@@ -31,32 +31,44 @@
         app:layout_constraintBottom_toBottomOf="parent"
         tools:text="你真得要购买“兮哥哥的爱❤“吗？"/>
 
-    <Button
-        style="?android:attr/borderlessButtonStyle"
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/store_dialog_btn_negative"
         android:layout_width="80dp"
         android:layout_height="34dp"
         android:layout_marginBottom="30dp"
-        android:background="@drawable/store_exchange_dialog_btn_negative"
         android:textColor="@color/common_white_font_color"
         android:textSize="15sp"
+        android:theme="@style/Theme.MaterialComponents"
+        android:insetTop="0dp"
+        android:insetBottom="0dp"
+        android:padding="0dp"
+        app:rippleColor="@android:color/transparent"
+        app:cornerRadius="26dp"
+        app:backgroundTint="@color/store_exchange_dialog_btn_negative"
         app:layout_constraintBottom_toBottomOf="@+id/store_iv_dialog_background"
         app:layout_constraintEnd_toStartOf="@+id/store_dialog_btn_positive"
         app:layout_constraintStart_toStartOf="parent"
-        tools:text="确定"/>
+        tools:text="取消"
+        style="@style/Widget.MaterialComponents.Button.UnelevatedButton"/>
 
-    <Button
-        style="?android:attr/borderlessButtonStyle"
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/store_dialog_btn_positive"
         android:layout_width="80dp"
         android:layout_height="34dp"
-        android:layout_marginBottom="30dp"
-        android:background="@drawable/store_exchange_dialog_btn_positive"
         android:textColor="@color/common_white_font_color"
         android:textSize="14sp"
-        app:layout_constraintBottom_toBottomOf="@+id/store_iv_dialog_background"
+        android:theme="@style/Theme.MaterialComponents"
+        android:insetTop="0dp"
+        android:insetBottom="0dp"
+        android:padding="0dp"
+        app:rippleColor="@android:color/transparent"
+        app:cornerRadius="26dp"
+        app:backgroundTint="@color/store_exchange_dialog_btn_positive"
+        app:layout_constraintBottom_toBottomOf="@+id/store_dialog_btn_negative"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/store_dialog_btn_negative"
-        tools:text="确定"/>
+        app:layout_constraintTop_toTopOf="@+id/store_dialog_btn_negative"
+        tools:text="确定"
+        style="@style/Widget.MaterialComponents.Button.UnelevatedButton"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

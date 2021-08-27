@@ -116,6 +116,10 @@ class TextRollView(
         }
     }
 
+    fun hasText(): Boolean {
+        return mLastText.isNotEmpty()
+    }
+
 
 
 

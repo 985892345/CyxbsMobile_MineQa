@@ -15,7 +15,7 @@ import com.mredrock.cyxbs.store.utils.TestRetrofit
  *    e-mail : 1140143252@qq.com
  *    date   : 2021/8/2 14:47
  */
-class EventRecordViewModel : BaseViewModel() {
+class RecordViewModel : BaseViewModel() {
     // 兑换记录
     val mExchangeRecord by lazy(LazyThreadSafetyMode.NONE) { MutableLiveData<List<ExchangeRecord>>() }
 

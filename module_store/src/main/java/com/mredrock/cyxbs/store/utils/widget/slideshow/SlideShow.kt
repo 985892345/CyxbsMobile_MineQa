@@ -569,9 +569,8 @@ class SlideShow : CardView {
      * @see [setStartItem]
      */
     fun setCurrentItem(item: Int, smoothScroll: Boolean = true): SlideShow {
-        if (mViewPager2.isFakeDragging) {
-            mViewPager2.endFakeDrag()
-        }
+        if (mViewPager2.isFakeDragging) { mViewPager2.endFakeDrag() }
+        if (getRealPosition(mViewPager2.currentItem) == item) { return this  }
         mViewPager2.setCurrentItem(item, smoothScroll)
         return this
     }

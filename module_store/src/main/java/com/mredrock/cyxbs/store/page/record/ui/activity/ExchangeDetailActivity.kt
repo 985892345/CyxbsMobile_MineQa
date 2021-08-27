@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.ImageButton
 import com.mredrock.cyxbs.common.ui.BaseActivity
+import com.mredrock.cyxbs.common.utils.extensions.setOnSingleClickListener
 import com.mredrock.cyxbs.store.R
 import com.mredrock.cyxbs.store.bean.ExchangeRecord
 import com.mredrock.cyxbs.store.databinding.StoreActivityExchangeDetailBinding
@@ -56,7 +57,7 @@ class ExchangeDetailActivity : BaseActivity() {
 
         //设置左上角返回点击事件
         val button: ImageButton = findViewById(R.id.store_iv_toolbar_no_line_arrow_left)
-        button.setOnClickListener {
+        button.setOnSingleClickListener {
             finish()
         }
     }

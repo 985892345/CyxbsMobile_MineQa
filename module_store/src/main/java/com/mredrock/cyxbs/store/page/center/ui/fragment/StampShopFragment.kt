@@ -18,6 +18,8 @@ import com.mredrock.cyxbs.store.bean.StampCenter
 import com.mredrock.cyxbs.store.page.center.ui.item.SmallShopProductItem
 import com.mredrock.cyxbs.store.page.center.ui.item.SmallShopTitleItem
 import com.mredrock.cyxbs.store.page.center.viewmodel.StoreCenterViewModel
+import com.mredrock.cyxbs.store.page.exchange.ui.activity.ProductExchangeActivity
+import com.mredrock.cyxbs.store.utils.Type
 
 /**
  * ...
@@ -30,6 +32,26 @@ class StampShopFragment : BaseFragment() {
     // 因为我只需要 Activity 的 ViewModel, 所以没有继承于 BaseViewModelFragment
     private val viewModel by lazy(LazyThreadSafetyMode.NONE) {
         ViewModelProvider(requireActivity()).get(StoreCenterViewModel::class.java)
+    }
+
+    /**
+     * 启动 [ProductExchangeActivity] 的启动器
+     *
+     * 1、因为要判断 [ProductExchangeActivity] 是否成功购买了商品, 所以需要使用到 [startActivityForResult],
+     * 但该方法被废弃了
+     *
+     * 2、新方法有一个麻烦的地方, 就是必须在 [onStart] 回调前先使用 [registerForActivityResult]
+     * 方法注册结果回调
+     *
+     * 3、注册后会返回一个启动器用于启动, 我再用了一个接口来封装, 所以下面这个就是一个启动器,
+     * 该启动器在 [SmallShopProductItem] 中点击整个商品图片时进行启动
+     */
+    private lateinit var mProductExchangeLauncher: ProductExchangeActivity.IProductExchangeLauncher
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        mProductExchangeLauncher = ProductExchangeActivity.getActivityLauncher(this) {
+            if (it) viewModel.refresh() // 返回值是是否购买, 如果购买了就刷新数据
+        }
     }
 
     override fun onCreateView(
@@ -71,7 +93,7 @@ class StampShopFragment : BaseFragment() {
             )
         recyclerView.layoutManager = layoutManager
         mSmallShopTitleItem = SmallShopTitleItem(titleMap)
-        mSmallShopProductItem = SmallShopProductItem(shopMap, stampCount)
+        mSmallShopProductItem = SmallShopProductItem(shopMap, stampCount, mProductExchangeLauncher)
         recyclerView.adapter = mAdapter
             .addItem(mSmallShopTitleItem)
             .addItem(mSmallShopProductItem)
@@ -85,32 +107,30 @@ class StampShopFragment : BaseFragment() {
         mAdapter.refreshYYDS()
     }
 
-    // 艹, 接口不同的 type 要自己去区分, 这个 kings[0] 装的装扮, kinds[1] 装的邮货
-    private val kinds = listOf<ArrayList<StampCenter.Shop>>(ArrayList(), ArrayList())
+    private val dressList = ArrayList<StampCenter.Shop>()
+    private val goodsList = ArrayList<StampCenter.Shop>()
     private val titleMap = HashMap<Int, String>() // adapter 的 position 与标题的映射
     private val shopMap = HashMap<Int, StampCenter.Shop>() // adapter 的 position 与商品数据的映射
     private fun resetData(products: List<StampCenter.Shop>) {
+        dressList.clear()
+        goodsList.clear()
         titleMap.clear()
         shopMap.clear()
-        for (list in kinds) {
-            list.clear()
-        }
         // 为什么要遍历一边?
         // 因为后端不同 type 是混在一起的, 不遍历的话我就不知道 "邮货" 这个 title 是在哪个位置
         for (shop in products) {
-            if (shop.type == 1) { // 后端返回的 type = 0 时为邮货, type = 1 时为装扮
-                kinds[0].add(shop)
-            }else {
-                kinds[1].add(shop)
+            when (shop.type) { // 后端返回的 type = 1 时为装扮, type = 0 时为邮货
+                Type.Product.DRESS -> dressList.add(shop)
+                Type.Product.GOODS -> goodsList.add(shop)
             }
         }
         titleMap[0] = "装扮"
-        titleMap[kinds[0].size + 1] = "邮货"
-        for (i in 0 until kinds[0].size) {
-            shopMap[i + 1] = kinds[0][i]
+        titleMap[dressList.size + 1] = "邮货"
+        for (i in dressList.indices) {
+            shopMap[i + 1] = dressList[i]
         }
-        for (i in 0 until kinds[1].size) {
-            shopMap[kinds[0].size + 2 + i] = kinds[1][i]
+        for (i in goodsList.indices) {
+            shopMap[dressList.size + 2 + i] = goodsList[i]
         }
     }
 }

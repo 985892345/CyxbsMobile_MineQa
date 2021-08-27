@@ -14,6 +14,7 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.mredrock.cyxbs.common.config.STORE_CENTER
 import com.mredrock.cyxbs.common.ui.BaseViewModelActivity
 import com.mredrock.cyxbs.common.utils.extensions.dp2px
+import com.mredrock.cyxbs.common.utils.extensions.setOnSingleClickListener
 import com.mredrock.cyxbs.common.utils.extensions.toast
 import com.mredrock.cyxbs.store.R
 import com.mredrock.cyxbs.store.base.BaseFragmentVPAdapter
@@ -99,7 +100,7 @@ class StoreCenterActivity : BaseViewModelActivity<StoreCenterViewModel>() {
                     val field = badge.javaClass.getDeclaredField("badgeRadius")
                     field.isAccessible = true
                     field.set(badge, dp2px(3.5F))
-                } catch (e: Exception) { e.printStackTrace() }
+                } catch (e: Exception) {  }
 
                 // 滑到邮票任务页面时就取消小圆点
                 mViewPager2.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
@@ -118,13 +119,13 @@ class StoreCenterActivity : BaseViewModelActivity<StoreCenterViewModel>() {
     private fun initRefreshLayout() {
         /*
         * 官方刷新控件不能修改偏移的误差值, 在左右滑动时与 ViewPager2 出现滑动冲突问题
-        * 修改 mTouchSlop 可以修改允许的滑动偏移值, 位置在 SwipeRefreshLayout 的 1081 行
+        * 修改 mTouchSlop 可以修改允许的滑动偏移值, 原因可以看 SwipeRefreshLayout 的 1081 行
         * */
         try {
             val field = mRefreshLayout.javaClass.getDeclaredField("mTouchSlop")
             field.isAccessible = true
             field.set(mRefreshLayout, 220)
-        }catch (e: Exception) { e.printStackTrace() }
+        }catch (e: Exception) {  }
 
         // 下面这个 setOnChildScrollUpCallback() 返回 false 就代表刷新控件可以拦截滑动
         mRefreshLayout.setOnChildScrollUpCallback { _, _ -> !mSlideUpLayout.isUnfold() }
@@ -146,22 +147,20 @@ class StoreCenterActivity : BaseViewModelActivity<StoreCenterViewModel>() {
     // 一些简单不传参的跳转写这里
     private fun initJump() {
         val btnBack: ImageButton = findViewById(R.id.store_iv_toolbar_no_line_arrow_left)
-        btnBack.setOnClickListener { finish() /*左上角返回键*/ }
+        btnBack.setOnSingleClickListener { finish() /*左上角返回键*/ }
 
         val ivDetail: ImageView = findViewById(R.id.store_iv_stamp_center_stamp_bg)
-        ivDetail.setOnClickListener { startActivity<StampDetailActivity>() /*跳到邮票明细界面*/ }
+        ivDetail.setOnSingleClickListener { startActivity<StampDetailActivity>() /*跳到邮票明细界面*/ }
     }
 
-    private var refreshTimes = 0 // 请求的次数, 用于判断刷新控件和 toast 显示
-    private var isFirstLoad = true // 是否是第一次进入界面, 用于判断邮票数字显示动画
+    private var isFirstLoad = true // 是否是第一次进入界面
     // 对于 ViewModel 数据的观察
     @SuppressLint("SetTextI18n")
     private fun initData() {
         viewModel.stampCenterData.observeNotNull{
             val text = it.userAmount.toString()
-            if (isFirstLoad) { // 如果是第一次进入界面
+            if (!mTvStampBigNumber.hasText()) { // 如果是第一次进入界面, 肯定没有文字
                 mTvStampBigNumber.setTextOnlyAlpha(text) // 第一次进入界面就只使用隐现的动画
-                isFirstLoad = false // over
             }else {
                 mSlideUpLayout.setUnfoldCallBack {
                     mTvStampBigNumber.setText(text, true) // 正上方的大的邮票显示
@@ -169,28 +168,22 @@ class StoreCenterActivity : BaseViewModelActivity<StoreCenterViewModel>() {
                 }
             }
 
-            mTvStampSideNumber.text = " $text" // 右上方小的邮票显示
+            mTvStampSideNumber.text = " $text" // 右上方小的邮票显示, 空一格是为了增加与左边图片的距离
 
             // 显示"你还有待领取的商品，请尽快领取" 文字的逻辑
             if (it.unGotGood) { mTvShopHint.visibility = View.VISIBLE }
             else { mTvShopHint.visibility = View.INVISIBLE }
         }
 
+        // 对数据是否请求成功的观察
         viewModel.stampCenterRefreshData.observeNotNull {
-            mRefreshLayout.isRefreshing = false
             if (it) {
-                if (refreshTimes != 0) { toast("刷新成功") }
-                refreshTimes++
+                if (mRefreshLayout.isRefreshing && !isFirstLoad) { toast("刷新成功") }
             }else {
                 toast("获取邮票数据失败")
             }
+            mRefreshLayout.isRefreshing = false
+            isFirstLoad = false
         }
-    }
-
-    // 从邮货详细界面返回
-    override fun onRestart() {
-        refreshTimes = 0
-        viewModel.refresh()
-        super.onRestart()
     }
 }

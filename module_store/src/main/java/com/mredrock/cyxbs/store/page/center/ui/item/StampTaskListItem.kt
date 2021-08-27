@@ -1,8 +1,8 @@
 package com.mredrock.cyxbs.store.page.center.ui.item
 
 import android.annotation.SuppressLint
-import androidx.core.content.ContextCompat
-import com.mredrock.cyxbs.common.BaseApp.Companion.context
+import android.content.res.ColorStateList
+import com.mredrock.cyxbs.common.utils.extensions.setOnSingleClickListener
 import com.mredrock.cyxbs.store.R
 import com.mredrock.cyxbs.store.base.SimpleRVAdapter
 import com.mredrock.cyxbs.store.bean.StampCenter
@@ -32,11 +32,14 @@ class StampTaskListItem(
         return taskMap.containsKey(position)
     }
 
+    private var mInitialRippleColor: ColorStateList? = null
     override fun create(
         binding: StoreRecyclerItemStampTaskListBinding,
         holder: SimpleRVAdapter.BindingVH
     ) {
-        binding.storeBtnStampTaskListGo.setOnClickListener {
+        // 记录按钮默认的水波纹颜色, 因为后面要还原
+        mInitialRippleColor = binding.storeBtnStampTaskListGo.rippleColor
+        binding.storeBtnStampTaskListGo.setOnSingleClickListener {
             // 点击事件的跳转
         }
     }
@@ -62,14 +65,12 @@ class StampTaskListItem(
                     binding.storeBtnStampTaskListGo.text = "去完成"
                 }
 
-                binding.storeBtnStampTaskListGo.setBackgroundColor(
-                    ContextCompat.getColor(context, R.color.store_stamp_task_go_btn_bg)
-                )
+                // 因为复用的原因, 在下面设置后要还原
+                binding.storeBtnStampTaskListGo.rippleColor = mInitialRippleColor
             }else {
                 binding.storeBtnStampTaskListGo.text = "已完成"
-                binding.storeBtnStampTaskListGo.setBackgroundColor(
-                    ContextCompat.getColor(context, R.color.store_stamp_task_go_btn_bg_ok)
-                )
+                // 设置点击效果的水波纹颜色为透明, 相当于禁用水波纹
+                binding.storeBtnStampTaskListGo.rippleColor = ColorStateList.valueOf(0x00000000)
             }
         }
     }

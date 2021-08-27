@@ -7,16 +7,12 @@
         <variable
             name="data"
             type="com.mredrock.cyxbs.store.bean.ProductDetail" />
-        <variable
-            name="eventHandle"
-            type="com.mredrock.cyxbs.store.page.exchange.ui.activity.ProductExchangeActivity.EventHandle" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/store_product_exchange_bg"
-        android:transitionName="product">
+        android:background="@color/store_product_exchange_bg">
 
         <include
             android:id="@+id/store_toolbar_store_product_detail"
@@ -41,13 +37,12 @@
 
         <com.mredrock.cyxbs.store.utils.widget.slideshow.SlideShow
             android:id="@+id/store_slideShow_exchange_product_image"
-            android:transitionName="productImage"
-            android:background="@drawable/store_shape_stamp_center_product"
             android:layout_width="match_parent"
             android:layout_height="180dp"
             android:layout_marginLeft="16dp"
             android:layout_marginTop="104dp"
             android:layout_marginRight="16dp"
+            android:background="@drawable/store_shape_stamp_center_product"
             app:indicators_backgroundCircleColor="#CCC4C4C4"
             app:indicators_circleColor="#F6F6F6"
             app:indicators_style="water_drop"
@@ -67,22 +62,10 @@
             android:text="@{data.title}"
             android:textColor="@color/store_common_title"
             android:textSize="18sp"
-            android:transitionName="productName"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:ignore="HardcodedText"
             tools:text="兮哥哥的爱❤"/>
-
-        <TextView
-            android:id="@+id/store_tv_product_stock_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="313dp"
-            android:text="@string/store_product_stock_title"
-            android:textColor="@color/store_product_stock"
-            android:textSize="13sp"
-            app:layout_constraintRight_toLeftOf="@+id/store_tv_product_stock"
-            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/store_tv_product_stock"
@@ -90,14 +73,13 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="313dp"
             android:layout_marginEnd="15dp"
-            android:text="@{String.valueOf(data.amount)}"
+            android:text="@{@string/store_product_stock_title+String.valueOf(data.amount)}"
             android:textColor="@color/store_product_stock"
             android:textSize="13sp"
-            android:transitionName="productStock"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:ignore="HardcodedText"
-            tools:text="无穷大"/>
+            tools:text="库存量：无穷大"/>
 
         <TextView
             android:id="@+id/store_tv_product_describe"
@@ -162,7 +144,7 @@
             android:text="1、每个实物商品每人限兑换一次，已经兑换的商品不能退货换货也不予折现。\n2、在法律允许的范围内，本活动的最终解释权归红岩网校工作站所有。"
             android:textColor="@color/store_equity_description"
             android:textSize="14sp"
-            android:lineHeight="19.6dp"
+            android:lineSpacingExtra="3dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -197,7 +179,6 @@
             android:text="@{String.valueOf(data.price)}"
             android:textColor="@color/store_product_exchange_price"
             android:textSize="18sp"
-            android:transitionName="productPrice"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             tools:ignore="HardcodedText"
@@ -227,24 +208,28 @@
             tools:ignore="HardcodedText"
             tools:text="0"/>
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/store_btn_exchange"
-            android:transitionName="exchange"
-            android:enabled="@{data.amount>0}"
-            style="?android:attr/borderlessButtonStyle"
             android:layout_width="112dp"
             android:layout_height="42dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="17dp"
-            android:background="@drawable/store_btn_exchange"
-            android:backgroundTint="@{(data.amount>0)?@color/store_btn_product_exchange : @color/store_btn_ban_product_exchange}"
-            android:onClick="@{eventHandle::onItemSingleClick}"
             android:text="@string/store_exchange"
             android:textColor="@color/common_white_font_color"
-            android:textSize="16sp"
+            android:textSize="16dp"
             android:textStyle="bold"
+            android:theme="@style/Theme.MaterialComponents"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            android:padding="0dp"
+            android:clickable="@{data.amount>0}"
+            android:backgroundTint="@{data.amount>0?@color/store_btn_product_exchange:@color/store_btn_ban_product_exchange}"
+            app:cornerRadius="27dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintRight_toRightOf="parent" />
+            app:layout_constraintRight_toRightOf="parent"
+            tools:ignore="SpUsage"
+            tools:backgroundTint="@color/store_btn_product_exchange"
+            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
